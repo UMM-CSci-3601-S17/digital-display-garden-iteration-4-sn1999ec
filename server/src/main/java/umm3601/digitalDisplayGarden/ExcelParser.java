@@ -193,6 +193,7 @@ public class ExcelParser {
     public void populateDatabase(String[][] cellValues, String uploadId){
         MongoClient mongoClient = new MongoClient();
         MongoDatabase test = mongoClient.getDatabase(databaseName);
+        test.drop();
         MongoCollection plants = test.getCollection("plants");
 
         String[] keys = getKeys(cellValues);
@@ -222,6 +223,31 @@ public class ExcelParser {
 
 
         setLiveUploadId(uploadId);
+    }
+
+    public void updateDatabase(String uploadId) throws IOException {
+        String[][] plantArray = extractFromXLSX(stream);
+        String[][] trimmedHor = collapseHorizontally(plantArray);
+        String[][] trimmed = collapseVertically(trimmedHor);
+        replaceNulls(trimmed);
+
+        updateDatabase(trimmed);
+    }
+
+    public void updateDatabase(String[][] plantArray){
+//        MongoClient mongoClient = new MongoClient();
+//        MongoDatabase db = mongoClient.getDatabase(databaseName);
+//        MongoCollection plants = db.getCollection("plants");
+//        String[] keys = getKeys(plantArray);
+//
+//        for (int i = 4; i < plantArray.length; i++){
+//            String[] plant = new String[plantArray[i].length];
+//            String[] databasePlant = plants.find();
+//
+//            for (int j = 0; j < databasePlant.length; j++){
+//                databasePlant[j] = plants.
+//            }
+//        }
     }
 
     /*

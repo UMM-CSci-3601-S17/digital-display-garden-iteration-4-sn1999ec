@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -93,7 +94,18 @@ public class TestExcelParser {
         assertEquals(11, plants.count(eq("commonName", "Geranium")));
     }
 
+    @Test
+    public void testAddThingsToDatabase() throws FileNotFoundException{
+        parser.parseExcel("Whatever");
 
+        fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
+        parser = new ExcelParser(fromFile, databaseName);
+
+        parser.updateDatabase("Whatever");
+        MongoCollection plants = testDB.getCollection("plants");
+
+        assertEquals(288, plants.count());
+    }
 
     private static void printDoubleArray(String[][] input){
         for(int i = 0; i < input.length; i++){
