@@ -19,8 +19,10 @@ import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Updates.set;
 import static java.lang.Math.max;
 
+import org.bson.BSON;
 import org.bson.BsonArray;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.joda.time.DateTime;
 //import sun.text.normalizer.UTF16;
 
@@ -225,29 +227,53 @@ public class ExcelParser {
         setLiveUploadId(uploadId);
     }
 
-    public void updateDatabase(String uploadId) throws IOException {
+    public void parseUpdatedSpreadsheet(String uploadID) throws IOException {
         String[][] plantArray = extractFromXLSX(stream);
         String[][] trimmedHor = collapseHorizontally(plantArray);
         String[][] trimmed = collapseVertically(trimmedHor);
         replaceNulls(trimmed);
 
-        updateDatabase(trimmed);
+        updateDatabase(trimmed, uploadID);
     }
 
-    public void updateDatabase(String[][] plantArray){
-//        MongoClient mongoClient = new MongoClient();
-//        MongoDatabase db = mongoClient.getDatabase(databaseName);
-//        MongoCollection plants = db.getCollection("plants");
-//        String[] keys = getKeys(plantArray);
-//
-//        for (int i = 4; i < plantArray.length; i++){
-//            String[] plant = new String[plantArray[i].length];
-//            String[] databasePlant = plants.find();
-//
-//            for (int j = 0; j < databasePlant.length; j++){
-//                databasePlant[j] = plants.
-//            }
-//        }
+    public void updateDatabase(String[][] plantArray, String uploadID){
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection plants = db.getCollection("plants");
+        String[] keys = getKeys(plantArray);
+
+        for (int i = 4; i < plantArray.length; i++){
+            Map<String, Object> plantUpdate = new HashMap<String, Object>();
+
+            for (int j = 0; j < plantArray[i].length; j++){
+                plantUpdate.put(keys[j], plantArray[i][j]);
+            }
+
+            Document updateDoc = new Document(plantUpdate);
+
+            if(updateDoc.get("gardenLocation").equals(""))
+                continue;
+
+            Bson update = new Document("$set", updateDoc);
+            Bson filter = new Document(keys[0], plantArray[i][0]);
+
+
+
+            if (plants.findOneAndUpdate(filter, update) == null) {
+                Document newPlant = updateDoc;
+
+                Document metadataDoc = new Document();
+                metadataDoc.append("pageViews", 0);
+                metadataDoc.append("visits", new BsonArray());
+                metadataDoc.append("ratings", new BsonArray());
+
+                newPlant.append("metadata", metadataDoc);
+                newPlant.append("uploadId", uploadID);
+
+                plants.insertOne(updateDoc);
+            }
+
+        }
     }
 
     /*

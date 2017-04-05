@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -95,13 +96,13 @@ public class TestExcelParser {
     }
 
     @Test
-    public void testAddThingsToDatabase() throws FileNotFoundException{
+    public void testAddThingsToDatabase() throws FileNotFoundException, IOException{
         parser.parseExcel("Whatever");
 
         fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
         parser = new ExcelParser(fromFile, databaseName);
 
-        parser.updateDatabase("Whatever");
+        parser.parseUpdatedSpreadsheet("Whatever");
         MongoCollection plants = testDB.getCollection("plants");
 
         assertEquals(288, plants.count());
