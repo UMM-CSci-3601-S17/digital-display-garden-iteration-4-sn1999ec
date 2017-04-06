@@ -1,6 +1,7 @@
 package umm3601.digitalDisplayGarden;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.poi.ss.usermodel.*;
@@ -28,7 +29,7 @@ import org.joda.time.DateTime;
 
 public class ExcelParser {
 
-    private String databaseName;
+    private static String databaseName;
 
     private InputStream stream;
 
@@ -195,7 +196,6 @@ public class ExcelParser {
     public void populateDatabase(String[][] cellValues, String uploadId){
         MongoClient mongoClient = new MongoClient();
         MongoDatabase test = mongoClient.getDatabase(databaseName);
-        test.drop();
         MongoCollection plants = test.getCollection("plants");
 
         String[] keys = getKeys(cellValues);
@@ -250,14 +250,16 @@ public class ExcelParser {
             }
 
             Document updateDoc = new Document(plantUpdate);
+            updateDoc.append("uploadID", uploadID);
 
             if(updateDoc.get("gardenLocation").equals(""))
                 continue;
 
-            Bson update = new Document("$set", updateDoc);
-            Bson filter = new Document(keys[0], plantArray[i][0]);
+            Document update = new Document("$set", updateDoc);
 
-
+            String currentID = getLiveUploadId();
+            Document filter = new Document(keys[0], plantArray[i][0]);
+            filter.append("uploadId", currentID);
 
             if (plants.findOneAndUpdate(filter, update) == null) {
                 Document newPlant = updateDoc;
@@ -274,6 +276,8 @@ public class ExcelParser {
             }
 
         }
+
+        setLiveUploadId(uploadID);
     }
 
     /*
@@ -314,7 +318,7 @@ public class ExcelParser {
     public static void setLiveUploadId(String uploadID){
 
         MongoClient mongoClient = new MongoClient();
-        MongoDatabase test = mongoClient.getDatabase("test");
+        MongoDatabase test = mongoClient.getDatabase(databaseName);
         MongoCollection configCollection = test.getCollection("config");
 
         configCollection.deleteMany(exists("liveUploadId"));
@@ -342,5 +346,17 @@ public class ExcelParser {
 
     }
 
+    private static String getLiveUploadId(){
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase database = mongoClient.getDatabase(databaseName);
+        MongoCollection config = database.getCollection("config");
+        FindIterable<Config> configIterable = config.find();
+
+        for (Config configDoc: configIterable){
+            return configDoc.getLiveUploadId();
+        }
+
+        return null;
+    }
 
 }
