@@ -198,7 +198,8 @@ public class Server {
                 ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
 
                 String id = ExcelParser.getAvailableUploadId();
-                parser.parseUpdatedSpreadsheet(id);
+                String currentId = plantController.getLiveUploadId();
+                parser.parseUpdatedSpreadsheet(id, currentId);
 
                 return JSON.serialize(id);
 

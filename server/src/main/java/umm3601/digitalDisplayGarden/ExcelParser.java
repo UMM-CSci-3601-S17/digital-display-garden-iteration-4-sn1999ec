@@ -11,10 +11,7 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Updates.set;
@@ -227,16 +224,16 @@ public class ExcelParser {
         setLiveUploadId(uploadId);
     }
 
-    public void parseUpdatedSpreadsheet(String uploadID) throws IOException {
+    public void parseUpdatedSpreadsheet(String uploadID, String currentId) throws IOException {
         String[][] plantArray = extractFromXLSX(stream);
         String[][] trimmedHor = collapseHorizontally(plantArray);
         String[][] trimmed = collapseVertically(trimmedHor);
         replaceNulls(trimmed);
 
-        updateDatabase(trimmed, uploadID);
+        updateDatabase(trimmed, uploadID, currentId);
     }
 
-    public void updateDatabase(String[][] plantArray, String uploadID){
+    public void updateDatabase(String[][] plantArray, String uploadID, String currentId){
         MongoClient mongoClient = new MongoClient();
         MongoDatabase db = mongoClient.getDatabase(databaseName);
         MongoCollection plants = db.getCollection("plants");
@@ -257,9 +254,8 @@ public class ExcelParser {
 
             Document update = new Document("$set", updateDoc);
 
-            String currentID = getLiveUploadId();
             Document filter = new Document(keys[0], plantArray[i][0]);
-            filter.append("uploadId", currentID);
+            filter.append("uploadId", currentId);
 
             if (plants.findOneAndUpdate(filter, update) == null) {
                 Document newPlant = updateDoc;
@@ -345,18 +341,4 @@ public class ExcelParser {
         return sb.toString();
 
     }
-
-    private static String getLiveUploadId(){
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase database = mongoClient.getDatabase(databaseName);
-        MongoCollection config = database.getCollection("config");
-        FindIterable<Config> configIterable = config.find();
-
-        for (Config configDoc: configIterable){
-            return configDoc.getLiveUploadId();
-        }
-
-        return null;
-    }
-
 }

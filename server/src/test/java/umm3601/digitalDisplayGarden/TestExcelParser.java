@@ -4,7 +4,9 @@ package umm3601.digitalDisplayGarden;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -20,17 +22,20 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TestExcelParser {
 
-    private final static String databaseName = "data-for-testing-only";
+    private static String databaseName;
 
-    public MongoClient mongoClient = new MongoClient();
+    public MongoClient mongoClient;
     public MongoDatabase testDB;
     public ExcelParser parser;
     public InputStream fromFile;
 
     @Before
     public void clearAndPopulateDatabase(){
-        mongoClient.dropDatabase(databaseName);
+        databaseName = "data-for-testing-only";
+
+        mongoClient = new MongoClient();
         testDB = mongoClient.getDatabase(databaseName);
+        testDB.drop();
         fromFile = this.getClass().getResourceAsStream("/AccessionList2016.xlsx");
         parser = new ExcelParser(fromFile, databaseName);
     }
@@ -80,6 +85,13 @@ public class TestExcelParser {
         }
     }
 
+//    @Test
+//    public void testGetId(){
+//        parser.setLiveUploadId("newId");
+//
+//        assertEquals("newId", parser.getLiveUploadId());
+//    }
+
     @Test
     public void testPopulateDatabase(){
         String[][] plantArray = parser.extractFromXLSX(fromFile);
@@ -96,16 +108,21 @@ public class TestExcelParser {
     }
 
     @Test
-    public void testAddThingsToDatabase() throws FileNotFoundException, IOException{
+    public void testAddThingsToDatabase() throws IOException{
         parser.parseExcel("Whatever");
 
         fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
         parser = new ExcelParser(fromFile, databaseName);
 
-        parser.parseUpdatedSpreadsheet("Whatever");
+
+
+        parser.parseUpdatedSpreadsheet("new ID", "Whatever");
         MongoCollection plants = testDB.getCollection("plants");
 
         assertEquals(288, plants.count());
+
+        Document filter = new Document("uploadID", "new ID");
+        assertEquals(288, plants.count(filter));
     }
 
     private static void printDoubleArray(String[][] input){
