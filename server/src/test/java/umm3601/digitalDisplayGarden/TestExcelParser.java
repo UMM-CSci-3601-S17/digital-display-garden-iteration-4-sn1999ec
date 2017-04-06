@@ -108,7 +108,7 @@ public class TestExcelParser {
     }
 
     @Test
-    public void testAddThingsToDatabase() throws IOException{
+    public void testAddandUpdateDatabase() throws IOException{
         parser.parseExcel("Whatever");
 
         fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
@@ -123,6 +123,9 @@ public class TestExcelParser {
 
         Document filter = new Document("uploadId", "new ID");
         assertEquals(288, plants.count(filter));
+
+        filter = new Document("cultivar", "iWasUpdated");
+        assertEquals(2, plants.count(filter));
     }
 
     private static void printDoubleArray(String[][] input){
