@@ -36,13 +36,18 @@ export class FlowerComponent implements OnInit{
     }
 
     private parseFlowers(flowers: Flower[]) {
+
+
         var tempNames: string[] = [];
         for (let each of flowers) {
             tempNames.push(each.cultivar);
         }
+
+
         return tempNames;
 
     }
+
 
     ngOnInit(): void {
         this.flowerService.getBedNames().subscribe(
@@ -63,14 +68,18 @@ export class FlowerComponent implements OnInit{
         }
     }
 
-    onSelectBed(currentBed: string): void {
+    onSelectBed(currentBed: any ): void {
+
+
         this.currentBed = currentBed;
         this.flowerService.getFlowerNames(currentBed).subscribe(
             flowers => this.flowerNames = this.parseFlowers(flowers),
+
             err => {
                 console.log(err);
             }
         );
+
     }
 
     onSelectFlower(currentFlower: string): void {

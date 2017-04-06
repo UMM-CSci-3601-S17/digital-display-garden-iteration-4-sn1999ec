@@ -13,8 +13,8 @@ export class FlowerService {
         return this.http.request(this.plantUrl + "?gardenLocation=" + garden + "&cultivar=" + cultivar).map(res => res.json());
     }
 
-    getFlowerNames(garden: string): Observable<Flower[]> {
-        return this.http.request(this.plantUrl + "?gardenLocation=" + garden).map(res => res.json());
+    getFlowerNames(garden: any): Observable<Flower[]> {
+        return this.http.request(this.plantUrl + "?gardenLocation=" + garden._id).map(res => res.json());
     }
 
     getBedNames(): Observable<any> {
