@@ -9,7 +9,7 @@ import { PlantListComponent } from './app/plants/plant-list.component';
 import { PlantComponent } from './app/plants/plant.component';
 import { PlantListService } from './app/plants/plant-list.service';
 import { routing } from './app/app.routes';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { PipeModule } from './pipe.module';
 import {AdminComponent} from "./app/admin/admin.component";
@@ -17,6 +17,9 @@ import {ExportComponent} from "./app/admin/export.component";
 import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
+import {RouterModule} from "@angular/router";
+import {FlowerComponent} from "./app/flowers/flower.component";
+import {FlowerService} from "./app/flowers/flower.service";
 
 
 
@@ -28,7 +31,9 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
         JsonpModule,
         routing,
         FormsModule,
-        PipeModule
+        PipeModule,
+        ReactiveFormsModule,
+        RouterModule
     ],
     declarations: [
         AppComponent,
@@ -39,10 +44,11 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
         ExportComponent,
         ImportComponent,
         FileUploadComponent,
-        BedComponent
+        BedComponent,
+        FlowerComponent,
 
     ],
-    providers: [ PlantListService, AdminService ],
+    providers: [ PlantListService, AdminService,  FlowerService ],
     bootstrap: [ AppComponent ]
 })
 
