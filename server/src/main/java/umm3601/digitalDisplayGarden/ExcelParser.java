@@ -247,7 +247,7 @@ public class ExcelParser {
             }
 
             Document updateDoc = new Document(plantUpdate);
-            updateDoc.append("uploadID", uploadID);
+            updateDoc.append("uploadId", uploadID);
 
             if(updateDoc.get("gardenLocation").equals(""))
                 continue;
