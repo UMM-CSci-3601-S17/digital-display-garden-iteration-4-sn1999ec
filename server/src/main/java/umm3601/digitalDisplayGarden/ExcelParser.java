@@ -268,7 +268,7 @@ public class ExcelParser {
                 newPlant.append("metadata", metadataDoc);
                 newPlant.append("uploadId", uploadID);
 
-                plants.insertOne(updateDoc);
+                plants.insertOne(newPlant);
             }
 
         }
