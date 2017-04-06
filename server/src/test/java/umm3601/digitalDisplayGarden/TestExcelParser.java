@@ -121,7 +121,7 @@ public class TestExcelParser {
 
         assertEquals(288, plants.count());
 
-        Document filter = new Document("uploadID", "new ID");
+        Document filter = new Document("uploadId", "new ID");
         assertEquals(288, plants.count(filter));
     }
 
