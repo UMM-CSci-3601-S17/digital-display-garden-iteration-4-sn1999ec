@@ -19,9 +19,9 @@ import { Router, NavigationStart, RouterModule, RouterLink } from '@angular/rout
 // Component class
 export class FlowerComponent implements OnInit{
     public bedNames: string[];
-    public flowerNames: string[];
+    public flowerNames: Flower[];
     public currentBed: string;
-    public currentFlower: string;
+    public currentFlower: Flower;
     public flower: Flower;
     public text: string;
     public myForm: FormGroup; // our model driven form
@@ -38,9 +38,9 @@ export class FlowerComponent implements OnInit{
     private parseFlowers(flowers: Flower[]) {
 
 
-        var tempNames: string[] = [];
+        var tempNames: Flower[] = [];
         for (let each of flowers) {
-            tempNames.push(each.cultivar);
+            tempNames.push(each);
         }
 
 
@@ -82,17 +82,19 @@ export class FlowerComponent implements OnInit{
 
     }
 
-    onSelectFlower(currentFlower: string): void {
+    onSelectFlower(currentFlower: Flower): void {
         this.currentFlower = currentFlower;
-        this.flowerService.getFlower(this.currentBed, currentFlower).subscribe(
-            flower => this.flower = flower[0],
+        this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
+            flower => this.flower = flower,
             err => {
                 console.log(err);
             }
         );
-        this.incrementVisits(this.flower.id);
-        this.submitted=false;
-        this.incrementSucceed=false;
+
+        console.log(this.flower);
+        // this.incrementVisits(this.flower.id);
+        // this.submitted=false;
+        // this.incrementSucceed=false;
     }
 
     save(model: Feedback, isValid: boolean) {
