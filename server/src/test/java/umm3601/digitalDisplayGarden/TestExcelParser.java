@@ -109,23 +109,26 @@ public class TestExcelParser {
 
     @Test
     public void testAddandUpdateDatabase() throws IOException{
+        MongoCollection plants = testDB.getCollection("plants");
         parser.parseExcel("Whatever");
+        Document bedFilter = new Document("gardenLocation", "LG");
+
+        long bedCount = plants.count(bedFilter);
 
         fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
         parser = new ExcelParser(fromFile, databaseName);
 
-
-
         parser.parseUpdatedSpreadsheet("new ID", "Whatever");
-        MongoCollection plants = testDB.getCollection("plants");
 
-        assertEquals(288, plants.count());
+        assertEquals(287, plants.count());
 
         Document filter = new Document("uploadId", "new ID");
-        assertEquals(288, plants.count(filter));
+        assertEquals(287, plants.count(filter));
 
         filter = new Document("cultivar", "iWasUpdated");
         assertEquals(2, plants.count(filter));
+
+        assertEquals(bedCount - 1, plants.count(bedFilter));
     }
 
     private static void printDoubleArray(String[][] input){

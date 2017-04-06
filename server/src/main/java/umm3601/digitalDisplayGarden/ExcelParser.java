@@ -249,13 +249,15 @@ public class ExcelParser {
             Document updateDoc = new Document(plantUpdate);
             updateDoc.append("uploadId", uploadID);
 
-            if(updateDoc.get("gardenLocation").equals(""))
-                continue;
-
-            Document update = new Document("$set", updateDoc);
-
             Document filter = new Document(keys[0], plantArray[i][0]);
             filter.append("uploadId", currentId);
+
+            if(updateDoc.get("gardenLocation").equals("")) {
+                plants.deleteOne(filter);
+                continue;
+            }
+
+            Document update = new Document("$set", updateDoc);
 
             if (plants.findOneAndUpdate(filter, update) == null) {
                 Document newPlant = updateDoc;
