@@ -41,7 +41,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower}}</li>
+            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let flower of flowerNames" (click)="onSelectFlower(flower.id)">{{flower.commonName}}{{flower.cultivar}}</li>
         </ul>
     </div>
 </nav>

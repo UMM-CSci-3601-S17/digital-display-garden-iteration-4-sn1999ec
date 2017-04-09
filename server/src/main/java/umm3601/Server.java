@@ -77,8 +77,22 @@ public class Server {
             return plantController.listPlants(req.queryMap().toMap(), plantController.getLiveUploadId());
         });
 
+        // List flowers
+        get("api/flowers", (req, res) -> {
+            res.type("application/json");
+            return plantController.listPlants(req.queryMap().toMap(), plantController.getLiveUploadId());
+        });
+
         //Get a plant
         get("api/plants/:plantID", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("plantID");
+            System.out.println("ID = " + id);
+            return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
+        });
+
+        //Get a flower
+        get("api/flowers/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
