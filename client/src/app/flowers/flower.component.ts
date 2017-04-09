@@ -84,19 +84,18 @@ export class FlowerComponent implements OnInit{
     }
 
     onSelectFlower(currentFlower: Flower): void {
-        // console.log(this.flowerService.getFlower(currentFlowerID));
-        // console.log(currentFlowerID);
-        this.flowerService.getFlower(currentFlowerID).subscribe(
+        this.currentFlower = currentFlower;
+        this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
             flower => this.flower = flower,
             err => {
                 console.log(err);
             }
-
         );
+
         console.log(this.flower);
-        this.incrementVisits(this.flower.id);
-        this.submitted = false;
-        this.incrementSucceed = false;
+        // this.incrementVisits(this.flower.id);
+        // this.submitted=false;
+        // this.incrementSucceed=false;
     }
 
     save(model: Feedback, isValid: boolean) {

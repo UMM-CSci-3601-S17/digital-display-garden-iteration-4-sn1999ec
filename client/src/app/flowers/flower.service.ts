@@ -9,11 +9,13 @@ export class FlowerService {
     private plantUrl: string = API_URL + "plants";
     constructor(private http:Http) { }
 
-    // getFlower(garden: string, cultivar:string): Observable<any> {
-    //     return this.http.request(this.plantUrl + "?gardenLocation=" + garden + "&cultivar=" + cultivar).map(res => res.json());
-    // }
-    getFlower(ID: string): Observable<Flower> {
-        return this.http.request(this.plantUrl + "/" + ID).map(res => res.json());
+    getFlowerById(id: string): Observable<Flower> {
+        return this.http.request(this.plantUrl + "/" + id).map(res => res.json());
+    }
+
+    getFlower(garden: any, cultivar:string): Observable<any> {
+        console.log(this.plantUrl + "?gardenLocation=" + garden._id + "&cultivar=" + cultivar);
+        return this.http.request(this.plantUrl + "?gardenLocation=" + garden._id + "&cultivar=" + cultivar).map(res => res.json());
     }
 
     getFlowerNames(garden: any): Observable<Flower[]> {

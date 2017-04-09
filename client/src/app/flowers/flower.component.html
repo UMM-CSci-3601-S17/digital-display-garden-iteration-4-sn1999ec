@@ -41,20 +41,20 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let flower of flowerNames" (click)="onSelectFlower(flower.id)">{{flower.commonName}}{{flower.cultivar}}</li>
+            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower.cultivar}}</li>
         </ul>
     </div>
 </nav>
 
 
-<!--&lt;!&ndash;Flower information&ndash;&gt;-->
-<!--<div class="flower-info-background img-rounded" *ngIf="flower">-->
-    <!--<h2 class="cultivar-font">{{ flower.cultivar }}</h2>-->
-    <!--<h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>-->
-    <!--<h4 class="flower-info-font">Source: {{ flower.source }}</h4>-->
-    <!--<h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>-->
-    <!--<h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>-->
-<!--</div>-->
+<!--Flower information-->
+<div class="flower-info-background img-rounded" *ngIf="flower">
+    <h2 class="cultivar-font">{{ flower.cultivar }}</h2>
+    <h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>
+    <h4 class="flower-info-font">Source: {{ flower.source }}</h4>
+    <h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>
+    <h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>
+</div>
 
 
 <!--&lt;!&ndash;like & dislike buttons&ndash;&gt;-->
