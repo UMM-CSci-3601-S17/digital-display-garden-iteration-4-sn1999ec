@@ -4,10 +4,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AppComponent }         from './app/app.component';
 import { NavbarComponent } from './app/navbar/navbar.component';
-// import { BedComponent } from './app/plants/bed.component';
-// import { PlantListComponent } from './app/plants/plant-list.component';
-// import { PlantComponent } from './app/plants/plant.component';
-// import { PlantListService } from './app/plants/plant-list.service';
 import { routing } from './app/app.routes';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -38,17 +34,13 @@ import {FlowerService} from "./app/flowers/flower.service";
     declarations: [
         AppComponent,
         NavbarComponent,
-        // PlantListComponent,
-        // PlantComponent,
         AdminComponent,
         ExportComponent,
         ImportComponent,
         FileUploadComponent,
-        // BedComponent,
         FlowerComponent,
 
     ],
-    // providers: [ PlantListService, AdminService,  FlowerService ],
     providers: [ AdminService,  FlowerService ],
     bootstrap: [ AppComponent ]
 })
