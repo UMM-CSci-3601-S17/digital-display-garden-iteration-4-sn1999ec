@@ -5,29 +5,34 @@
 <br>
 
 <!--Bed navbar-->
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation" style="background-color: maroon">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="icon-bar" style="background-color: gold"></span>
+            <span class="icon-bar" style="background-color: gold"></span>
+            <span class="icon-bar" style="background-color: gold"></span>
         </button>
-        <a class="navbar-brand our-font white-font" href="#">Choose Bed</a>
+        <div *ngIf="!bedSelect">
+            <a class="navbar-brand our-font gold-font" href="#">Choose Bed</a>
+        </div>
+        <div *ngIf="bedSelect">
+            <a class="navbar-brand our-font gold-font" href="#">Bed {{currentBed._id}}</a>
+        </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font white-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>
+            <li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font gold-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>
         </ul>
     </div>
 </nav>
 
 
 <!--Flower navbar-->
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation" style="background-color: gold">
 
     <!-- Brand and toggle get grouped for b etter mobile display -->
     <div class="navbar-header">
@@ -37,13 +42,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand our-font white-font" href="#">Choose Flower</a>
+        <div *ngIf="!plantSelect">
+            <a class="navbar-brand our-font maroon-font" href="#">Choose Flower</a>
+        </div>
+        <div *ngIf="plantSelect">
+            <a class="navbar-brand our-font maroon-font truncate" href="#">{{currentFlower.cultivar}}</a>
+        </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower.cultivar}}</li>
+            <li class="active our-font maroon-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)"><div style="font-size: large">{{currentFlower.commonName}}</div>{{currentFlower.cultivar}}</li>
         </ul>
     </div>
 </nav>
@@ -57,7 +67,6 @@
     <h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>
     <h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>
 </div>
-
 
 <!--&lt;!&ndash;like & dislike buttons&ndash;&gt;-->
 <!--<div *ngIf="!incrementSucceed">-->
@@ -92,6 +101,11 @@
     <!--<p class="our-font pink-font">Thank you for your comment!</p>-->
 <!--</div>-->
 
+<br><br><br>
+<div class="footer">
+    For more information, visit <a href="https://wcroc.cfans.umn.edu" style="color: white; text-decoration: underline">WCROC's site</a>
+</div>
+
 <!--Styles-->
 <link href='//fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
 <link href='//fonts.googleapis.com/css?family=PT Sans' rel='stylesheet'>
@@ -104,8 +118,17 @@
     .our-font {
         font-family: 'Open Sans';
     }
-    .white-font {
-        color: white;
+    .gold-font {
+        color: gold;
+        font-weight: bold;
+    }
+    .maroon-font {
+        color: maroon;
+        font-weight: bold;
+    }
+    .navbar-default .navbar-brand{
+        background-color: maroon;
+        border-color: maroon;
     }
     .pink-font {
         color: #c0047b;
@@ -136,6 +159,26 @@
         font-family: "Open Sans";
         font-size: 25px;
         padding: 15px;
+    }
+    .footer {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        padding: 1rem;
+        text-align: center;
+        background-color: #466a31;
+        color: white;
+        font-size: 3.75vw;
+    }
+    .navbar-toggle .icon-bar{
+        background-color: maroon;
+    }
+    .truncate{
+        width: 65vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 </style>

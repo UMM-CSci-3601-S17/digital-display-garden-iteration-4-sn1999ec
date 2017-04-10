@@ -32,6 +32,8 @@ export class FlowerComponent implements OnInit{
     private incrementSucceed: Boolean = false;
     private visitSucceed: Boolean = false;
     private url: string = this.router.url;
+    private bedSelect: boolean = false;
+    private plantSelect:boolean = false;
 
     constructor(private flowerService: FlowerService, private _fb: FormBuilder, private router: Router) {
     }
@@ -71,8 +73,8 @@ export class FlowerComponent implements OnInit{
 
     onSelectBed(currentBed: any ): void {
 
-
         this.currentBed = currentBed;
+        this.bedSelect = true;
         this.flowerService.getFlowerNames(currentBed).subscribe(
             flowers => this.flowerNames = this.parseFlowers(flowers),
 
@@ -84,6 +86,7 @@ export class FlowerComponent implements OnInit{
     }
 
     onSelectFlower(currentFlower: Flower): void {
+        this.plantSelect = true;
         this.currentFlower = currentFlower;
         this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
             flower => this.flower = flower,
