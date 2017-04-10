@@ -101,7 +101,7 @@ export class FlowerComponent implements OnInit{
         // this.incrementSucceed=false;
     }
 
-    save(model: Feedback, isValid: boolean) {
+    comment(model: Feedback, isValid: boolean) {
         this.submitted = true; // set form submit to true
         this.flowerService.postComment(this.flower.id, model.comment)
             .subscribe(succeed => this.commentSucceed = succeed);
