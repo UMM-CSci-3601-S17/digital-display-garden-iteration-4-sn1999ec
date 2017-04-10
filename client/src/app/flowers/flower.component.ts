@@ -3,7 +3,7 @@ import { Flower } from "./flower";
 import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Feedback } from './feedback';
-import { Router, NavigationStart, RouterModule, RouterLink } from '@angular/router';
+import {Router, Params, ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -31,8 +31,11 @@ export class FlowerComponent implements OnInit{
     private incrementSucceed: Boolean = false;
     private visitSucceed: Boolean = false;
     private url: string = this.router.url;
+    private rating: boolean = null;
+    flowerFeedback: Feedback = new Feedback();
 
-    constructor(private flowerService: FlowerService, private _fb: FormBuilder, private router: Router) {
+
+    constructor(private flowerService: FlowerService, private _fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
     }
 
     private parseFlowers(flowers: Flower[]) {
@@ -82,8 +85,28 @@ export class FlowerComponent implements OnInit{
 
     }
 
+
+    private ratePlant(like: boolean): void {
+        if(this.rating === null && like !== null) {
+            this.flowerService.ratePlant(this.flower["_id"]["$oid"], like)
+                .subscribe(succeeded => {
+                    this.rating = like;
+                    this.refreshFeedback();
+                });
+        }
+    }
+
+
+    private refreshFeedback(): void {
+        //Update flower feedback numbers
+        this.route.params
+            .switchMap((params: Params) => this.flowerService.getFeedbackForPlantByPlantID(params['plantID']))
+            .subscribe((flowerFeedback: Feedback) => this.flowerFeedback = flowerFeedback);
+    }
+
     onSelectFlower(currentFlower: Flower): void {
         this.currentFlower = currentFlower;
+        console.log(this.currentFlower + "this Current flower");
         this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
             flower => this.flower = flower,
             err => {
@@ -91,10 +114,24 @@ export class FlowerComponent implements OnInit{
             }
         );
 
-        console.log(this.flower);
-        // this.incrementVisits(this.flower.id);
-        // this.submitted=false;
-        // this.incrementSucceed=false;
+       // console.log(this.flower + " THIS FLOWER");
+       //  if(isUndefined(this.flower)){
+       //    // console.log("YEP ");
+       //      this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
+       //          flower => this.flower = flower,
+       //          err => {
+       //              console.log(err);
+       //          }
+       //      );
+       //
+       //      this.incrementVisits(this.currentFlower.id);
+       //      this.submitted=false;
+       //      this.incrementSucceed=false;
+       //  }
+       //  this.incrementVisits(this.currentFlower.id);
+       //  this.submitted=false;
+       //  this.incrementSucceed=false;
+
     }
 
     save(model: Feedback, isValid: boolean) {

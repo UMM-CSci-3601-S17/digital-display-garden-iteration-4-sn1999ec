@@ -47,13 +47,100 @@
 </nav>
 
 
+
+
+
+
+
+
+
+
+
+
+<!--<div style="padding-top: 0.3em">-->
+        <!--<span *ngIf="rating === null">-->
+            <!--<button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">-->
+                <!--<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>-->
+                <!--{{plantFeedback.likeCount}}-->
+            <!--</button>-->
+            <!--<button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">-->
+                <!--<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>-->
+                <!--{{plantFeedback.dislikeCount}}-->
+            <!--</button>-->
+        <!--</span>-->
+
+    <!--<span *ngIf="rating === true">-->
+            <!--<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >-->
+                <!--<span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>-->
+                <!--Liked! <span class="label label-default">{{plantFeedback.likeCount}}</span>-->
+            <!--</button>-->
+        <!--</span>-->
+
+    <!--<span *ngIf="rating === false">-->
+            <!--<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">-->
+                <!--<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>-->
+                <!--Disliked <span class="label label-default">{{plantFeedback.dislikeCount}}</span>-->
+
+            <!--</button>-->
+        <!--</span>-->
+
+    <!--<span *ngIf="!commented">-->
+            <!--<button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>-->
+        <!--</span>-->
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--Flower information-->
 <div class="flower-info-background img-rounded" *ngIf="flower">
     <h2 class="cultivar-font">{{ flower.cultivar }}</h2>
     <h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>
-    <h4 class="flower-info-font">Source: {{ flower.source }}</h4>
-    <h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>
-    <h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>
+    <!--<h4 class="flower-info-font">Source: {{ flower.source }}</h4>-->
+    <!--<h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>-->
+    <!--<h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>-->
+</div>
+<div style="padding-top: 0.3em">
+        <span *ngIf="rating === null">
+            <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                {{feedback.likeCount}}
+            </button>
+            <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                {{feedback.dislikeCount}}
+            </button>
+        </span>
+
+    <span *ngIf="rating === true">
+            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >
+                <span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>
+                Liked! <span class="label label-default">{{feedback.likeCount}}</span>
+            </button>
+        </span>
+
+    <span *ngIf="rating === false">
+            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                Disliked <span class="label label-default">{{feedback.dislikeCount}}</span>
+
+            </button>
+        </span>
+
+    <span *ngIf="!commented">
+            <button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>
+        </span>
 </div>
 
 

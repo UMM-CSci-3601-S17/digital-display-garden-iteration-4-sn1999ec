@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from "rxjs";
 import { Flower } from "./flower";
+import {Feedback} from "./feedback";
 
 @Injectable()
 export class FlowerService {
@@ -50,4 +51,21 @@ export class FlowerService {
 
         return this.http.put(this.plantUrl + "/flowerVisits", JSON.stringify(toUpdate)).map(res => res.json());
     }
+
+
+    ratePlant(id: string, like: boolean): Observable<boolean> {
+        let returnObject = {
+            id: id,
+            like: like
+        };
+        return this.http.post(this.plantUrl + "/" + "rate", JSON.stringify(returnObject)).map(res => res.json());
+    }
+
+
+    getFeedbackForPlantByPlantID(id: string): Observable<Feedback> {
+        return this.http.request(this.plantUrl + "/" + id + "/counts").map(res => res.json());
+    }
+
+
+
 }

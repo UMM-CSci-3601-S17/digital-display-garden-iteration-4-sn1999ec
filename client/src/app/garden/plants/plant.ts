@@ -1,4 +1,7 @@
-export class Flower {
+/**
+ * Created by saliy002 on 4/9/17.
+ */
+export class Plant {
     id: string;
     plantID: string;
     plantType: string;
