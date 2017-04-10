@@ -16,6 +16,7 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {RouterModule} from "@angular/router";
 import {FlowerComponent} from "./app/flowers/flower.component";
 import {FlowerService} from "./app/flowers/flower.service";
+import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
 
 
 
@@ -39,6 +40,7 @@ import {FlowerService} from "./app/flowers/flower.service";
         ImportComponent,
         FileUploadComponent,
         FlowerComponent,
+        SheetUpdateComponent
 
     ],
     providers: [ AdminService,  FlowerService ],
