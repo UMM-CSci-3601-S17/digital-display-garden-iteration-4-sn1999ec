@@ -1,52 +1,50 @@
-<!--wcroc garden image-->
-<!--<img src="digital-display-garden-logo1.jpg" class="img-responsive bg-img">-->
-<!--<br>-->
+<!--&lt;!&ndash;wcroc garden image&ndash;&gt;-->
+<!--&lt;!&ndash;<img src="digital-display-garden-logo1.jpg" class="img-responsive bg-img">&ndash;&gt;-->
+<!--&lt;!&ndash;<br>&ndash;&gt;-->
 
-<!--Bed navbar-->
-<nav class="navbar navbar-inverse" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand our-font white-font" href="#">Choose Bed</a>
-    </div>
+<!--&lt;!&ndash;Bed navbar&ndash;&gt;-->
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+    <!--&lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
+    <!--<div class="navbar-header">-->
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+            <!--<span class="sr-only">Toggle navigation</span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
+        <!--<a class="navbar-brand our-font white-font" href="#">Choose Bed</a>-->
+    <!--</div>-->
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font white-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>
-        </ul>
-    </div>
-</nav>
-
-
-<!--Flower navbar-->
-<nav class="navbar navbar-inverse" role="navigation">
-
-    <!-- Brand and toggle get grouped for b etter mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand our-font white-font" href="#">Choose Flower</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-        <ul class="nav navbar-nav">
-            <li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower.cultivar}}</li>
-        </ul>
-    </div>
-</nav>
+    <!--&lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
+    <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+        <!--<ul class="nav navbar-nav">-->
+            <!--<li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font white-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
 
 
+<!--&lt;!&ndash;Flower navbar&ndash;&gt;-->
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+
+    <!--&lt;!&ndash; Brand and toggle get grouped for b etter mobile display &ndash;&gt;-->
+    <!--<div class="navbar-header">-->
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">-->
+            <!--<span class="sr-only">Toggle navigation</span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+            <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
+        <!--<a class="navbar-brand our-font white-font" href="#">Choose Flower</a>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
+    <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">-->
+        <!--<ul class="nav navbar-nav">-->
+            <!--<li class="active our-font white-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentFlower of flowerNames" (click)="onSelectFlower(currentFlower)">{{currentFlower.cultivar}}</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
 
 
 
@@ -57,29 +55,85 @@
 
 
 
+
+
+<!--&lt;!&ndash;<div style="padding-top: 0.3em">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span *ngIf="rating === null">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;{{plantFeedback.likeCount}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;{{plantFeedback.dislikeCount}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<span *ngIf="rating === true">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;Liked! <span class="label label-default">{{plantFeedback.likeCount}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<span *ngIf="rating === false">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;Disliked <span class="label label-default">{{plantFeedback.dislikeCount}}</span>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<span *ngIf="!commented">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--&lt;!&ndash;Flower information&ndash;&gt;-->
+<!--<div class="flower-info-background img-rounded" *ngIf="flower">-->
+    <!--<h2 class="cultivar-font">{{ flower.cultivar }}</h2>-->
+    <!--<h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>-->
+    <!--&lt;!&ndash;<h4 class="flower-info-font">Source: {{ flower.source }}</h4>&ndash;&gt;-->
+    <!--&lt;!&ndash;<h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>&ndash;&gt;-->
+    <!--&lt;!&ndash;<h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>&ndash;&gt;-->
+<!--</div>-->
 <!--<div style="padding-top: 0.3em">-->
         <!--<span *ngIf="rating === null">-->
             <!--<button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">-->
                 <!--<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>-->
-                <!--{{plantFeedback.likeCount}}-->
+                <!--{{feedback.likeCount}}-->
             <!--</button>-->
             <!--<button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">-->
                 <!--<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>-->
-                <!--{{plantFeedback.dislikeCount}}-->
+                <!--{{feedback.dislikeCount}}-->
             <!--</button>-->
         <!--</span>-->
 
     <!--<span *ngIf="rating === true">-->
             <!--<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >-->
                 <!--<span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>-->
-                <!--Liked! <span class="label label-default">{{plantFeedback.likeCount}}</span>-->
+                <!--Liked! <span class="label label-default">{{feedback.likeCount}}</span>-->
             <!--</button>-->
         <!--</span>-->
 
     <!--<span *ngIf="rating === false">-->
             <!--<button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">-->
                 <!--<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>-->
-                <!--Disliked <span class="label label-default">{{plantFeedback.dislikeCount}}</span>-->
+                <!--Disliked <span class="label label-default">{{feedback.dislikeCount}}</span>-->
 
             <!--</button>-->
         <!--</span>-->
@@ -88,60 +142,6 @@
             <!--<button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>-->
         <!--</span>-->
 <!--</div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--Flower information-->
-<div class="flower-info-background img-rounded" *ngIf="flower">
-    <h2 class="cultivar-font">{{ flower.cultivar }}</h2>
-    <h4 class="flower-info-font">Common name: {{ flower.commonName }}</h4>
-    <!--<h4 class="flower-info-font">Source: {{ flower.source }}</h4>-->
-    <!--<h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>-->
-    <!--<h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>-->
-</div>
-<div style="padding-top: 0.3em">
-        <span *ngIf="rating === null">
-            <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                {{feedback.likeCount}}
-            </button>
-            <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                {{feedback.dislikeCount}}
-            </button>
-        </span>
-
-    <span *ngIf="rating === true">
-            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >
-                <span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>
-                Liked! <span class="label label-default">{{feedback.likeCount}}</span>
-            </button>
-        </span>
-
-    <span *ngIf="rating === false">
-            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                Disliked <span class="label label-default">{{feedback.dislikeCount}}</span>
-
-            </button>
-        </span>
-
-    <span *ngIf="!commented">
-            <button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>
-        </span>
-</div>
 
 
 <!--&lt;!&ndash;like & dislike buttons&ndash;&gt;-->
@@ -175,52 +175,52 @@
 
 <!--<div *ngIf="submitted">-->
     <!--<p class="our-font pink-font">Thank you for your comment!</p>-->
-<!--</div>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-<!--Styles-->
-<link href='//fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-<link href='//fonts.googleapis.com/css?family=PT Sans' rel='stylesheet'>
-<link href='//fonts.googleapis.com/css?family=PT Serif' rel='stylesheet'>
-<style>
-    .bg-img {
-        width: 100%;
-        z-index: auto;
-    }
-    .our-font {
-        font-family: 'Open Sans';
-    }
-    .white-font {
-        color: white;
-    }
-    .pink-font {
-        color: #c0047b;
-    }
-    .btn-color {
-        background-color: rgb(0, 77, 0);
-        color: white;
-    }
-    .btn-size {
-        padding: .6em 2.1em;
-        margin-bottom: 1em;
-    }
-    .cultivar-font {
-        font-family: "PT Sans";
-    }
-    .flower-info-font {
-        font-family: "PT Serif";
-    }
-    .flower-info-background {
-        background-color: rgb(214, 214, 194);
-        padding-right: 3%;
-        padding-left: 3%;
-        padding-top: 3%;
-        padding-bottom: 3%;
-        margin-bottom: 7%;
-    }
-    .drop-down {
-        font-family: "Open Sans";
-        font-size: 25px;
-        padding: 15px;
-    }
+<!--&lt;!&ndash;Styles&ndash;&gt;-->
+<!--<link href='//fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>-->
+<!--<link href='//fonts.googleapis.com/css?family=PT Sans' rel='stylesheet'>-->
+<!--<link href='//fonts.googleapis.com/css?family=PT Serif' rel='stylesheet'>-->
+<!--<style>-->
+    <!--.bg-img {-->
+        <!--width: 100%;-->
+        <!--z-index: auto;-->
+    <!--}-->
+    <!--.our-font {-->
+        <!--font-family: 'Open Sans';-->
+    <!--}-->
+    <!--.white-font {-->
+        <!--color: white;-->
+    <!--}-->
+    <!--.pink-font {-->
+        <!--color: #c0047b;-->
+    <!--}-->
+    <!--.btn-color {-->
+        <!--background-color: rgb(0, 77, 0);-->
+        <!--color: white;-->
+    <!--}-->
+    <!--.btn-size {-->
+        <!--padding: .6em 2.1em;-->
+        <!--margin-bottom: 1em;-->
+    <!--}-->
+    <!--.cultivar-font {-->
+        <!--font-family: "PT Sans";-->
+    <!--}-->
+    <!--.flower-info-font {-->
+        <!--font-family: "PT Serif";-->
+    <!--}-->
+    <!--.flower-info-background {-->
+        <!--background-color: rgb(214, 214, 194);-->
+        <!--padding-right: 3%;-->
+        <!--padding-left: 3%;-->
+        <!--padding-top: 3%;-->
+        <!--padding-bottom: 3%;-->
+        <!--margin-bottom: 7%;-->
+    <!--}-->
+    <!--.drop-down {-->
+        <!--font-family: "Open Sans";-->
+        <!--font-size: 25px;-->
+        <!--padding: 15px;-->
+    <!--}-->
 
-</style>
+<!--</style>-->

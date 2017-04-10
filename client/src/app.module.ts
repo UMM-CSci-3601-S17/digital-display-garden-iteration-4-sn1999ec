@@ -18,8 +18,8 @@ import {AdminService} from "./app/admin/admin.service";
 import {ImportComponent} from "./app/admin/import.component";
 import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {RouterModule} from "@angular/router";
-import {FlowerComponent} from "./app/flowers/flower.component";
-import {FlowerService} from "./app/flowers/flower.service";
+// import {FlowerComponent} from "./app/flowers/flower.component";
+// import {FlowerService} from "./app/flowers/flower.service";
 
 
 import {GardenComponent} from "./app/garden/garden-component"
@@ -56,12 +56,13 @@ import {PlantService} from "./app/garden/plants/plant.service";
         FileUploadComponent,
         BedComponent,
         BedListComponent,
-        FlowerComponent,
+        // FlowerComponent,
         GardenComponent,
         PlantComponent
 
     ],
-    providers: [ PlantListService, AdminService,  FlowerService, BedListService, PlantService ],
+    // providers: [ PlantListService, AdminService,  FlowerService, BedListService, PlantService ],
+    providers: [ PlantListService, AdminService, BedListService, PlantService ],
     bootstrap: [ AppComponent ]
 })
 

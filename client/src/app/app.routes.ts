@@ -7,7 +7,7 @@ import {AdminComponent} from "./admin/admin.component";
 import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
 import {BedComponent} from "./plants/bed.component";
-import {FlowerComponent} from "./flowers/flower.component";
+// import {FlowerComponent} from "./flowers/flower.component";
 import {GardenComponent} from "./garden/garden-component";
 
 // Route Configuration
