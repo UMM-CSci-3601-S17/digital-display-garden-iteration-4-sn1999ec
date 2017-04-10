@@ -17,7 +17,8 @@ import {RouterModule} from "@angular/router";
 import {FlowerComponent} from "./app/flowers/flower.component";
 import {FlowerService} from "./app/flowers/flower.service";
 import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
-
+import {SearchComponent} from "./app/search/search.component";
+import {SearchService} from "./app/search/search.service";
 
 
 
@@ -30,7 +31,7 @@ import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
         FormsModule,
         PipeModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
     ],
     declarations: [
         AppComponent,
@@ -40,10 +41,10 @@ import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
         ImportComponent,
         FileUploadComponent,
         FlowerComponent,
-        SheetUpdateComponent
-
+        SheetUpdateComponent,
+        SearchComponent,
     ],
-    providers: [ AdminService,  FlowerService ],
+    providers: [ AdminService,  FlowerService, SearchService ],
     bootstrap: [ AppComponent ]
 })
 

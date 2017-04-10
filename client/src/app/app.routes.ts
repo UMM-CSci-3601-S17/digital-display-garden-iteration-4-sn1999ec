@@ -5,13 +5,15 @@ import {AdminComponent} from "./admin/admin.component";
 import {ExportComponent} from "./admin/export.component";
 import {ImportComponent} from "./admin/import.component";
 import {FlowerComponent} from "./flowers/flower.component";
+import {SearchComponent} from "./search/search.component";
 
 // Route Configuration
 export const routes: Routes = [
     { path: '', component: FlowerComponent},
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
-    { path: 'admin/importData', component: ImportComponent}
+    { path: 'admin/importData', component: ImportComponent},
+    { path: 'search', component: SearchComponent}
 
 ];
 
