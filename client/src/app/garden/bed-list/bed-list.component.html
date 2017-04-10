@@ -4,18 +4,26 @@
     .our-font {
         font-family: 'Open Sans';
     }
-    .white-font {
-        color: white;
+    .gold-font {
+        color: gold;
+        font-weight: bold;
     }
     .drop-down {
         font-family: "Open Sans";
         font-size: 25px;
         padding: 15px;
     }
+    .navbar-toggle .icon-bar{
+        background-color: gold;
+    }
+    .navbar-default .navbar-brand{
+        background-color: maroon;
+        border-color: maroon;
+    }
 
 </style>
 
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation" style="background-color: maroon">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -24,13 +32,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand our-font white-font" href="#">Choose Bed</a>
+        <div *ngIf="!bedSelect">
+            <a class="navbar-brand our-font gold-font" href="#">Choose Bed</a>
+        </div>
+        <div *ngIf="bedSelect">
+            <a class="navbar-brand our-font gold-font" href="#">Bed: {{currentBed._id}}</a>
+        </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font white-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>
+            <li data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="active our-font gold-font drop-down" *ngFor="let currentBed of bedNames" (click)="onSelectBed(currentBed)">{{currentBed._id}}</li>
         </ul>
     </div>
 </nav>

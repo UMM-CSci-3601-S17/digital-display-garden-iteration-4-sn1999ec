@@ -20,6 +20,7 @@ export class PlantListComponent{
     public plantNames: Plant[];
     public plant: Plant;
     private static plantListComponent: PlantListComponent;
+    private plantSelect: boolean = false;
 
     constructor(private plantListService: PlantListService) {
         // Keep track of 'this' for static factory method
@@ -32,8 +33,11 @@ export class PlantListComponent{
 
 
     onClickedPlant(flower: Plant): void{
+        this.currentPlant = flower;
+        this.plantSelect = true;
         var plantComponent = PlantComponent.getInstance();
         plantComponent.onSelectFlower(flower)
+
     }
 
     // onSelectFlower(currentFlower: Plant): void {
@@ -46,6 +50,26 @@ export class PlantListComponent{
     //         }
     //     );
     // console.log(this.plant);
+    // }
+
+    /**
+     *From Flower
+     *
+     */
+    // onSelectFlower(currentFlower: Flower): void {
+    //     this.plantSelect = true;
+    //     this.currentFlower = currentFlower;
+    //     this.flowerService.getFlowerById(this.currentFlower.id).subscribe(
+    //         flower => this.flower = flower,
+    //         err => {
+    //             console.log(err);
+    //         }
+    //     );
+    //
+    //     console.log(this.flower);
+    //     // this.incrementVisits(this.flower.id);
+    //     // this.submitted=false;
+    //     // this.incrementSucceed=false;
     // }
 
     public parseFlowers(flowers: Plant[]) {

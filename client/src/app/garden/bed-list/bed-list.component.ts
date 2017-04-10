@@ -22,6 +22,7 @@ export class BedListComponent implements OnInit {
     public currentBed: string;
     public myForm: FormGroup;
     private url: string = this.router.url;
+    private bedSelect: boolean = false;
 
     constructor(private bedListService: BedListService,private plantListService: PlantListService, private _fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
     }
@@ -46,6 +47,7 @@ export class BedListComponent implements OnInit {
 
 
     onSelectBed(currentBed: any ): void {
+        this.bedSelect = true;
         var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
         this.currentBed = currentBed;
         this.plantListService.getFlowerNames(currentBed).subscribe(
