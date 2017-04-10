@@ -4,9 +4,13 @@ package umm3601.digitalDisplayGarden;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -18,17 +22,20 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TestExcelParser {
 
-    private final static String databaseName = "data-for-testing-only";
+    private static String databaseName;
 
-    public MongoClient mongoClient = new MongoClient();
+    public MongoClient mongoClient;
     public MongoDatabase testDB;
     public ExcelParser parser;
     public InputStream fromFile;
 
     @Before
     public void clearAndPopulateDatabase(){
-        mongoClient.dropDatabase(databaseName);
+        databaseName = "data-for-testing-only";
+
+        mongoClient = new MongoClient();
         testDB = mongoClient.getDatabase(databaseName);
+        testDB.drop();
         fromFile = this.getClass().getResourceAsStream("/AccessionList2016.xlsx");
         parser = new ExcelParser(fromFile, databaseName);
     }
@@ -78,6 +85,13 @@ public class TestExcelParser {
         }
     }
 
+//    @Test
+//    public void testGetId(){
+//        parser.setLiveUploadId("newId");
+//
+//        assertEquals("newId", parser.getLiveUploadId());
+//    }
+
     @Test
     public void testPopulateDatabase(){
         String[][] plantArray = parser.extractFromXLSX(fromFile);
@@ -93,7 +107,29 @@ public class TestExcelParser {
         assertEquals(11, plants.count(eq("commonName", "Geranium")));
     }
 
+    @Test
+    public void testAddandUpdateDatabase() throws IOException{
+        MongoCollection plants = testDB.getCollection("plants");
+        parser.parseExcel("Whatever");
+        Document bedFilter = new Document("gardenLocation", "LG");
 
+        long bedCount = plants.count(bedFilter);
+
+        fromFile = this.getClass().getResourceAsStream("/TestUpdateAccessionList2016.xlsx");
+        parser = new ExcelParser(fromFile, databaseName);
+
+        parser.parseUpdatedSpreadsheet("new ID", "Whatever");
+
+        assertEquals(287, plants.count());
+
+        Document filter = new Document("uploadId", "new ID");
+        assertEquals(287, plants.count(filter));
+
+        filter = new Document("cultivar", "iWasUpdated");
+        assertEquals(2, plants.count(filter));
+
+        assertEquals(bedCount - 1, plants.count(bedFilter));
+    }
 
     private static void printDoubleArray(String[][] input){
         for(int i = 0; i < input.length; i++){

@@ -1,6 +1,7 @@
 package umm3601.digitalDisplayGarden;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.poi.ss.usermodel.*;
@@ -10,23 +11,22 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Updates.set;
 import static java.lang.Math.max;
 
+import org.bson.BSON;
 import org.bson.BsonArray;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.joda.time.DateTime;
 //import sun.text.normalizer.UTF16;
 
 public class ExcelParser {
 
-    private String databaseName;
+    private static String databaseName;
 
     private InputStream stream;
 
@@ -224,6 +224,60 @@ public class ExcelParser {
         setLiveUploadId(uploadId);
     }
 
+    public void parseUpdatedSpreadsheet(String uploadID, String currentId) throws IOException {
+        String[][] plantArray = extractFromXLSX(stream);
+        String[][] trimmedHor = collapseHorizontally(plantArray);
+        String[][] trimmed = collapseVertically(trimmedHor);
+        replaceNulls(trimmed);
+
+        updateDatabase(trimmed, uploadID, currentId);
+    }
+
+    public void updateDatabase(String[][] plantArray, String uploadID, String currentId){
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection plants = db.getCollection("plants");
+        String[] keys = getKeys(plantArray);
+
+        for (int i = 4; i < plantArray.length; i++){
+            Map<String, Object> plantUpdate = new HashMap<String, Object>();
+
+            for (int j = 0; j < plantArray[i].length; j++){
+                plantUpdate.put(keys[j], plantArray[i][j]);
+            }
+
+            Document updateDoc = new Document(plantUpdate);
+            updateDoc.append("uploadId", uploadID);
+
+            Document filter = new Document(keys[0], plantArray[i][0]);
+            filter.append("uploadId", currentId);
+
+            if(updateDoc.get("gardenLocation").equals("")) {
+                plants.deleteOne(filter);
+                continue;
+            }
+
+            Document update = new Document("$set", updateDoc);
+
+            if (plants.findOneAndUpdate(filter, update) == null) {
+                Document newPlant = updateDoc;
+
+                Document metadataDoc = new Document();
+                metadataDoc.append("pageViews", 0);
+                metadataDoc.append("visits", new BsonArray());
+                metadataDoc.append("ratings", new BsonArray());
+
+                newPlant.append("metadata", metadataDoc);
+                newPlant.append("uploadId", uploadID);
+
+                plants.insertOne(newPlant);
+            }
+
+        }
+
+        setLiveUploadId(uploadID);
+    }
+
     /*
     ------------------------------- UTILITIES -----------------------------------
      */
@@ -262,7 +316,7 @@ public class ExcelParser {
     public static void setLiveUploadId(String uploadID){
 
         MongoClient mongoClient = new MongoClient();
-        MongoDatabase test = mongoClient.getDatabase("test");
+        MongoDatabase test = mongoClient.getDatabase(databaseName);
         MongoCollection configCollection = test.getCollection("config");
 
         configCollection.deleteMany(exists("liveUploadId"));
@@ -289,6 +343,4 @@ public class ExcelParser {
         return sb.toString();
 
     }
-
-
 }

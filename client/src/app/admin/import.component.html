@@ -1,6 +1,6 @@
 <navbar-component></navbar-component>
 
-<h2>Import Spreadsheet</h2>
+<h2>Import New Spreadsheet</h2>
 
 <file-upload #fu (change)="filename = undefined; uploadAttempted = false" [multiple]="false">-</file-upload>
 
@@ -13,6 +13,21 @@
 <div *ngIf="filename!==undefined"> Your file was successfully uploaded as data set {{this.filename}}.
 </div>
 <div *ngIf="filename === undefined && uploadAttempted === true">File upload failed.</div>
+
+<br>
+
+<h2>Update Existing Data</h2>
+
+<sheet-update #fubar (change)="updateFile = undefined; updateAttempted = false" [multiple]="false">-</sheet-update>
+
+<button *ngIf="updateFile === undefined" class="btn btn-primary" (click)="this.handleUpdate()" style="margin-top: 10px">
+    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+    Update Data
+</button>
+
+<div *ngIf="updateFile!==undefined"> Your data was successfully updated and is now consistent with data set {{this.updateFile}}.
+</div>
+<div *ngIf="updateFile === undefined && updateAttempted === true">File upload failed.</div>
 
 <div>
 <button  [routerLink]="['/admin']" class="btn btn-primary" style="float: right">Back to Admin Page</button>

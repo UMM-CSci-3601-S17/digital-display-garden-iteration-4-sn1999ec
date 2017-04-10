@@ -77,8 +77,22 @@ public class Server {
             return plantController.listPlants(req.queryMap().toMap(), plantController.getLiveUploadId());
         });
 
+        // List flowers
+        get("api/flowers", (req, res) -> {
+            res.type("application/json");
+            return plantController.listPlants(req.queryMap().toMap(), plantController.getLiveUploadId());
+        });
+
         //Get a plant
         get("api/plants/:plantID", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("plantID");
+            System.out.println("ID = " + id);
+            return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
+        });
+
+        //Get a flower
+        get("api/flowers/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
@@ -173,6 +187,33 @@ public class Server {
 
                 String id = ExcelParser.getAvailableUploadId();
                 parser.parseExcel(id);
+
+                return JSON.serialize(id);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        });
+
+        // Accept an xls file
+        post("api/updateData", (req, res) -> {
+
+            res.type("application/json");
+            try {
+
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
+                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+
+                String fileName = Long.valueOf(System.currentTimeMillis()).toString();
+                Part part = req.raw().getPart("file[]");
+
+                ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
+
+                String id = ExcelParser.getAvailableUploadId();
+                String currentId = plantController.getLiveUploadId();
+                parser.parseUpdatedSpreadsheet(id, currentId);
 
                 return JSON.serialize(id);
 

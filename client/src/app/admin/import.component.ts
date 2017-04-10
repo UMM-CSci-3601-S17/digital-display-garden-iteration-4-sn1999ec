@@ -10,9 +10,12 @@ import { AdminService } from './admin.service';
 export class ImportComponent implements OnInit {
 
     @ViewChild('fu') fu;
+    @ViewChild('fubar') fubar;
 
-    filename:string;
-    uploadAttempted:boolean = false;
+    filename: string;
+    uploadAttempted: boolean = false;
+    updateFile: string;
+    updateAttempted
 
     handleUpload(){
         this.fu.upload().subscribe(
@@ -22,6 +25,19 @@ export class ImportComponent implements OnInit {
             },
             err => {
                 this.uploadAttempted = true;
+            }
+
+        );
+    }
+
+    handleUpdate(){
+        this.fubar.update().subscribe(
+            response => {
+                this.updateFile = response.json();
+                this.updateAttempted = true;
+            },
+            err => {
+                this.updateAttempted = true;
             }
 
         );
