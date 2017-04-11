@@ -22,11 +22,11 @@
     <br>
         <div style="padding-top: 0.3em">
             <span *ngIf="rating === null">
-                <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">
+                <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">Like
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                     {{plantFeedback.likeCount}}
                 </button>
-                <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">
+                <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">Dislike
                     <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                     {{plantFeedback.dislikeCount}}
                 </button>
@@ -77,7 +77,24 @@
 
 <div *ngIf = " plant.id === 'x'"  class = "instructions"><h4>Please select a bed and flower!</h4></div>
 
+<style>
+    .btn {
+        background: #ffd900;
+        background-image: -webkit-linear-gradient(top, #ffd900, #daa520);
+        background-image: -moz-linear-gradient(top, #ffd900, #daa520);
+        background-image: -ms-linear-gradient(top, #ffd900, #daa520);
+        background-image: -o-linear-gradient(top, #ffd900, #daa520);
+        background-image: linear-gradient(to bottom, #ffd900, #daa520);
+        border-radius: 28px;
+        font-family: Arial;
+        color: maroon;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px 10px 5px 10px;
+        text-decoration: none;
+    }
 
+</style>
 
 
 
