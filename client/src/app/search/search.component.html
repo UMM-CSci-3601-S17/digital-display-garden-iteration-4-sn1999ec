@@ -1,14 +1,35 @@
+<h2 class="header">Digital Display Garden</h2> <button [routerLink]="['/']" class="btn">Home</button><p></p>
+
 <ul class="list-group">
-    <li class="list-group-item list-group-item-info">
+    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: maroon">
         <input #input type="text" placeholder="Filter by common name" (input)="searchName= $event.target.value">
         <input #input type="text" placeholder="Filter by cultivar" (input)="searchCultivar= $event.target.value">
-        <input #input type="text" placeholder="Filter by bed" (input)="searchBed= $event.target.value">
     </li>
-    <li class="list-group-item list-group-item-info">Plants matching your search criteria:</li>
-    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}|
-    filterBy: {gardenLocation: searchBed}" class="list-group-item">
+    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: gold; font-weight: bold">Plants matching your search criteria:</li>
+    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}" class="list-group-item">
         Common name: {{ plant.commonName }} <br/>
         Cultivar: {{ plant.cultivar }} <br/>
         Bed: {{ plant.gardenLocation }} <br/>
     </li>
 </ul>
+<style>
+    .btn {
+        background: #ffd900;
+        background-image: -webkit-linear-gradient(top, #ffd900, #daa520);
+        background-image: -moz-linear-gradient(top, #ffd900, #daa520);
+        background-image: -ms-linear-gradient(top, #ffd900, #daa520);
+        background-image: -o-linear-gradient(top, #ffd900, #daa520);
+        background-image: linear-gradient(to bottom, #ffd900, #daa520);
+        border-radius: 28px;
+        font-family: Arial;
+        color: maroon;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px 10px 5px 10px;
+        text-decoration: none;
+    }
+    .header{
+        text-align: center;
+    }
+
+</style>
