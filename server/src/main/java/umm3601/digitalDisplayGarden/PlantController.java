@@ -47,7 +47,7 @@ public class PlantController {
         // Try connecting to a database
         MongoDatabase db = mongoClient.getDatabase(databaseName);
 
-        plantCollection = db.getCollection("newPlants");
+        plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
     }
@@ -189,7 +189,6 @@ public class PlantController {
         out.put("commentCount", comments);
         out.put("likeCount", likes);
         out.put("dislikeCount", dislikes);
-        System.out.println(likes + "aaaaa");
         return JSON.serialize(out);
     }
 
