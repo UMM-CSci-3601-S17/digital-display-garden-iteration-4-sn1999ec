@@ -1,43 +1,85 @@
 <!DOCTYPE html>
 
-<div class="flower-info-background img-rounded" *ngIf="plant">
-    <h2 class="cultivar-font">{{ plant.cultivar }}</h2>
-    <h4 class="flower-info-font">Common name: {{ plant.commonName }}</h4>
-    <!--<h4 class="flower-info-font">Source: {{ flower.source }}</h4>-->
-    <!--<h4 class="flower-info-font">Visits: {{ flower.flowerVisits }}</h4>-->
-    <!--<h4 class="flower-info-font">Likes: {{ flower.thumbsUp }}</h4>-->
+<style>
+
+    #plant-component {
+        list-style-type: none;
+        padding: 0;
+        height: 70%;
+        background-color: white;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+</style>
+<div *ngIf=" plant.id !== 'x'" >
+    <div id = "plant-component">
+
+
+        <div class="flower-info-background img-rounded" *ngIf="plant">
+            <h2 class="cultivar-font">{{ plant.cultivar }}</h2>
+            <h4 class="commonName-font">Common name: {{ plant.commonName }}</h4>
+        </div>
+    <br>
+        <div style="padding-top: 0.3em">
+            <span *ngIf="rating === null">
+                <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    {{plantFeedback.likeCount}}
+                </button>
+                <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    {{plantFeedback.dislikeCount}}
+                </button>
+            </span>
+
+            <span *ngIf="rating === true">
+                <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >
+                    <span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>
+                    Liked! <span class="label label-default">{{plantFeedback.likeCount}}</span>
+                </button>
+            </span>
+
+            <span *ngIf="rating === false">
+                <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    Disliked <span class="label label-default">{{plantFeedback.dislikeCount}}</span>
+
+                </button>
+            </span>
+
+
+        </div>
+    <br>
+    <br>
+        <div>
+        <span *ngIf="!commented">
+            <textarea [(ngModel)]="commentText" rows="5" wrap="on" style="resize:vertical;width: 100%;color:#4e3e0a; font-size:18px"></textarea>
+        </span>
+            <br>
+            <br>
+            <div *ngIf="commented">
+                <p class="our-font pink-font">Thank you for your comment!</p>
+            </div>
+
+            <span *ngIf="!commented">
+                <button (click)="this.comment(commentText); commentText=''" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>
+            </span>
+
+
+        </div>
+        <div>
+            {{plantFeedback.commentCount}} people have left feedback
+        </div>
+    </div>
 </div>
-<div style="padding-top: 0.3em">
-        <span *ngIf="rating === null">
-            <button type="button" (click)="this.ratePlant(true)" style="border: none; background: inherit; outline: none;font-size:20px">
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                {{feedback.likeCount}}
-            </button>
-            <button type="button" (click)="this.ratePlant(false)" style="border: none; background: inherit; outline: none;font-size:20px">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                {{feedback.dislikeCount}}
-            </button>
-        </span>
-
-    <span *ngIf="rating === true">
-            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success" >
-                <span class="glyphicon glyphicon-thumbs-up " aria-hidden="true"></span>
-                Liked! <span class="label label-default">{{feedback.likeCount}}</span>
-            </button>
-        </span>
-
-    <span *ngIf="rating === false">
-            <button type="button" style="border: none; background: inherit; outline: none;font-size:20px" class="text-success">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 
 
-                Disliked <span class="label label-default">{{feedback.dislikeCount}}</span>
 
-            </button>
-        </span>
+<div *ngIf = " plant.id === 'x'"  class = "instructions"><h4>Please select a bed and flower!</h4></div>
 
-    <span *ngIf="!commented">
-            <button (click)="this.comment(commentText)" class="btn btn-primary btn-lg" style="float: right">Submit feedback</button>
-        </span>
 
-</div>
+
+
+
+
+

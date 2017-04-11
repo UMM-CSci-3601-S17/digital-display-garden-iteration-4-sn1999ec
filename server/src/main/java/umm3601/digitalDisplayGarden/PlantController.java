@@ -122,7 +122,7 @@ public class PlantController {
 
             jsonPlant = plantCollection.find(and(eq("id", plantID),
                     eq("uploadId", uploadID)))
-                    .projection(fields(include("commonName", "cultivar")));
+                    .projection(fields(include("commonName", "cultivar", "id")));
 
             Iterator<Document> iterator = jsonPlant.iterator();
 
@@ -166,7 +166,7 @@ public class PlantController {
         long likes = 0;
         long dislikes = 0;
 
-
+        System.out.println(plantID + "checking the plant Id ");
         //Get a plant by plantID
         FindIterable doc = plantCollection.find(new Document().append("id", plantID).append("uploadId", uploadID));
 
@@ -186,8 +186,6 @@ public class PlantController {
                     dislikes++;
             }
         }
-
-
         out.put("commentCount", comments);
         out.put("likeCount", likes);
         out.put("dislikeCount", dislikes);
