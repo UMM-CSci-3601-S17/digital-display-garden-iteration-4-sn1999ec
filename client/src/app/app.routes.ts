@@ -7,6 +7,8 @@ import {ImportComponent} from "./admin/import.component";
 // import {BedComponent} from "./plants/bed.component";
 // import {FlowerComponent} from "./flowers/flower.component";
 import {GardenComponent} from "./garden/garden-component";
+// import {FlowerComponent} from "./flowers/flower.component";
+import {SearchComponent} from "./search/search.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -18,6 +20,12 @@ export const routes: Routes = [
     // { path: 'bed/:gardenLocation', component: BedComponent },
     // { path: 'flowers', component: FlowerComponent},
     //{ path: 'garden', component: GardenComponent}
+    // { path: '', component: FlowerComponent},
+    // { path: 'admin', component: AdminComponent},
+    // { path: 'admin/exportData', component: ExportComponent},
+    // { path: 'admin/importData', component: ImportComponent},
+    { path: 'search', component: SearchComponent}
+
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
