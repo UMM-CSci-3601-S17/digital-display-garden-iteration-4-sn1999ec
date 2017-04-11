@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Plant } from './plant';
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class SearchService {
