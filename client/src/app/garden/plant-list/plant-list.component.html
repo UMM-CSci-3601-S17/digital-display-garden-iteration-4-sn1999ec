@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<style>
+    .our-font {
+        font-family: 'Open Sans';
+    }
+
+    .drop-down {
+        font-family: "Open Sans";
+        font-size: 25px;
+        padding: 15px;
+    }
+    .navbar-toggle .icon-bar{
+        background-color: maroon;
+    }
+    .truncate{
+        width: 65vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .maroon-font {
+        color: maroon;
+        font-weight: bold;
+    }
+
+</style>
+
+<nav class="navbar navbar-inverse" role="navigation" style="background-color: gold">
+
+    <!-- Brand and toggle get grouped for b etter mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div *ngIf="!plantSelect">
+            <a class="navbar-brand our-font maroon-font" href="#">Choose Flower</a>
+        </div>
+        <div *ngIf="plantSelect">
+            <a class="navbar-brand our-font maroon-font truncate" href="#">{{currentPlant.cultivar}}</a>
+        </div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+        <ul class="nav navbar-nav">
+            <li class="active our-font maroon-font drop-down" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" *ngFor="let currentPlant of plantNames" (click)="onClickedPlant(currentPlant)"><div style="font-size: large">{{currentPlant.commonName}}</div>{{currentPlant.cultivar}}</li>
+        </ul>
+    </div>
+</nav>
