@@ -193,7 +193,7 @@ public class ExcelParser {
     public void populateDatabase(String[][] cellValues, String uploadId){
         MongoClient mongoClient = new MongoClient();
         MongoDatabase test = mongoClient.getDatabase(databaseName);
-        MongoCollection plants = test.getCollection("plants");
+        MongoCollection plants = test.getCollection("newPlants");
 
         String[] keys = getKeys(cellValues);
 
@@ -236,7 +236,7 @@ public class ExcelParser {
     public void updateDatabase(String[][] plantArray, String uploadID, String currentId){
         MongoClient mongoClient = new MongoClient();
         MongoDatabase db = mongoClient.getDatabase(databaseName);
-        MongoCollection plants = db.getCollection("plants");
+        MongoCollection plants = db.getCollection("newPlants");
         String[] keys = getKeys(plantArray);
 
         for (int i = 4; i < plantArray.length; i++){
