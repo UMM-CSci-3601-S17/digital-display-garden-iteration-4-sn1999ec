@@ -223,6 +223,7 @@ public class Server {
             }
 
         });
+//        get("api/bed/*")
 
         get("/*", clientRoute);
 

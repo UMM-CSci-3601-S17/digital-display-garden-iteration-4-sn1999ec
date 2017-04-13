@@ -1,3 +1,7 @@
-/**
- * Created by saliy002 on 4/9/17.
- */
+export class Bed {
+    _id: string;
+
+    constructor(id: string){
+        this._id = id;
+    }
+}

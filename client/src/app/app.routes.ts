@@ -13,8 +13,8 @@ export const routes: Routes = [
     { path: 'admin', component: AdminComponent},
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
-    { path: 'search', component: SearchComponent}
-
+    { path: 'search', component: SearchComponent},
+    { path: '**', component: GardenComponent}
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

@@ -9,6 +9,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {Plant} from "../plants/plant";
 import {PlantListService} from "../plant-list/plant-list.service";
 import {PlantListComponent} from "../plant-list/plant-list.component";
+import {Bed} from "./bed";
 
 
 @Component({
@@ -40,8 +41,7 @@ export class BedListComponent implements OnInit {
         });
 
         if (this.url.length > 1) {
-            this.currentBed = this.url.substr(1);
-            this.onSelectBed(this.currentBed);
+            this.onSelectBed(new Bed(this.url.substr(1)));
         }
     }
 
@@ -51,10 +51,15 @@ export class BedListComponent implements OnInit {
         var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
         this.currentBed = currentBed;
         this.plantListService.getFlowerNames(currentBed).subscribe(
-            flowers => plantListComponent.plantNames = plantListComponent.parseFlowers(flowers),
+            flowers => {
+                console.log("Flowers: " + flowers);
+                plantListComponent.plantNames = plantListComponent.parseFlowers(flowers);
+                },
             err => {
                 console.log(err);
-            }
+                }
+
         );
+        console.log("Plant Names: " + plantListComponent.plantNames);
     }
 }
