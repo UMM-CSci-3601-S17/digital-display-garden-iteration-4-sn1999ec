@@ -23,7 +23,7 @@ import javax.servlet.http.Part;
 
 public class Server {
 
-    public static final String API_URL = "http://grimaldi.ddg.congrue.xyz:2538";
+    public static final String API_URL = "http://104.131.5.156:2538";
 
     public static String databaseName = "test";
 
@@ -148,7 +148,7 @@ public class Server {
             String zipPath = QRCodes.CreateQRCodesFromAllBeds(
                     liveUploadID,
                     plantController.getGardenLocations(liveUploadID),
-                    API_URL + "/bed/");
+                    API_URL + "/");
             System.err.println(zipPath);
             if(zipPath == null)
                 return null;
