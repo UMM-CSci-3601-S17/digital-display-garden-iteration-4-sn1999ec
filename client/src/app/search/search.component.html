@@ -1,23 +1,3 @@
-<h2 class="header">Digital Display Garden</h2> <button [routerLink]="['/']" class="btn">Home</button><p></p>
-
-<ul class="list-group">
-    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: maroon">
-        <input #input type="text" placeholder="Filter by common name" (input)="searchName= $event.target.value">
-        <input #input type="text" placeholder="Filter by cultivar" (input)="searchCultivar= $event.target.value">
-    </li>
-    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: gold; font-weight: bold">Plants matching your search criteria:</li>
-    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}" class="list-group-item">
-        Common name: {{ plant.commonName }} <br/>
-        Cultivar: {{ plant.cultivar }} <br/>
-        Bed: {{ plant.gardenLocation }} <br/>
-    </li>
-    <br><br>
-    <div class="footer">
-        For more information, visit <a href="https://wcroc.cfans.umn.edu" style="color: white; text-decoration: underline">WCROC's site</a>
-    </div>
-</ul>
-
-
 <style>
     .btn {
         background: #ffd900;
@@ -44,8 +24,8 @@
         padding: 1rem;
     }
     body{
-         background: white;
-     }
+        background: white;
+    }
     .footer {
         position: fixed;
         right: 0;
@@ -59,3 +39,22 @@
     }
 
 </style>
+
+<h2 class="header">Digital Display Garden</h2> <button [routerLink]="['/']" class="btn">Home</button><p></p>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: maroon">
+        <input #input type="text" placeholder="Filter by common name" (input)="searchName= $event.target.value">
+        <input #input type="text" placeholder="Filter by cultivar" (input)="searchCultivar= $event.target.value">
+    </li>
+    <li class="list-group-item list-group-item-info" style="background-color: maroon; color: gold; font-weight: bold">Plants matching your search criteria:</li>
+    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}" class="list-group-item">
+        Common name: {{ plant.commonName }} <br/>
+        Cultivar: {{ plant.cultivar }} <br/>
+        Bed: {{ plant.gardenLocation }} <br/>
+    </li>
+    <br><br>
+    <div class="footer">
+        For more information, visit <a href="https://wcroc.cfans.umn.edu" style="color: white; text-decoration: underline">WCROC's site</a>
+    </div>
+</ul>

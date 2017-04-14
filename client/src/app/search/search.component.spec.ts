@@ -14,9 +14,6 @@ import { PipeModule } from "../../pipe.module";
  */
 import { RouterTestingModule } from '@angular/router/testing';
 
-// import { SearchListComponent } from "./search.component";
-// import { SearchListService } from "./search-list.service";
-
 describe("Search list", () => {
 
     let searchList: SearchComponent;

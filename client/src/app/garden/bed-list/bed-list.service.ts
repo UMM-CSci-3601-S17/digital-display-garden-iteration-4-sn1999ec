@@ -16,7 +16,7 @@ export class BedListService {
 
     /**
      * This method is used to populate the bed-list component
-     * @returns {Observable<R>}
+     * @returns {Observable<Bed[]>}
      */
     getBedNames(): Observable<Bed[]> {
         return this.http.request(this.bedUrl).map(res => res.json());
@@ -25,7 +25,7 @@ export class BedListService {
     /**
      * This method is used to populate plant-list component but called from bed-list component
      * @param garden
-     * @returns {Observable<R>}
+     * @returns {Observable<Plant[]>}
      */
     getFlowerNames(garden: any): Observable<Plant[]> {
         return this.http.request(this.plantUrl + "?gardenLocation=" + garden._id).map(res => res.json());

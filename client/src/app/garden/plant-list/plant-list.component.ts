@@ -4,14 +4,13 @@
 
 import {Component} from "@angular/core";
 import {Plant} from "../plants/plant";
-import {PlantService} from "../plants/plant.service";
 import {PlantComponent} from "../plants/plant.component";
 
 
 @Component({
     selector: 'plant-list',
     templateUrl: 'plant-list.component.html',
-    providers: [PlantService, PlantComponent]
+    providers: [PlantComponent]
 })
 
 export class PlantListComponent{
@@ -26,11 +25,19 @@ export class PlantListComponent{
         PlantListComponent.plantListComponent = this;
     }
 
+    /**
+     * The static factory method which returns currently instantiated PlantListComponent.
+     * @returns {PlantListComponent}
+     */
     public static getInstance(): PlantListComponent{
         return PlantListComponent.plantListComponent;
     }
 
 
+    /**
+     * Once a user clicks a flower, it will be populated in the PlantComponent
+     * @param flower
+     */
     onClickedPlant(flower: Plant): void{
         this.currentPlant = flower;
         this.plantSelect = true;
@@ -39,9 +46,13 @@ export class PlantListComponent{
 
     }
 
-
+    /**
+     * Used to populate the Plant-List.component
+     * This method is called from Bed-list.component
+     * @param flowers
+     * @returns {Plant[]}
+     */
     public parseFlowers(flowers: Plant[]) {
-        //console.log("HELO");
         var tempNames: Plant[] = [];
         for (let each of flowers) {
             tempNames.push(each);

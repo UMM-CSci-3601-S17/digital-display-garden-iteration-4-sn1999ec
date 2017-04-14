@@ -8,18 +8,14 @@ import { BedListService} from './bed-list.service'
 import {Bed} from "./bed";
 
 describe("BedList component", () => {
-
     let bedListComponent: BedListComponent;
     let fixture: ComponentFixture<BedListComponent>;
-
     let mockRouter: {
         events: Observable<any>
     };
-
     let bedListServiceStub: {
         getBedNames: () =>  Observable<Bed[]>
     };
-
     let eventStream: Subject<any>;
 
     beforeEach(() => {
@@ -29,7 +25,6 @@ describe("BedList component", () => {
         mockRouter = {
             events: eventStream
         };
-
 
         bedListServiceStub = {
             getBedNames: () => Observable.of([
@@ -44,8 +39,6 @@ describe("BedList component", () => {
                 }
             ])
         };
-
-
 
         TestBed.configureTestingModule({
             imports: [FormsModule, RouterTestingModule],
@@ -67,7 +60,7 @@ describe("BedList component", () => {
             });
         }));
 
-    it("can be initialized", () => {
+    it("Can be initialized", () => {
         expect(bedListComponent).toBeDefined();
     });
 

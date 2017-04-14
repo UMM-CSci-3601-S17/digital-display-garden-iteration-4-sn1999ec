@@ -16,29 +16,26 @@ import {Bed} from "./bed";
 })
 
 export class BedListComponent implements OnInit {
+
     private bedNames: Bed[];
     public currentBed: string;
     private url: string = this.router.url;
     private bedSelect: boolean = false;
     constructor(public bedListService: BedListService, public router: Router) {
     }
-    ngOnInit(): void {
-        this.bedListService.getBedNames().subscribe(
-            bedNames => this.bedNames = bedNames,
-            err => {
-                console.log(err);
-            }
-        );
 
-        if (this.url.length > 1) {
-            this.onSelectBed(new Bed(this.url.substr(1)));
-        }
-    }
-
+    /**
+     * was made for tests, but didn't work as expected.
+     * @returns {Bed[]}
+     */
     public getBedNames(): Bed[]{
         return this.bedNames;
     }
 
+    /**
+     * Once a user selects a bed, the plants from this bed will be populated in plant-list.component
+     * @param currentBed
+     */
     onSelectBed(currentBed: any ): void {
         this.bedSelect = true;
         var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
@@ -51,5 +48,18 @@ export class BedListComponent implements OnInit {
                 console.log(err);
                 }
         );
+    }
+
+    ngOnInit(): void {
+        this.bedListService.getBedNames().subscribe(
+            bedNames => this.bedNames = bedNames,
+            err => {
+                console.log(err);
+            }
+        );
+
+        if (this.url.length > 1) {
+            this.onSelectBed(new Bed(this.url.substr(1)));
+        }
     }
 }
