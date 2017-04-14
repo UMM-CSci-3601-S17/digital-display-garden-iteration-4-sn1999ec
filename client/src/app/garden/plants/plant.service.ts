@@ -36,7 +36,7 @@ export class PlantService {
     }
 
     getFeedbackForPlantByPlantID(id: string): Observable<PlantFeedback> {
-        console.log(this.plantUrl + "/" + id + "/counts");
+        //console.log(this.plantUrl + "/" + id + "/counts");
         return this.http.request(this.plantUrl + "/" + id + "/counts").map(res => res.json());
     }
 
