@@ -16,8 +16,8 @@ import {PlantFeedback} from "./plant.feedback";
 export class PlantComponent {
     public plant : Plant = new Plant();
     public currentPlant : Plant;
-    private static plantComponent: PlantComponent;
-    private commented: Boolean = false;
+    public static plantComponent: PlantComponent;
+    public commented: Boolean = false;
     plantFeedback: PlantFeedback = new PlantFeedback();
 
 
@@ -27,10 +27,10 @@ export class PlantComponent {
     // null - means that the plant hasn't been rated
     // true - means that the plant was liked
     // false - means the the plant was disliked
-    private rating: boolean = null;
+    public rating: boolean = null;
 
 
-    constructor(private plantService: PlantService, private route: ActivatedRoute){
+    constructor(public plantService: PlantService, public route: ActivatedRoute){
         PlantComponent.plantComponent = this;
     }
 
@@ -55,7 +55,7 @@ export class PlantComponent {
         );
     }
 
-    private comment(comment: string): void {
+    public comment(comment: string): void {
         if(!this.commented){
             if(comment != null) {
                 this.plantService.commentPlant(this.plant["_id"]["$oid"], comment)
@@ -68,7 +68,7 @@ export class PlantComponent {
         }
     }
 
-    private ratePlant(like: boolean): void {
+    public ratePlant(like: boolean): void {
         if(this.rating === null && like !== null) {
             this.plantService.ratePlant(this.plant["_id"]["$oid"], like)
                 .subscribe(succeeded => {
@@ -78,15 +78,14 @@ export class PlantComponent {
                 });
         }
     }
-
-    private refreshFeedback(): void {
+    public refreshFeedback(): void {
         //Update flower feedback numbers
         this.route.params
             .switchMap((params: Params) => this.plantService.getFeedbackForPlantByPlantID(this.plant.id))
             .subscribe((plantFeedback: PlantFeedback) => this.plantFeedback = plantFeedback);
     }
 
-    private getFeedBack(qq: string): void{
+    public getFeedBack(qq: string): void{
         this.route.params
             .switchMap((params: Params) => this.plantService.getFeedbackForPlantByPlantID(qq))
             .subscribe((plantFeedback: PlantFeedback) => this.plantFeedback = plantFeedback);

@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { SearchService } from "./search.service";
 import { FilterBy } from "./filter.pipe";
-import { Plant } from "./plant";
+import { Plant } from "../garden/plants/plant";
 
 @Component({
     selector: 'search-component',

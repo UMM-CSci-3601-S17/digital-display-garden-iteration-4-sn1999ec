@@ -166,7 +166,6 @@ public class PlantController {
         long likes = 0;
         long dislikes = 0;
 
-        System.out.println(plantID + "checking the plant Id ");
         //Get a plant by plantID
         FindIterable doc = plantCollection.find(new Document().append("id", plantID).append("uploadId", uploadID));
 

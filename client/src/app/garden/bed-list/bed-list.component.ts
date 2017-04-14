@@ -3,11 +3,8 @@
  */
 
 import {OnInit, Component} from "@angular/core";
-import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {BedListService} from "./bed-list.service";
-import {Router, ActivatedRoute} from "@angular/router";
-import {Plant} from "../plants/plant";
-import {PlantListService} from "../plant-list/plant-list.service";
+import {Router} from "@angular/router";
 import {PlantListComponent} from "../plant-list/plant-list.component";
 import {Bed} from "./bed";
 
@@ -19,47 +16,40 @@ import {Bed} from "./bed";
 })
 
 export class BedListComponent implements OnInit {
-    public bedNames: string[];
+    private bedNames: Bed[];
     public currentBed: string;
-    public myForm: FormGroup;
     private url: string = this.router.url;
     private bedSelect: boolean = false;
-
-    constructor(private bedListService: BedListService,private plantListService: PlantListService, private _fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    constructor(public bedListService: BedListService, public router: Router) {
     }
     ngOnInit(): void {
         this.bedListService.getBedNames().subscribe(
-            beds => this.bedNames = beds,
+            bedNames => this.bedNames = bedNames,
             err => {
                 console.log(err);
             }
         );
-
-        this.myForm = this._fb.group({
-            plantID: ['', [<any>Validators.required]],
-            comment: ['', [<any>Validators.required]]
-        });
 
         if (this.url.length > 1) {
             this.onSelectBed(new Bed(this.url.substr(1)));
         }
     }
 
+    public getBedNames(): Bed[]{
+        return this.bedNames;
+    }
 
     onSelectBed(currentBed: any ): void {
         this.bedSelect = true;
         var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
         this.currentBed = currentBed;
-        this.plantListService.getFlowerNames(currentBed).subscribe(
+        this.bedListService.getFlowerNames(currentBed).subscribe(
             flowers => {
-                console.log("Flowers: " + flowers);
                 plantListComponent.plantNames = plantListComponent.parseFlowers(flowers);
                 },
             err => {
                 console.log(err);
                 }
-
         );
-        console.log("Plant Names: " + plantListComponent.plantNames);
     }
 }

@@ -4,7 +4,6 @@
 
 import {Component} from "@angular/core";
 import {Plant} from "../plants/plant";
-import {PlantListService} from "./plant-list.service";
 import {PlantService} from "../plants/plant.service";
 import {PlantComponent} from "../plants/plant.component";
 
