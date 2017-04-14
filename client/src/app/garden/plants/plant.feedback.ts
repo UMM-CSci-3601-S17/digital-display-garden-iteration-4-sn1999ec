@@ -4,8 +4,8 @@
 
 export class PlantFeedback{
     commentCount:number;
-    likeCount:number;
-    dislikeCount:number;
+     likeCount:number;
+     dislikeCount:number;
 
 
     constructor(){

@@ -1,7 +1,7 @@
-import {ComponentFixture, TestBed, async, inject} from "@angular/core/testing";
+import {ComponentFixture, TestBed, async} from "@angular/core/testing";
 import { Plant } from "./plant";
 import { PlantComponent } from "./plant.component";
-import { PlantListService } from "../plant-list/plant-list.service";
+import { PlantService } from "./plant.service";
 import { Observable } from "rxjs";
 import {PlantFeedback} from "./plant.feedback";
 import { ActivatedRoute} from "@angular/router";
@@ -13,10 +13,10 @@ describe("Plant component", () => {
 
     let plantComponent: PlantComponent;
     let fixture: ComponentFixture<PlantComponent>;
-    let plantListServiceStub: {
+    let plantServiceStub: {
         getFlowerById: (id: string) => Observable<Plant>
         getFeedbackForPlantByPlantID: (id: string) => Observable<PlantFeedback>
-        //ratePlant: (id: string, like: boolean) => Observable<boolean>
+        ratePlant: (id: string, like: boolean) => Observable<boolean>
         commentPlant: (id: string, comment: string) => Observable<boolean>
     };
 
@@ -26,7 +26,7 @@ describe("Plant component", () => {
         }
     };
 
-    let originalMockFeedBackData = {commentCount: 0};
+    let originalMockFeedBackData = {commentCount: 0, likeCount: 0, dislikeCount: 0};
 
 
     beforeEach(() => {
@@ -39,7 +39,7 @@ describe("Plant component", () => {
         }
 
         // stub plantService for test purposes
-        plantListServiceStub = {
+        plantServiceStub = {
             getFlowerById: (id: string) => {
                 return Observable.of(
                     [{
@@ -59,10 +59,16 @@ describe("Plant component", () => {
             getFeedbackForPlantByPlantID: (id: string) => {
                 return Observable.of(this.mockFeedBackData)
             },
-            // ratePlant: (id: string, like: boolean) => {
-            //     this.mockFeedBackData.likeCount += 1;
-            //     return Observable.of(true);
-            // },
+            ratePlant: (id: string, like: boolean) => {
+                if(like == true){
+                this.mockFeedBackData.likeCount += 1;
+                return Observable.of(true);
+                }else{
+                    this.mockFeedBackData.dislikeCount += 1;
+                    return Observable.of(true);
+                }
+
+            },
             commentPlant: (id: string, comment: string) => {
                 this.mockFeedBackData.commentCount += 1;
                 return Observable.of(true);
@@ -74,12 +80,9 @@ describe("Plant component", () => {
             imports: [FormsModule, RouterTestingModule],
             declarations: [ PlantComponent ],
             providers:    [
-                {provide: PlantListService, useValue: plantListServiceStub} ,
+                {provide: PlantService, useValue: plantServiceStub} ,
                 {provide: ActivatedRoute, useValue: mockRouter }]
         });
-
-
-
     });
 
     beforeEach(
@@ -91,34 +94,32 @@ describe("Plant component", () => {
             });
         }));
 
-
-    it("can be initialized", () => {
+    it("Can be initialized", () => {
         expect(plantComponent).toBeDefined();
     });
 
-    it("fetches plant feedback", () => {
-        //expect(plantComponent.plantFeedback.likeCount).toBe(0);
+    it("Fetches plant feedback", () => {
+        expect(plantComponent.plantFeedback.likeCount).toBe(0);
+        expect(plantComponent.plantFeedback.dislikeCount).toBe(0);
         expect(plantComponent.plantFeedback.commentCount).toBe(0);
     });
 
-    // it("updates plant feedback", () => {
-    //     expect(plantComponent.plantFeedback.likeCount).toBe(0);
-    //     plantComponent.ratePlant(true);
-    //     expect(plantComponent.plantFeedback.likeCount).toBe(1);
-    // });
+    it("Test: like a plant", () => {
+        expect(plantComponent.plantFeedback.likeCount).toBe(0);
+        plantComponent.ratePlant(true);
+        expect(plantComponent.plantFeedback.likeCount).toBe(1);
+    });
 
-    it("can accept comments", () => {
+    it("Test: dislike a plant ", () => {
+        expect(plantComponent.plantFeedback.dislikeCount).toBe(0);
+        plantComponent.ratePlant(false);
+        expect(plantComponent.plantFeedback.dislikeCount).toBe(1);
+    });
+
+    it("Test: leave a comment ", () => {
         expect(plantComponent.plantFeedback.commentCount).toBe(0);
         plantComponent.comment("This flower is quite pretty");
         expect(plantComponent.commented).toBe(true);
         expect(plantComponent.plantFeedback.commentCount).toBe(1)
     });
-
-
-
-    // it("returns undefined for Santa", () => {
-    //     plantComponent.setId("Santa");
-    //     expect(plantComponent.plant).not.toBeDefined();
-    // });
-
 });
