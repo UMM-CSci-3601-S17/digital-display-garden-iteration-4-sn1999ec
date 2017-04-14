@@ -74,7 +74,7 @@ describe("BedList component", () => {
 
     /**
      * The test below does not work. Because the method getBedNames() gives 'undefined'.
-     * Could not figure out why it gives undefined.
+     * Could not figure out why.
      */
     // it("Get Bed Names", () => {
     //     expect(bedListComponent.getBedNames().length).toBe(4);

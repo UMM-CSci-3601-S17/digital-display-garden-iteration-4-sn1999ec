@@ -21,7 +21,6 @@ import { GardenComponent} from "./app/garden/garden-component"
 import { PlantListComponent } from './app/garden/plant-list/plant-list.component';
 import { PlantComponent } from './app/garden/plants/plant.component';
 import { BedListComponent } from './app/garden/bed-list/bed-list.component';
-import { PlantListService } from './app/garden/plant-list/plant-list.service';
 import { BedListService} from "./app/garden/bed-list/bed-list.service";
 import { PlantService} from "./app/garden/plants/plant.service";
 import {SearchService} from "./app/search/search.service";
@@ -56,7 +55,7 @@ import {SearchService} from "./app/search/search.service";
         SheetUpdateComponent,
         SearchComponent,
     ],
-    providers: [ PlantListService, AdminService, BedListService, PlantService, SearchService ],
+    providers: [ AdminService, BedListService, PlantService, SearchService ],
     bootstrap: [ AppComponent ]
 })
 
