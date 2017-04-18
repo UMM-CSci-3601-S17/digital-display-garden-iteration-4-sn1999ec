@@ -1,8 +1,8 @@
 # Digital Display Garden
-[![Build Status](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-3-manasses.svg?branch=master)](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-3-manasses)
-Software Design S2017, Iteration 3, Team _Manassas_ 
+[![Build Status](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-4-sn1999ec.svg?branch=master)](https://travis-ci.org/UMM-CSci-3601-S17/digital-display-garden-iteration-4-sn1999ec)
+Software Design S2017, Iteration 4, Team _SN1999ec_ 
 
-This repository is a fork from [Iteration 2, Team _Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), which is a fork from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
+This repository is a fork from [Iteration 3, Team Manassas](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-4-sn1999ec), which is a fork from [Iteration 2, Team _Grimaldi_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-2-grimaldi), which is a fork from [Iteration 1 , Team _Claude Arabo_](https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-1-claudearabo).
 
 ## Setup
 
@@ -21,12 +21,14 @@ pretty annoying to deal with.
 When you load the project on a new machine, tell Gradle to Refresh linked Gradle projects.
 
 
-## Already Completed Stories
-- [x] Leave Comments About a Flower
-- [x] Allow a visitor to rate a flower with likes
-- [x] Generate and export QR Codes
-- [x] Export Feedback to a File 
-- [x] Footer with WCROC link on every page
+## Stories To Complete
+- [ ] Click Plant from Search Page
+- [ ] Password Protection
+- [ ] HTTPS
+- [ ] Graphs
+- [ ] Sorting Plants on Search Page
+
+##Finished By SN1999ec
 
 ## Finished by Manassas
 * Update Database with new spreadsheet
@@ -36,7 +38,6 @@ When you load the project on a new machine, tell Gradle to Refresh linked Gradle
 * Page redesign
 
 ## Attempted Stories
-- [ ] Social Media Links
 
 ## Documentation
 * [Excel File Requirements](Documentation/ExcelFileRequirements.md)  
