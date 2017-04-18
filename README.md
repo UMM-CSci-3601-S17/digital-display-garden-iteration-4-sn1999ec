@@ -28,7 +28,7 @@ When you load the project on a new machine, tell Gradle to Refresh linked Gradle
 - [ ] Graphs
 - [ ] Sorting Plants on Search Page
 
-##Finished By SN1999ec
+## Finished By SN1999ec
 
 ## Finished by Manassas
 * Update Database with new spreadsheet
