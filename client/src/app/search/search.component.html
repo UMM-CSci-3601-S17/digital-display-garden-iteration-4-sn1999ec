@@ -48,7 +48,7 @@
         <input #input type="text" placeholder="Filter by cultivar" (input)="searchCultivar= $event.target.value">
     </li>
     <li class="list-group-item list-group-item-info" style="background-color: maroon; color: gold; font-weight: bold">Plants matching your search criteria:</li>
-    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}" class="list-group-item">
+    <li *ngFor="let plant of plants | filterBy: {commonName: searchName} | filterBy: {cultivar: searchCultivar}" class="list-group-item" (click) = "pickFlower(plant)">
         Common name: {{ plant.commonName }} <br/>
         Cultivar: {{ plant.cultivar }} <br/>
         Bed: {{ plant.gardenLocation }} <br/>
