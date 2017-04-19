@@ -98,25 +98,29 @@ public class GraphController {
             }
         }
 
-        Object[][] dataTable = new Object[beds.size() + 1][3];
+        Object[][] dataTable = new Object[beds.size() + 1][4];
 
         dataTable[0][0] = "Bed";
-        dataTable[0][1] = "Total Likes";
-        dataTable[0][2] = "Total Visits";
+        dataTable[0][1] = "Likes";
+        dataTable[0][2] = "Dislikes";
+        dataTable[0][3] = "Visits";
         int dataCounter = 1;
         for (int i = 0; i < beds.size(); i++) {
             FindIterable<Document> currentBedMembers = graphInfoCollection.find(new Document("gardenLocation", beds.get(i)));
             iterator = currentBedMembers.iterator();
             dataTable[dataCounter][0] = beds.get(i);
-            Integer currentRating = 0;
+            Integer currentLikes = 0;
             Integer currentViews = 0;
+            Integer currentDislikes = 0;
             while(iterator.hasNext()){
                 Document current = (Document) iterator.next();
-                currentRating += (Integer) current.get("rating");
+                currentLikes += (Integer) current.get("likes");
+                currentDislikes += (Integer) current.get("dislikes");
                 currentViews += (Integer) current.get("pageViews");
             }
-            dataTable[dataCounter][1] = currentRating;
-            dataTable[dataCounter][2] = currentViews;
+            dataTable[dataCounter][1] = currentLikes;
+            dataTable[dataCounter][2] = currentDislikes;
+            dataTable[dataCounter][3] = currentViews;
             dataCounter++;
         }
         return makeJSON(dataTable);
@@ -132,15 +136,17 @@ public class GraphController {
             info.add(current);
         }
 
-        Object[][] dataTable = new Object[info.size() + 1][3];
+        Object[][] dataTable = new Object[info.size() + 1][4];
         dataTable[0][0] = "Cultivar";
-        dataTable[0][1] = "Rating";
-        dataTable[0][2] = "Visits";
+        dataTable[0][1] = "Likes";
+        dataTable[0][2] = "Dislikes";
+        dataTable[0][3] = "Views";
         int dataCounter = 1;
         for(int i = 0; i < info.size(); i++){
             dataTable[dataCounter][0] = info.get(i).get("cultivar");
-            dataTable[dataCounter][1] = info.get(i).get("rating");
-            dataTable[dataCounter][2] = info.get(i).get("pageViews");
+            dataTable[dataCounter][1] = info.get(i).get("likes");
+            dataTable[dataCounter][2] = info.get(i).get("dislikes");
+            dataTable[dataCounter][3] = info.get(i).get("pageViews");
             dataCounter++;
         }
         return makeJSON(dataTable);

@@ -34,14 +34,11 @@ export class GraphComponent {
     public line_ChartData = {
         chartType: `ColumnChart`,
         dataTable: [
-            ['Year', 'Sales', 'Expenses'],
-            ['2004', 1000, 400],
-            ['2005', 1170, 460],
-            ['2006', 660, 1120],
-            ['2007', 1030, 540]],
+            ['Year', 'Total Likes', 'Total Visits'],
+            ['13', 0, 0]],
         options: {
             'title': 'Bed Information',
-            width: 3000,
+            width: 1500,
             height: 1000
         }
     };
