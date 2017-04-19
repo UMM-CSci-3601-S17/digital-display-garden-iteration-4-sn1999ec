@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {AdminService} from "./admin.service";
-import {Observable} from "rxjs";
 import {Plant} from "../garden/plants/plant";
 
 @Component({
@@ -27,7 +25,10 @@ export class GraphComponent {
         this.adminService.getGraphData()
             .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
         this.adminService.getGardenLocations()
-            .subscribe(result => this.locations = result, err => console.log(err));
+            .subscribe(result => {
+                    this.locations = result;
+                }
+                , err => console.log(err));
 
     }
 
@@ -35,7 +36,18 @@ export class GraphComponent {
         chartType: `ColumnChart`,
         dataTable: [
             ['Year', 'Total Likes', 'Total Visits'],
-            ['13', 0, 0]],
+            ['13', 0, 0],
+            ['7', 0, 0],
+            ['10', 0, 0],
+            ['2S', 0, 0],
+            ['6', 0, 0],
+            ['5', 0, 0],
+            ['2N', 0, 0],
+            ['1S', 0, 0],
+            ['1N', 0, 0],
+            ['LG', 0, 0],
+            ['11', 0, 0],
+            ['9', 0, 0]],
         options: {
             'title': 'Bed Information',
             width: 1500,
@@ -43,16 +55,16 @@ export class GraphComponent {
         }
     };
 
-    public setBed(bed: string) {
-        this.bed = bed;
+    public updateGraph(bed: string) {
+        this.line_ChartData = Object.create(this.line_ChartData);
+        console.log(bed);
         this.adminService.getInfoForOneBed(bed)
             .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
     }
 
-    public updateGraph(bed: string) {
+    public getAllBedsInfo(){
         this.line_ChartData = Object.create(this.line_ChartData);
-
-        this.adminService.getInfoForOneBed(bed)
+        this.adminService.getGraphData()
             .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
     }
 }
