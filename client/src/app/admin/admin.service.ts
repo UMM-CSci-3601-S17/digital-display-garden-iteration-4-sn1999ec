@@ -24,10 +24,12 @@ export class AdminService {
     }
 
     getGardenLocations(): Observable<Plant[]> {
-        return this.http.request(API_URL + "/gardenLocations").map(res => res.json());
+        console.log(API_URL + "gardenLocations");
+        return this.http.request(API_URL + "gardenLocations").map(res => res.json());
     }
 
     getInfoForOneBed(bed: string): Observable<any[][]> {
-        return this.http.request(API_URL + "/getBedData/" + bed).map(res => res.json());
+        console.log(API_URL + "/getBedData/" + bed);
+        return this.http.request(API_URL + "getBedData/" + bed).map(res => res.json());
     }
 }

@@ -15,8 +15,8 @@ export const routes: Routes = [
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
     { path: 'search', component: SearchComponent},
-    { path: '**', component: GardenComponent},
     { path: 'admin/charts', component: GraphComponent},
+    { path: '**', component: GardenComponent}
 
 ];
 
