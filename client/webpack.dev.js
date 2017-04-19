@@ -52,7 +52,7 @@ module.exports = {
         }),
         new DefinePlugin({
             'ENV': JSON.stringify('development'),
-            'API_URL': JSON.stringify('http://localhost:2538/api/')
+            'API_URL': JSON.stringify('https://localhost:2538/api/')
         })
     ],
     resolve: {

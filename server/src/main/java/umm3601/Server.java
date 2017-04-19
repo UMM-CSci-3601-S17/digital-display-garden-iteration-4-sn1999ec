@@ -5,10 +5,7 @@ import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
 import umm3601.digitalDisplayGarden.PlantController;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -23,13 +20,17 @@ import javax.servlet.http.Part;
 
 public class Server {
 
-    public static final String API_URL = "http://104.131.5.156:2538";
+    public static final String API_URL = "https://104.131.5.156:2538";
 
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
 
     public static void main(String[] args) throws IOException {
+
+        //Note: This keystore is stolen from Spark's FAQ. We need to create our own at some point
+        //and get it signed by a trusted authority.
+        secure("deploy/keystore.jks", "password", null, null);
 
         port(2538);
 
