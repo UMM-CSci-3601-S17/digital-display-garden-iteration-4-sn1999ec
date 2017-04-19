@@ -86,8 +86,12 @@ public class PlantController {
         }
 
         FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
-
-        return JSON.serialize(matchingPlants);
+        List<Document> sortedPlants = new ArrayList<Document>();
+        for (Document doc : matchingPlants) {
+            sortedPlants.add(doc);
+        }
+        sortedPlants.sort(new PlantComparator());
+        return JSON.serialize(sortedPlants);
     }
 
     /**
@@ -199,7 +203,14 @@ public class PlantController {
                         Aggregates.group("$gardenLocation"),
                         Aggregates.sort(Sorts.ascending("_id"))
                 ));
-        return JSON.serialize(documents);
+
+        List<Document> listDoc = new ArrayList<Document>();
+        for (Document doc : documents) {
+            listDoc.add(doc);
+        }
+        listDoc.sort(new BedComparator());
+
+        return JSON.serialize(listDoc);
     }
 
     public String[] getGardenLocations(String uploadID){
@@ -425,6 +436,62 @@ public class PlantController {
         visit.append("visit", new ObjectId());
 
         return null != plantCollection.findOneAndUpdate(filterDoc, push("metadata.visits", visit));
+    }
+
+    public int numericPrefix(String bed) {
+        int n = 0;
+        for (int i = 0; i < bed.length(); i++) {
+            char character = bed.charAt(i);
+            if (character <= '9' && character >= '0') {
+                n *= 10;
+                n += (character - '0');
+            } else {
+                break;
+            }
+        }
+
+        return n;
+    }
+
+
+    class BedComparator implements Comparator<Document> {
+
+        @Override
+        public int compare(Document bedDoc1, Document bedDoc2) {
+            String bed1 = bedDoc1.getString("_id");
+            String bed2 = bedDoc2.getString("_id");
+            if (numericPrefix(bed1) == numericPrefix(bed2)) {
+                return bed1.compareTo(bed2);
+            } else {
+                return numericPrefix(bed1) - numericPrefix(bed2);
+            }
+        }
+
+    }
+
+    class PlantComparator implements Comparator<Document> {
+
+        @Override
+        public int compare(Document plantDoc1, Document plantDoc2) {
+            String bed1 = plantDoc1.getString("gardenLocation");
+            String bed2 = plantDoc2.getString("gardenLocation");
+            String name1 = plantDoc1.getString("commonName");
+            String name2 = plantDoc2.getString("commonName");
+            String cultivar1 = plantDoc1.getString("cultivar");
+            String cultivar2 = plantDoc2.getString("cultivar");
+
+            if (!bed1.equals(bed2)) {
+                if (numericPrefix(bed1) == numericPrefix(bed2)) {
+                    return bed1.compareTo(bed2);
+                } else {
+                    return numericPrefix(bed1) - numericPrefix(bed2);
+                }
+            } else if (!name1.equals(name2)) {
+                return name1.compareTo(name2);
+            } else {
+                return cultivar1.compareTo(cultivar2);
+            }
+        }
     }
 
 }
