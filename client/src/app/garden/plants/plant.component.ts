@@ -7,6 +7,7 @@ import {Plant} from "./plant";
 import {PlantService} from "./plant.service";
 import {Params, ActivatedRoute} from "@angular/router";
 import {PlantFeedback} from "./plant.feedback";
+import {PlantListComponent} from "../plant-list/plant-list.component";
 
 @Component({
     selector: 'plant-component',
@@ -40,6 +41,23 @@ export class PlantComponent {
      */
     public static getInstance(): PlantComponent{
         return PlantComponent.plantComponent;
+    }
+
+    searchedFlower(id : string){
+        this.rating = null;
+        this.commented = false;
+        var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
+        this.plantService.getFlowerById(id).subscribe(
+            plant => {
+                this.plant = plant;
+                plantListComponent.plantSelect = true;
+                plantListComponent.currentPlant = plant;
+                this.getFeedBack(this.plant.id);
+            },
+            err => {
+                console.log(err);
+            }
+        );
     }
 
     /**
