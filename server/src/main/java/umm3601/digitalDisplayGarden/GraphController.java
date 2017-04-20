@@ -33,8 +33,9 @@ public class GraphController {
         plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
-        dbName = databaseName;
         graphInfoCollection = db.getCollection("graphData");
+        dbName = databaseName;
+
     }
 
 
@@ -75,6 +76,7 @@ public class GraphController {
             out.append("dislikes", dislikes);
             out.append("id", id);
             out.append("gardenLocation", result.get("gardenLocation"));
+            out.append("uploadId", uploadId);
 
             graphInfoCollection.insertOne(out);
 
