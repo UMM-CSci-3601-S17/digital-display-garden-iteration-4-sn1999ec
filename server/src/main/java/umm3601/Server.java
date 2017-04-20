@@ -1,8 +1,10 @@
 package umm3601;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
+import umm3601.digitalDisplayGarden.GraphController;
 import umm3601.digitalDisplayGarden.PlantController;
 
 import java.io.*;
@@ -44,6 +46,7 @@ public class Server {
         staticFiles.location("/public");
 
         PlantController plantController = new PlantController(databaseName);
+        GraphController graphController = new GraphController(databaseName);
 
         options("/*", (request, response) -> {
 
@@ -97,6 +100,23 @@ public class Server {
             res.type("application/json");
             String id = req.params("plantID");
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
+        });
+
+        // Post Data
+        get("api/postData", (req, res) -> {
+            res.type("application/json");
+            return graphController.postData(plantController.getLiveUploadId());
+        });
+
+        get("api/getData", (req, res) -> {
+            res.type("application/json");
+            return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+        });
+
+        get("api/getBedData/:location", (req, res) -> {
+            res.type("application/json");
+            String location = req.params("location");
+            return graphController.getDataForOneBed(plantController.getLiveUploadId(), location);
         });
 
         //Get feedback counts for a plant

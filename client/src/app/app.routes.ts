@@ -6,6 +6,7 @@ import { ExportComponent } from "./admin/export.component";
 import { ImportComponent } from "./admin/import.component";
 import { GardenComponent } from "./garden/garden-component";
 import { SearchComponent } from "./search/search.component";
+import {GraphComponent} from "./admin/google-charts.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -14,7 +15,9 @@ export const routes: Routes = [
     { path: 'admin/exportData', component: ExportComponent},
     { path: 'admin/importData', component: ImportComponent},
     { path: 'search', component: SearchComponent},
+    { path: 'admin/charts', component: GraphComponent},
     { path: '**', component: GardenComponent}
+
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

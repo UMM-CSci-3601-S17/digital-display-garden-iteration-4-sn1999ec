@@ -24,6 +24,9 @@ import { BedListComponent } from './app/garden/bed-list/bed-list.component';
 import { BedListService} from "./app/garden/bed-list/bed-list.service";
 import { PlantService} from "./app/garden/plants/plant.service";
 import {SearchService} from "./app/search/search.service";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {GraphComponent} from "./app/admin/google-charts.component";
+
 
 
 
@@ -39,7 +42,8 @@ import {SearchService} from "./app/search/search.service";
         FormsModule,
         PipeModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        Ng2GoogleChartsModule
     ],
     declarations: [
         AppComponent,
@@ -54,6 +58,7 @@ import {SearchService} from "./app/search/search.service";
         PlantComponent,
         SheetUpdateComponent,
         SearchComponent,
+        GraphComponent
     ],
     providers: [ AdminService, BedListService, PlantService, SearchService ],
     bootstrap: [ AppComponent ]
