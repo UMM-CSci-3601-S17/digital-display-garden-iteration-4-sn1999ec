@@ -19,20 +19,21 @@ export class GraphComponent {
 
 
     ngOnInit(): void {
-        this.line_ChartData = Object.create(this.line_ChartData);
+        this.Bar_ChartData = Object.create(this.Bar_ChartData);
         this.adminService.getUploadIds()
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getGraphData()
-            .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
+            .subscribe(result => this.Bar_ChartData.dataTable = result, err => console.log(err));
         this.adminService.getGardenLocations()
             .subscribe(result => {
                     this.locations = result;
+
                 }
                 , err => console.log(err));
 
     }
 
-    public line_ChartData = {
+    public Bar_ChartData: any = {
         chartType: `ColumnChart`,
         dataTable: [
             ['Year', 'Total Likes', 'Total Visits'],
@@ -49,22 +50,29 @@ export class GraphComponent {
             ['11', 0, 0],
             ['9', 0, 0]],
         options: {
-            'title': 'Bed Information',
+            title: 'Bed Information',
             width: 1500,
             height: 1000
         }
     };
 
-    public updateGraph(bed: string) {
-        this.line_ChartData = Object.create(this.line_ChartData);
-        console.log(bed);
-        this.adminService.getInfoForOneBed(bed)
-            .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
+
+    public updateBarChart(): void{
+
+        this.adminService.getGraphData()
+            .subscribe(result => {
+                this.Bar_ChartData["dataTable"] = result;
+                this.Bar_ChartData = Object.create(this.Bar_ChartData);
+            }, err => console.log(err));
     }
 
-    public getAllBedsInfo(){
-        this.line_ChartData = Object.create(this.line_ChartData);
-        this.adminService.getGraphData()
-            .subscribe(result => this.line_ChartData.dataTable = result, err => console.log(err));
+    public updateGraph(bed: string) {
+        this.adminService.getInfoForOneBed(bed)
+            .subscribe(result => {
+                this.Bar_ChartData["dataTable"] = result;
+                this.Bar_ChartData = Object.create(this.Bar_ChartData);
+            }, err => console.log(err));
     }
+
+
 }
