@@ -29,7 +29,6 @@ export class AdminService {
     }
 
     getInfoForOneBed(bed: string): Observable<any[][]> {
-        console.log(API_URL + "/getBedData/" + bed);
         return this.http.request(API_URL + "getBedData/" + bed).map(res => res.json());
     }
 }

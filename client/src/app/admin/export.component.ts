@@ -11,6 +11,8 @@ export class ExportComponent implements OnInit {
 
     private url: string = API_URL + "export?uploadId=";
 
+    private exportFeedbackUrl: string = API_URL + "exportFeedback?uploadId="
+
     private uploadIds: string[];
     private liveUploadId: string;
 

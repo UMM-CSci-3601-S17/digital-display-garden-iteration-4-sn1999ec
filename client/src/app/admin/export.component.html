@@ -16,8 +16,14 @@
         <div class="col-sm-4">
             <a [attr.href]="this.url + uploadId">
                 <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                Download feedback for this data set
+                Download comments for this data set
+            </a><br>
+
+            <a [attr.href]="this.exportFeedbackUrl + uploadId">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                Download likes, dislikes, and page views for this data set
             </a>
+
         </div>
     </li>
 </ul>

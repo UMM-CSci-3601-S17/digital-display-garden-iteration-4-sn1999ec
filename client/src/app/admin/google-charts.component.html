@@ -1,8 +1,15 @@
-<google-chart [data]="line_ChartData"></google-chart>
-<google-chart [data]="drawBasic"></google-chart>
+<h3>
+    Beds:
+    <select id="locationDropdown"  (change)="updateGraph(bed)" [(ngModel)]=bed>
+        <option *ngFor="let location of locations" value="{{location._id}}">{{location._id}}</option>
+    </select>
+</h3>
 
-<li *ngFor="let location of locations" class="list-group-item">
-    <button (click)="updateGraph(location._id)" class="btn btn-link btn-block">
-        <strong style="font-size:18px">Generate Graph for bed {{ location._id }}</strong>
-    </button>
-</li>
+<button type="button" class="btn btn-primary btn-lg" (click)="updateBarChart()">Default Info</button>
+
+<button [routerLink]="['/admin']" class="btn btn-primary btn-lg" style="float: right">Back to Admin Page</button>
+
+<google-chart id="barChart" [data]="Bar_ChartData"></google-chart>
+
+
+

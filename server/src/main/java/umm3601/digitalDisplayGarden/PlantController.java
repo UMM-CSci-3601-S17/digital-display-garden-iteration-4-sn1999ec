@@ -34,6 +34,7 @@ public class PlantController {
     private final MongoCollection<Document> plantCollection;
     private final MongoCollection<Document> commentCollection;
     private final MongoCollection<Document> configCollection;
+    private final MongoCollection<Document> graphInfoCollection;
 
     public PlantController(String databaseName) throws IOException {
         // Set up our server address
@@ -50,6 +51,7 @@ public class PlantController {
         plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
+        graphInfoCollection = db.getCollection("graphData");
     }
 
     public String getLiveUploadId() {
@@ -305,6 +307,36 @@ public class PlantController {
                        ((ObjectId) comment.get("_id")).getDate());
            }
            commentWriter.complete();
+    }
+
+    public void writeFeedback(OutputStream outputStream, String uploadId) throws IOException{
+        FindIterable plants = graphInfoCollection.find(
+                and(
+                        exists("id"),
+                        eq("uploadId", uploadId)
+                ));
+
+        Iterator iterator = plants.iterator();
+        CommentWriter commentWriter = new CommentWriter(outputStream);
+
+        while(iterator.hasNext()){
+            Document current = (Document) iterator.next();
+
+            String likes = current.get("likes").toString();
+            System.out.println("I am here @ likes");
+            String dislikes = current.get("dislikes").toString();
+            System.out.println("I am here @ dislikes");
+            String pageViews = current.get("pageViews").toString();
+            System.out.println("I am here @ pageviews");
+            String toWrite = "likes: " + likes + " dislikes: " + dislikes + " page views: " + pageViews;
+
+            System.out.println(toWrite);
+            commentWriter.writeComment(current.getString("id"),
+                    toWrite,
+                    ((ObjectId) current.get("_id")).getDate());
+            System.out.println("I am here @ the end");
+        }
+        commentWriter.complete();
     }
 
     /**
