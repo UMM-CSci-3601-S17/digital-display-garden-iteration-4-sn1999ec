@@ -14,10 +14,8 @@ public class GraphController {
 
     MongoClient mongoClient = new MongoClient(); // Defaults!
     private final MongoCollection<Document> plantCollection;
-    private final MongoCollection<Document> commentCollection;
-    private final MongoCollection<Document> configCollection;
-    String dbName;
     private final MongoCollection<Document> graphInfoCollection;
+    String dbName;
 
     public GraphController(String databaseName) throws IOException {
         // Set up our server address
@@ -31,8 +29,6 @@ public class GraphController {
         MongoDatabase db = mongoClient.getDatabase(databaseName);
 
         plantCollection = db.getCollection("plants");
-        commentCollection = db.getCollection("comments");
-        configCollection = db.getCollection("config");
         graphInfoCollection = db.getCollection("graphData");
         dbName = databaseName;
 
