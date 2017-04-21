@@ -438,7 +438,11 @@ public class PlantController {
         return null != plantCollection.findOneAndUpdate(filterDoc, push("metadata.visits", visit));
     }
 
-    public int numericPrefix(String bed) {
+    public Integer numericPrefix(String bed) {
+        if (bed.charAt(0) > '9' || bed.charAt(0) < '0'){
+            return null;
+        }
+
         int n = 0;
         for (int i = 0; i < bed.length(); i++) {
             char character = bed.charAt(i);
@@ -460,7 +464,9 @@ public class PlantController {
         public int compare(Document bedDoc1, Document bedDoc2) {
             String bed1 = bedDoc1.getString("_id");
             String bed2 = bedDoc2.getString("_id");
-            if (numericPrefix(bed1) == numericPrefix(bed2)) {
+            Integer bed1Num = numericPrefix(bed1);
+            Integer bed2Num = numericPrefix(bed2);
+            if (bed1Num == null || bed2Num == null || bed1Num == bed2Num) {
                 return bed1.compareTo(bed2);
             } else {
                 return numericPrefix(bed1) - numericPrefix(bed2);
@@ -479,9 +485,11 @@ public class PlantController {
             String name2 = plantDoc2.getString("commonName");
             String cultivar1 = plantDoc1.getString("cultivar");
             String cultivar2 = plantDoc2.getString("cultivar");
+            Integer bed1Num = numericPrefix(bed1);
+            Integer bed2Num = numericPrefix(bed2);
 
             if (!bed1.equals(bed2)) {
-                if (numericPrefix(bed1) == numericPrefix(bed2)) {
+                if (bed1Num == null || bed2Num == null || bed1Num == bed2Num) {
                     return bed1.compareTo(bed2);
                 } else {
                     return numericPrefix(bed1) - numericPrefix(bed2);
