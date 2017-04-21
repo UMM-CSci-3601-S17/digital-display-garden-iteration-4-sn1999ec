@@ -19,54 +19,65 @@ import static com.mongodb.client.model.Projections.include;
 
 public class Admin {
 
-    private MongoCollection<Document> adminCollection;
-    private static String databaseName = "testAdmin";
+    private MongoCollection adminCollection;
+    private static String databaseName = "test";
     private Boolean passwordIsCorrect = false;
 
 
 
-    public void CreateDatabase(){
+    public void CreateDatabase() throws NoSuchAlgorithmException{
         MongoClient mongoClient = new MongoClient();
         MongoDatabase db = mongoClient.getDatabase(databaseName);
         this.adminCollection = db.getCollection("admin");
+        adminCollection.drop();
 
+        Document doc1 = new Document();
+        doc1.append("salt", "SaltSaltSaltySalt");
 
-        String [] check = new String [2];
-        check[0] = "hashHashHash";
-        check[1] = "SaltSaltSaltySalt";
+        adminCollection.insertOne(doc1);
 
+        Document doc2 = new Document();
+        doc2.append("hashCode", hashThing("passwordToBeHashed"));
 
-        Document doc = new Document();
-        doc.append("hashCode", check[0]);
-        doc.append("salt", check[1]);
-
-        adminCollection.insertOne(doc);
+        adminCollection.insertOne(doc2);
 
     }
 
 
     public boolean checkPassword(String password) throws NoSuchAlgorithmException{
+        FindIterable<Document> adminIterable;
+        String checkAgainst = null;
+
+        String hashedPasswordString = hashThing(password);
+
+        try {
+            adminIterable = adminCollection.find();
+
+            for (Document doc : adminIterable){
+                if (doc.getString("hashCode") != null){
+                    checkAgainst = doc.getString("hashCode");
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            checkAgainst = "null";
+        }
 
 
-        FindIterable<Document> jsonPlant;
+        this.passwordIsCorrect = checkAgainst.equals(hashedPasswordString);
+
+        return this.passwordIsCorrect;
+    }
+
+    public String hashThing(String password) throws NoSuchAlgorithmException{
+        FindIterable<Document> adminIterable;
         String salt;
-        String checked;
         try {
 
-            jsonPlant = adminCollection.find().projection(fields(include("hashCode")));
-
-            Iterator<Document> iterator = jsonPlant.iterator();
-
-            if (iterator.hasNext()) {
-                salt = iterator.next().toJson();
-            } else {
-                salt = "null";
-            }
-
+            adminIterable = adminCollection.find();
+            salt = adminIterable.first().getString("salt");
         } catch (IllegalArgumentException e) {
-           salt = "null";
+            salt = "null";
         }
-        System.out.println(salt);
 
         MessageDigest md = MessageDigest.getInstance("SHA");
         String toHash = password.concat(salt);
@@ -74,26 +85,7 @@ public class Admin {
         byte [] hashedPassword = md.digest(hashAsBytes);
         String hashedPasswordString = new String(hashedPassword);
 
-        try {
+        return hashedPasswordString;
 
-            jsonPlant = adminCollection.find().projection(fields(include("salt")));
-
-            Iterator<Document> iterator = jsonPlant.iterator();
-
-            if (iterator.hasNext()) {
-               checked = iterator.next().toJson();
-            } else {
-                checked = "null";
-            }
-
-        } catch (IllegalArgumentException e) {
-            checked = "null";
-        }
-
-        System.out.println(checked);
-
-        this.passwordIsCorrect = checked.equals(hashedPasswordString);
-
-        return this.passwordIsCorrect;
     }
 }
