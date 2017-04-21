@@ -32,7 +32,7 @@ public class Server {
 
         //Note: This keystore is stolen from Spark's FAQ. We need to create our own at some point
         //and get it signed by a trusted authority.
-        secure("deploy/keystore.jks", "password", null, null);
+        secure("keystore.jks", "password", null, null);
 
         port(2538);
 
