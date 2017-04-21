@@ -51,8 +51,9 @@ export class GraphComponent {
             ['9', 0, 0]],
         options: {
             title: 'Bed Information',
-            width: 1500,
-            height: 1000
+            width: 1200,
+            height: 800,
+
         }
     };
 
