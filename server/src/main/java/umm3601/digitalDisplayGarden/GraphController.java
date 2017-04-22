@@ -5,6 +5,7 @@ import com.mongodb.MongoClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.mongodb.client.*;
+import com.mongodb.util.JSON;
 import org.bson.Document;
 import java.util.Iterator;
 import java.io.IOException;
@@ -124,10 +125,14 @@ public class GraphController {
         return makeJSON(dataTable);
     }
 
-    public String getDataForOneBed(String uploadid, String gardenLocation){
-        FindIterable<Document> matchingInfo = graphInfoCollection.find(new Document("gardenLocation", gardenLocation));
+    public String getDataForOneBed(String gardenLocation){
+        Document filter = new Document();
+        filter.append("gardenLocation", gardenLocation);
+        FindIterable<Document> matchingInfo = graphInfoCollection.find(filter);
+        System.out.println(JSON.serialize(matchingInfo));
         Iterator iterator = matchingInfo.iterator();
         ArrayList<Document> info = new ArrayList<>();
+        System.out.println("does it have next? " + iterator.hasNext());
 
         while(iterator.hasNext()){
             Document current = (Document) iterator.next();

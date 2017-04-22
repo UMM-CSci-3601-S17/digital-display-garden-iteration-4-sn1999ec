@@ -59,17 +59,18 @@ public class GraphControllerTests {
         assertEquals(cultivars[1], expected2);
     }
 
-//    @Test
-//    public void getDataForOneBedTest() {
-//        String json = graphController.getDataForOneBed("second uploadId","7.0");
-//        System.out.println(json);
-//        String notExpected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,1]]";
-//        String expected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,0]]";
-//
-//        Assert.assertNotEquals(json,notExpected);
-//        assertEquals(json,expected);
-//
-//    }
+    @Test
+    public void getDataForOneBedTest() {
+        graphInfoCollection.drop();
+        graphController.postData("second uploadId");
+        String json = graphController.getDataForOneBed("7.0");
+        String notExpected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,1]]";
+        String expected = "[[\"Cultivar\",\"Likes\",\"Dislikes\",\"Views\"],[\"Jolt™ Pink F1\",0,0,0]]";
+
+        Assert.assertNotEquals(json,notExpected);
+        assertEquals(json,expected);
+
+    }
 
     @Test
     public void makeJSONTest(){
