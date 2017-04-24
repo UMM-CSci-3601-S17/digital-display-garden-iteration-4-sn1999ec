@@ -20,7 +20,7 @@ export class PlantService {
      * @returns {Observable<Plant>}
      */
     getFlowerById(id: string): Observable<Plant> {
-        return this.http.request(this.plantUrl + "/" + id).map(res => res.json());
+        return this.http.get(this.plantUrl + "/" + id).map(res => res.json());
     }
 
     /**
@@ -35,7 +35,7 @@ export class PlantService {
             id: id,
             like: like
         };
-        return this.http.post(this.plantUrl + "/" + "rate", JSON.stringify(returnObject)).map(res => res.json());
+        return this.http.post(this.plantUrl + "/rate", JSON.stringify(returnObject)).map(res => res.json());
     }
 
     /**
@@ -59,6 +59,6 @@ export class PlantService {
      */
     getFeedbackForPlantByPlantID(id: string): Observable<PlantFeedback> {
         //console.log(this.plantUrl + "/" + id + "/counts");
-        return this.http.request(this.plantUrl + "/" + id + "/counts").map(res => res.json());
+        return this.http.get(this.plantUrl + "/" + id + "/counts").map(res => res.json());
     }
 }

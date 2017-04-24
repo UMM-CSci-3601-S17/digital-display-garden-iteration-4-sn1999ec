@@ -1,7 +1,3 @@
-/**
- * Created by saliy002 on 4/9/17.
- */
-
 import {Component} from "@angular/core";
 import {Plant} from "./plant";
 import {PlantService} from "./plant.service";
@@ -70,7 +66,7 @@ export class PlantComponent {
      */
     public comment(comment: string): void {
         if(!this.commented){
-            if(comment != null) {
+            if(comment != null && comment != "") {
                 this.plantService.commentPlant(this.plant["_id"]["$oid"], comment)
                     .subscribe(succeeded => {
                         this.commented = succeeded;
