@@ -9,6 +9,12 @@ import { AdminService } from './admin.service';
 
 export class ImportComponent implements OnInit {
 
+    private hasCookie: boolean;
+
+    constructor(private adminService: AdminService){
+
+    }
+
     @ViewChild('fu') fu;
     @ViewChild('fubar') fubar;
 
@@ -44,6 +50,7 @@ export class ImportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
+        this.adminService.checkHasCookie()
+            .subscribe(result => this.hasCookie = result, err => console.log(err));
     }
 }

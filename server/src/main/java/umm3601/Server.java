@@ -69,7 +69,11 @@ public class Server {
             return "OK";
         });
 
-        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Credentials", "true");
+            response.header("Access-Control-Allow-Origin", "http://localhost:9000");
+            //Change 9000 to https://[droplet-ip-address]:2538 for production mode
+        });
 
         // Redirects for the "home" page
         redirect.get("", "/");
@@ -79,11 +83,14 @@ public class Server {
             return IOUtils.toString(stream);
         };
 
-        get("/", clientRoute);
+        //get("/", clientRoute);
 
         // log in admin
         post("api/logIn", (req, res) ->{
             res.type("application/json");
+            if (admin.checkPassword(req.body())){
+                res.cookie("authentication", admin.getBigInt().toString(), 3600);
+            }
             return admin.checkPassword(req.body());
         });
 
@@ -117,16 +124,16 @@ public class Server {
         // Post Data
         get("api/postData", (req, res) -> {
             res.type("application/json");
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication")) ) {
                 return graphController.postData(plantController.getLiveUploadId());
-            } else{
+            } else {
                 return null;
             }
         });
 
         get("api/getData", (req, res) -> {
             res.type("application/json");
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
                 return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
             } else {
                 return null;
@@ -164,7 +171,7 @@ public class Server {
         });
 
         get("api/export", (req, res) -> {
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
                 res.type("application/vnd.ms-excel");
                 res.header("Content-Disposition", "attachment; filename=\"plant-comments.xlsx\"");
                 // Note that after flush() or close() is called on
@@ -179,7 +186,7 @@ public class Server {
         });
 
         get("api/exportFeedback", (req, res) -> {
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
                 res.type("application/vnd.ms-excel");
                 res.header("Content-Disposition", "attachment; filename=\"plant-feedback.xlsx\"");
                 // Note that after flush() or close() is called on
@@ -201,7 +208,7 @@ public class Server {
 
 
         get("api/qrcodes", (req, res) -> {
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
                 res.type("application/zip");
 
                 String liveUploadID = plantController.getLiveUploadId();
@@ -237,7 +244,7 @@ public class Server {
 
         // Accept an xls file
         post("api/import", (req, res) -> {
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
 
                 res.type("application/json");
                 try {
@@ -265,9 +272,15 @@ public class Server {
 
         });
 
+        //check the cookie
+        get("api/checkCookie", (req, res) -> {
+            System.out.println("I got here 1");
+            return admin.checkCookie(req.cookie("authentication"));
+        });
+
         // Accept an xls file
         post("api/updateData", (req, res) -> {
-            if (admin.passwordIsCorrect) {
+            if (admin.checkCookie(req.cookie("authentication"))) {
 
                 res.type("application/json");
                 try {

@@ -7,14 +7,17 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import javax.xml.bind.DatatypeConverter;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
+import java.util.Random;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
+
 
 
 public class Admin {
@@ -112,5 +115,35 @@ public class Admin {
         doc.append("hashCode", hashedPasswordString);
 //        adminCollection.findOneAndReplace("hashCode", doc);
         return false;
+    }
+
+    public BigInteger getBigInt(){
+        Random rand = new Random();
+        BigInteger bigInt = new BigInteger(1024, rand);
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection cookies = db.getCollection("cookies");
+        Document doc = new Document("number", bigInt.toString());
+        doc.append("expires", 3600);
+        cookies.insertOne(doc);
+
+        return bigInt;
+    }
+
+    public boolean checkCookie(String bigInt){
+        if (bigInt == null){
+            return false;
+        }
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection cookies = db.getCollection("cookies");
+
+        Document filter = new Document("number", bigInt);
+
+        if (cookies.count(filter) > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

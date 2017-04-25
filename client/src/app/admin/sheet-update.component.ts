@@ -21,7 +21,7 @@ export class SheetUpdateComponent {
             for (let i = 0; i < fileCount; i++) {
                 formData.append('file[]', inputEl.files.item(i));
             }
-            return this.http.post(API_URL + "updateData", formData);
+            return this.http.post(API_URL + "updateData", formData, {withCredentials: true});
         }
     }
 }

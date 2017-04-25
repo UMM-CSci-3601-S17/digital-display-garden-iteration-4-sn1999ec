@@ -9,7 +9,7 @@
 </style>
 
 <navbar-component></navbar-component>
-
+<div *ngIf="hasCookie">
 <h2>Administrator Tasks</h2><hr>
 
 
@@ -38,3 +38,7 @@
     <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
     View Charts
 </button>
+</div>
+<div *ngIf="!hasCookie">
+<login-component></login-component>
+</div>

@@ -15,6 +15,7 @@ export class ExportComponent implements OnInit {
 
     private uploadIds: string[];
     private liveUploadId: string;
+    private hasCookie: boolean;
 
     constructor(private adminService: AdminService) {
 
@@ -25,5 +26,8 @@ export class ExportComponent implements OnInit {
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getLiveUploadId()
             .subscribe(result => this.liveUploadId = result, err => console.log(err));
+        this.adminService.checkHasCookie()
+            .subscribe(result => this.hasCookie = result, err => console.log(err));
     }
+
 }
