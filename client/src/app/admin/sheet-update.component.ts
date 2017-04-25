@@ -2,6 +2,7 @@
 //Thanks Brother Woodrow!
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
+import { SheetListService } from "./sheet-update.service"
 
 @Component({
     selector: 'sheet-update',
@@ -10,6 +11,8 @@ import { Http } from '@angular/http';
 export class SheetUpdateComponent {
     @Input() multiple: boolean = false;
     @ViewChild('fileInput') inputEl: ElementRef;
+
+    updated: boolean = false;
 
     constructor(private http: Http) {}
 
@@ -21,6 +24,8 @@ export class SheetUpdateComponent {
             for (let i = 0; i < fileCount; i++) {
                 formData.append('file[]', inputEl.files.item(i));
             }
+
+            this.updated = true;
             return this.http.post(API_URL + "updateData", formData);
         }
     }
