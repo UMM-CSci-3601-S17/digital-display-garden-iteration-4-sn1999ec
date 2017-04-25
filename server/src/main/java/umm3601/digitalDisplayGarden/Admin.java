@@ -21,7 +21,7 @@ public class Admin {
 
     private MongoCollection adminCollection;
     private static String databaseName = "test";
-    private Boolean passwordIsCorrect = false;
+    public Boolean passwordIsCorrect = false;
 
 
 
@@ -47,7 +47,6 @@ public class Admin {
     public boolean checkPassword(String password) throws NoSuchAlgorithmException{
         FindIterable<Document> adminIterable;
         String checkAgainst = null;
-
         String hashedPasswordString = hashThing(password);
 
         try {
@@ -87,5 +86,31 @@ public class Admin {
 
         return hashedPasswordString;
 
+    }
+
+    public Boolean changePassword(String newPassword) throws NoSuchAlgorithmException{
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        this.adminCollection = db.getCollection("admin");
+
+        FindIterable<Document> adminIterable;
+        String salt;
+        try {
+
+            adminIterable = adminCollection.find();
+            salt = adminIterable.first().getString("salt");
+        } catch (IllegalArgumentException e) {
+            salt = "null";
+        }
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        String toHash = newPassword.concat(salt);
+        byte [] hashAsBytes = DatatypeConverter.parseBase64Binary(toHash);
+        byte [] hashedPassword = md.digest(hashAsBytes);
+        String hashedPasswordString = new String(hashedPassword);
+
+        Document doc = new Document();
+        doc.append("hashCode", hashedPasswordString);
+//        adminCollection.findOneAndReplace("hashCode", doc);
+        return false;
     }
 }

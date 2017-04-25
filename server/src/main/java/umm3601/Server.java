@@ -6,6 +6,7 @@ import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
 import umm3601.digitalDisplayGarden.GraphController;
 import umm3601.digitalDisplayGarden.PlantController;
+import umm3601.digitalDisplayGarden.Admin;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,7 +17,6 @@ import static spark.Spark.*;
 
 import umm3601.digitalDisplayGarden.ExcelParser;
 import umm3601.digitalDisplayGarden.QRCodes;
-import umm3601.digitalDisplayGarden.Admin;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
@@ -29,6 +29,7 @@ public class Server {
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
+
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
@@ -80,6 +81,12 @@ public class Server {
 
         get("/", clientRoute);
 
+        // log in admin
+        post("api/logIn", (req, res) ->{
+            res.type("application/json");
+            return admin.checkPassword(req.body());
+        });
+
         // List plants
         get("api/plants", (req, res) -> {
             res.type("application/json");
@@ -110,12 +117,20 @@ public class Server {
         // Post Data
         get("api/postData", (req, res) -> {
             res.type("application/json");
-            return graphController.postData(plantController.getLiveUploadId());
+            if (admin.passwordIsCorrect) {
+                return graphController.postData(plantController.getLiveUploadId());
+            } else{
+                return null;
+            }
         });
 
         get("api/getData", (req, res) -> {
             res.type("application/json");
-            return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+            if (admin.passwordIsCorrect) {
+                return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+            } else {
+                return null;
+            }
         });
 
         get("api/getBedData/:location", (req, res) -> {
@@ -149,25 +164,33 @@ public class Server {
         });
 
         get("api/export", (req, res) -> {
-            res.type("application/vnd.ms-excel");
-            res.header("Content-Disposition", "attachment; filename=\"plant-comments.xlsx\"");
-            // Note that after flush() or close() is called on
-            // res.raw().getOutputStream(), the response can no longer be
-            // modified. Since writeComments(..) closes the OutputStream
-            // when it is done, it needs to be the last line of this function.
-            plantController.writeComments(res.raw().getOutputStream(), req.queryMap().toMap().get("uploadId")[0]);
-            return res;
+            if (admin.passwordIsCorrect) {
+                res.type("application/vnd.ms-excel");
+                res.header("Content-Disposition", "attachment; filename=\"plant-comments.xlsx\"");
+                // Note that after flush() or close() is called on
+                // res.raw().getOutputStream(), the response can no longer be
+                // modified. Since writeComments(..) closes the OutputStream
+                // when it is done, it needs to be the last line of this function.
+                plantController.writeComments(res.raw().getOutputStream(), req.queryMap().toMap().get("uploadId")[0]);
+                return res;
+            } else {
+                return null;
+            }
         });
 
         get("api/exportFeedback", (req, res) -> {
-            res.type("application/vnd.ms-excel");
-            res.header("Content-Disposition", "attachment; filename=\"plant-feedback.xlsx\"");
-            // Note that after flush() or close() is called on
-            // res.raw().getOutputStream(), the response can no longer be
-            // modified. Since writeComments(..) closes the OutputStream
-            // when it is done, it needs to be the last line of this function.
-            plantController.writeFeedback(res.raw().getOutputStream(), req.queryMap().toMap().get("uploadId")[0]);
-            return res;
+            if (admin.passwordIsCorrect) {
+                res.type("application/vnd.ms-excel");
+                res.header("Content-Disposition", "attachment; filename=\"plant-feedback.xlsx\"");
+                // Note that after flush() or close() is called on
+                // res.raw().getOutputStream(), the response can no longer be
+                // modified. Since writeComments(..) closes the OutputStream
+                // when it is done, it needs to be the last line of this function.
+                plantController.writeFeedback(res.raw().getOutputStream(), req.queryMap().toMap().get("uploadId")[0]);
+                return res;
+            } else {
+                return null;
+            }
         });
 
         get("api/liveUploadId", (req, res) -> {
@@ -178,28 +201,32 @@ public class Server {
 
 
         get("api/qrcodes", (req, res) -> {
-            res.type("application/zip");
+            if (admin.passwordIsCorrect) {
+                res.type("application/zip");
 
-            String liveUploadID = plantController.getLiveUploadId();
-            System.err.println("liveUploadID=" + liveUploadID);
-            String zipPath = QRCodes.CreateQRCodesFromAllBeds(
-                    liveUploadID,
-                    plantController.getGardenLocations(liveUploadID),
-                    API_URL + "/");
-            System.err.println(zipPath);
-            if(zipPath == null)
+                String liveUploadID = plantController.getLiveUploadId();
+                System.err.println("liveUploadID=" + liveUploadID);
+                String zipPath = QRCodes.CreateQRCodesFromAllBeds(
+                        liveUploadID,
+                        plantController.getGardenLocations(liveUploadID),
+                        API_URL + "/");
+                System.err.println(zipPath);
+                if (zipPath == null)
+                    return null;
+
+                res.header("Content-Disposition", "attachment; filename=\"" + zipPath + "\"");
+
+                //Get bytes from the file
+                File zipFile = new File(zipPath);
+                byte[] bytes = spark.utils.IOUtils.toByteArray(new FileInputStream(zipFile));
+
+                //Delete local .zip file
+                Files.delete(Paths.get(zipPath));
+
+                return bytes;
+            } else {
                 return null;
-
-            res.header("Content-Disposition","attachment; filename=\"" + zipPath + "\"");
-
-            //Get bytes from the file
-            File zipFile = new File(zipPath);
-            byte[] bytes = spark.utils.IOUtils.toByteArray(new FileInputStream(zipFile));
-
-            //Delete local .zip file
-            Files.delete(Paths.get(zipPath));
-
-            return bytes;
+            }
         });
 
         // Posting a comment
@@ -210,53 +237,61 @@ public class Server {
 
         // Accept an xls file
         post("api/import", (req, res) -> {
+            if (admin.passwordIsCorrect) {
 
-            res.type("application/json");
-            try {
+                res.type("application/json");
+                try {
 
-                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
-                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+                    MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
+                    req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
 
-                String fileName = Long.valueOf(System.currentTimeMillis()).toString();
-                Part part = req.raw().getPart("file[]");
+                    String fileName = Long.valueOf(System.currentTimeMillis()).toString();
+                    Part part = req.raw().getPart("file[]");
 
-                ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
+                    ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
 
-                String id = ExcelParser.getAvailableUploadId();
-                parser.parseExcel(id);
+                    String id = ExcelParser.getAvailableUploadId();
+                    parser.parseExcel(id);
 
-                return JSON.serialize(id);
+                    return JSON.serialize(id);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            } else {
+                return null;
             }
 
         });
 
         // Accept an xls file
         post("api/updateData", (req, res) -> {
+            if (admin.passwordIsCorrect) {
 
-            res.type("application/json");
-            try {
+                res.type("application/json");
+                try {
 
-                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
-                req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+                    MultipartConfigElement multipartConfigElement = new MultipartConfigElement(excelTempDir);
+                    req.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
 
-                String fileName = Long.valueOf(System.currentTimeMillis()).toString();
-                Part part = req.raw().getPart("file[]");
+                    String fileName = Long.valueOf(System.currentTimeMillis()).toString();
+                    Part part = req.raw().getPart("file[]");
 
-                ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
+                    ExcelParser parser = new ExcelParser(part.getInputStream(), databaseName);
 
-                String id = ExcelParser.getAvailableUploadId();
-                String currentId = plantController.getLiveUploadId();
-                parser.parseUpdatedSpreadsheet(id, currentId);
+                    String id = ExcelParser.getAvailableUploadId();
+                    String currentId = plantController.getLiveUploadId();
+                    parser.parseUpdatedSpreadsheet(id, currentId);
 
-                return JSON.serialize(id);
+                    return JSON.serialize(id);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            } else {
+                return null;
             }
 
         });
