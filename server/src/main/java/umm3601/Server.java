@@ -1,6 +1,5 @@
 package umm3601;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
@@ -115,7 +114,7 @@ public class Server {
 
         get("api/getData", (req, res) -> {
             res.type("application/json");
-            return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+            return graphController.getDataForAllBeds();
         });
 
         get("api/getBedData/:location", (req, res) -> {
