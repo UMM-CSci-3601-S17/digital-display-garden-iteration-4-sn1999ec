@@ -35,7 +35,11 @@ public class GraphController {
 
     }
 
-
+    /**
+     *
+     * @param uploadId
+     * @return
+     */
     public String postData(String uploadId) {
         Document filterDoc = new Document();
         filterDoc.append("uploadId", uploadId);
@@ -83,7 +87,11 @@ public class GraphController {
         return "posted";
     }
 
-    public String getLikeDataForAllPlants(String uploadId) {
+    /**
+     *
+     * @return
+     */
+    public String getDataForAllBeds() {
         ArrayList<String> beds = new ArrayList<>();
         FindIterable<Document> allData = graphInfoCollection.find();
         Iterator iterator = allData.iterator();
@@ -103,6 +111,7 @@ public class GraphController {
         dataTable[0][1] = "Likes";
         dataTable[0][2] = "Dislikes";
         dataTable[0][3] = "Visits";
+
         int dataCounter = 1;
         for (int i = 0; i < beds.size(); i++) {
             FindIterable<Document> currentBedMembers = graphInfoCollection.find(new Document("gardenLocation", beds.get(i)));
@@ -125,6 +134,11 @@ public class GraphController {
         return makeJSON(dataTable);
     }
 
+    /**
+     *
+     * @param gardenLocation
+     * @return
+     */
     public String getDataForOneBed(String gardenLocation){
         Document filter = new Document();
         filter.append("gardenLocation", gardenLocation);
@@ -155,6 +169,11 @@ public class GraphController {
         return makeJSON(dataTable);
     }
 
+    /**
+     *
+     * @param in
+     * @return
+     */
     //taken from revolverenguardia
     public String makeJSON(Object[][] in) {
         JsonArray outerArray = new JsonArray();
