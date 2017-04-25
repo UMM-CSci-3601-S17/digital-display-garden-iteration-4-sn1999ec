@@ -32,4 +32,9 @@ export class AdminService {
         console.log(API_URL + "/getBedData/" + bed);
         return this.http.request(API_URL + "getBedData/" + bed).map(res => res.json());
     }
+
+    authorized(): Observable<boolean> {
+        return this.http.request(this.url + "testAuth", {withCredentials: true}).map(res => res.json().authorized);
+    }
+
 }

@@ -1,6 +1,7 @@
 package umm3601;
 
 import com.sun.corba.se.impl.orbutil.graph.Graph;
+import org.bson.Document;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
@@ -63,7 +64,11 @@ public class Server {
             return "OK";
         });
 
-        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Credentials", "true");
+            response.header("Access-Control-Allow-Origin", "http://localhost:9000");
+            //Change 9000 to https://[droplet-ip-address]:2538 for production mode
+        });
 
         // Redirects for the "home" page
         redirect.get("", "/");
@@ -244,7 +249,21 @@ public class Server {
             }
 
         });
-//        get("api/bed/*")
+//        get("api/bed/*");
+
+        get("testCookie", (req, res) -> {
+            res.cookie("ddg", "true", 20000);
+            return "TESTING COOKIES";
+        });
+
+        get("api/testAuth", (req, res) -> {
+            res.type("application/json");
+            String cookie = req.cookie("ddg");
+            Document returnDoc = new Document();
+            System.out.println(cookie);
+            returnDoc.append("authorized", cookie.equals("true"));
+            return JSON.serialize(returnDoc);
+        });
 
         get("/*", clientRoute);
 

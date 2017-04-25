@@ -10,8 +10,15 @@ import {AdminService} from "./admin.service";
 export class AdminComponent implements OnInit {
     url : String = API_URL;
     private post : string;
+    private boole: boolean = false;
     constructor(private adminService: AdminService) {
 
+    }
+
+    checkAuth() {
+        console.log(this.adminService.authorized()
+            .subscribe(result => this.boole = result,
+                err => console.log(err)));
     }
 
     ngOnInit(): void {
