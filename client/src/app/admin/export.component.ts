@@ -13,18 +13,23 @@ export class ExportComponent implements OnInit {
 
     private exportFeedbackUrl: string = API_URL + "exportFeedback?uploadId="
 
-    private uploadIds: string[];
-    private liveUploadId: string;
+    uploadIds: string[];
+    liveUploadId: string;
 
-    constructor(private adminService: AdminService) {
+    constructor(public adminService: AdminService) {
 
     }
 
     ngOnInit(): void {
         this.adminService.getUploadIds()
-            .subscribe(result => this.uploadIds = result, err => console.log(err));
+            .subscribe(result => {
+                this.uploadIds = result;
+            }, err => console.log(err));
+
         this.adminService.getLiveUploadId()
-            .subscribe(result => this.liveUploadId = result, err => console.log(err));
+            .subscribe(result => {
+                this.liveUploadId = result;
+            }, err => console.log(err));
     }
 }
 
