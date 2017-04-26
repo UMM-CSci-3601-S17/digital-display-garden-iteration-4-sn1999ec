@@ -115,7 +115,6 @@ public class Server {
         get("api/plants/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
-            System.out.println("ID = " + id);
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
         });
 
@@ -244,7 +243,6 @@ public class Server {
         // Posting a comment
         post("api/plants/leaveComment", (req, res) -> {
             res.type("application/json");
-            System.out.println("Got to api endpoint");
             return plantController.storePlantComment(req.body(), plantController.getLiveUploadId());
         });
 

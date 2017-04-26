@@ -243,13 +243,11 @@ public class PlantController {
      */
 
     public boolean storePlantComment(String json, String uploadID) {
-        System.out.println("Got to storePlantComment");
 
         try {
 
             Document toInsert = new Document();
             Document parsedDocument = Document.parse(json);
-            System.out.println(parsedDocument);
 
             if (parsedDocument.containsKey("plantId") && parsedDocument.get("plantId") instanceof String) {
 
@@ -328,21 +326,12 @@ public class PlantController {
             Document current = (Document) iterator.next();
 
             String likes = current.get("likes").toString();
-            System.out.println("I am here @ likes");
             String dislikes = current.get("dislikes").toString();
-            System.out.println("I am here @ dislikes");
             String pageViews = current.get("pageViews").toString();
-            System.out.println("I am here @ pageviews");
             String toWrite = "likes: " + likes + " dislikes: " + dislikes + " page views: " + pageViews;
-
-            System.out.println(toWrite);
 
             commentWriter.writeFeedback(current.getString("id"), current.getString("commonName"),
                     current.getString("cultivar"), likes, dislikes, pageViews);
-//            commentWriter.writeComment(current.getString("id"),
-//                    toWrite,
-//                    ((ObjectId) current.get("_id")).getDate());
-            System.out.println("I am here @ the end");
         }
         commentWriter.complete();
     }
