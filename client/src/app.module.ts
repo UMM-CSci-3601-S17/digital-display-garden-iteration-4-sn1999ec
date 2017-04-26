@@ -27,6 +27,7 @@ import { PlantService} from "./app/garden/plants/plant.service";
 import {SearchService} from "./app/search/search.service";
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import {GraphComponent} from "./app/admin/google-charts.component";
+import {PasswordChangeComponent} from "./app/admin/passwordChange.component";
 
 
 
@@ -60,7 +61,8 @@ import {GraphComponent} from "./app/admin/google-charts.component";
         SheetUpdateComponent,
         SearchComponent,
         GraphComponent,
-        LoginComponent
+        LoginComponent,
+        PasswordChangeComponent
     ],
     providers: [ AdminService, BedListService, PlantService, SearchService ],
     bootstrap: [ AppComponent ]

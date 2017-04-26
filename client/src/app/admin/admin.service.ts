@@ -38,4 +38,7 @@ export class AdminService {
     checkHasCookie(): Observable<boolean> {
         return this.http.request(this.url + "checkCookie", {withCredentials: true}).map(res => res.json());
     }
+    changePassword(newPassword: String): Observable<boolean> {
+        return this.http.post(this.url + "newPass", newPassword, {withCredentials: true}).map(res => res.json());
+    }
 }

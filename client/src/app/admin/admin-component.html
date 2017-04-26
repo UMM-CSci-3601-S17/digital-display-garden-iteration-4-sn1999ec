@@ -11,6 +11,7 @@
 <navbar-component></navbar-component>
 <div *ngIf="hasCookie">
 <h2>Administrator Tasks</h2><hr>
+    <button [routerLink]="['/admin/newPass']" class="btn">Change Password</button><br><br>
 
 
 <button type="button" class="btn btn-primary btn-lg" [routerLink]="['/admin/importData']">

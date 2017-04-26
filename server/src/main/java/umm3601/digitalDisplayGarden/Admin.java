@@ -34,15 +34,12 @@ public class Admin {
         this.adminCollection = db.getCollection("admin");
         adminCollection.drop();
 
-        Document doc1 = new Document();
-        doc1.append("salt", "SaltSaltSaltySalt");
+        Document doc = new Document();
 
-        adminCollection.insertOne(doc1);
+        doc.append("salt", "SaltSaltSaltySalt");
+        doc.append("hashCode", hashFirst("passwordToBeHashed".concat("SaltSaltSaltySalt")));
 
-        Document doc2 = new Document();
-        doc2.append("hashCode", hashThing("passwordToBeHashed"));
-
-        adminCollection.insertOne(doc2);
+        adminCollection.insertOne(doc);
 
     }
 
@@ -70,6 +67,18 @@ public class Admin {
         return this.passwordIsCorrect;
     }
 
+
+    public String hashFirst(String password) throws NoSuchAlgorithmException{
+
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        byte [] hashAsBytes = DatatypeConverter.parseBase64Binary(password);
+        byte [] hashedPassword = md.digest(hashAsBytes);
+        String hashedPasswordString = new String(hashedPassword);
+
+        return hashedPasswordString;
+
+    }
+
     public String hashThing(String password) throws NoSuchAlgorithmException{
         FindIterable<Document> adminIterable;
         String salt;
@@ -95,6 +104,7 @@ public class Admin {
         MongoClient mongoClient = new MongoClient();
         MongoDatabase db = mongoClient.getDatabase(databaseName);
         this.adminCollection = db.getCollection("admin");
+        String hashedPasswordString = hashThing(newPassword);
 
         FindIterable<Document> adminIterable;
         String salt;
@@ -105,15 +115,19 @@ public class Admin {
         } catch (IllegalArgumentException e) {
             salt = "null";
         }
-        MessageDigest md = MessageDigest.getInstance("SHA");
-        String toHash = newPassword.concat(salt);
-        byte [] hashAsBytes = DatatypeConverter.parseBase64Binary(toHash);
-        byte [] hashedPassword = md.digest(hashAsBytes);
-        String hashedPasswordString = new String(hashedPassword);
+//        MessageDigest md = MessageDigest.getInstance("SHA");
+//        String toHash = newPassword.concat(salt);
+//        byte [] hashAsBytes = DatatypeConverter.parseBase64Binary(toHash);
+//        byte [] hashedPassword = md.digest(hashAsBytes);
+//        String hashedPasswordString = new String(hashedPassword);
 
         Document doc = new Document();
+        doc.append("salt", salt);
         doc.append("hashCode", hashedPasswordString);
-//        adminCollection.findOneAndReplace("hashCode", doc);
+        FindIterable<Document> findIter = adminCollection.find();
+        adminCollection.drop();
+        adminCollection.insertOne(doc);
+
         return false;
     }
 

@@ -1,4 +1,14 @@
 <div>
     <input (input)="password = $event.target.value" type="password" name="password">
-    <button (click)='checkPassword(password)'>Login</button>
+    <button (click)='checkPassword(password)' class="btn">Login</button>
 </div>
+
+<style>
+    .btn {
+        background: gold;
+        color: maroon;
+        font-weight: bold;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+</style>

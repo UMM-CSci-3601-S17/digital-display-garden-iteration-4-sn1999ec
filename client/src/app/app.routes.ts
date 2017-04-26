@@ -7,6 +7,7 @@ import { ImportComponent } from "./admin/import.component";
 import { GardenComponent } from "./garden/garden-component";
 import { SearchComponent } from "./search/search.component";
 import {GraphComponent} from "./admin/google-charts.component";
+import {PasswordChangeComponent} from "./admin/passwordChange.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: 'admin/importData', component: ImportComponent},
     { path: 'search', component: SearchComponent},
     { path: 'admin/charts', component: GraphComponent},
+    {path: 'admin/newPass', component: PasswordChangeComponent},
     { path: '**', component: GardenComponent}
 
 ];
