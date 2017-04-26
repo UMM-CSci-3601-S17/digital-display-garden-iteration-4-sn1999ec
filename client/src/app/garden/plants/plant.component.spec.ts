@@ -124,6 +124,6 @@ describe("Plant component", () => {
     });
 
     it("Test: Refresh Feedback", () => {
-       expect(plantComponent.plantFeedback.plantrefresh).toBe("")
+       expect(plantComponent.plantFeedback.refreshfeedback).toBe("")
     });
 });
