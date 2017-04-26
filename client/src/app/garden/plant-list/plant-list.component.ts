@@ -2,9 +2,11 @@
  * Created by saliy002 on 4/9/17.
  */
 
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Plant} from "../plants/plant";
 import {PlantComponent} from "../plants/plant.component";
+import {Router} from "@angular/router";
+
 
 
 @Component({
@@ -13,14 +15,16 @@ import {PlantComponent} from "../plants/plant.component";
     providers: [PlantComponent]
 })
 
-export class PlantListComponent{
+export class PlantListComponent implements OnInit{
     public currentPlant: Plant;
     public plantNames: Plant[];
     public plant: Plant;
     private static plantListComponent: PlantListComponent;
-    private plantSelect: boolean = false;
+    public plantSelect: boolean = false;
+    private url: string = this.router.url;
 
-    constructor() {
+
+    constructor(public router: Router) {
         // Keep track of 'this' for static factory method
         PlantListComponent.plantListComponent = this;
     }
@@ -59,5 +63,20 @@ export class PlantListComponent{
         }
         console.log(tempNames);
         return tempNames;
+    }
+
+    ngOnInit(){
+        if(this.url.length > 2){
+            var i :number
+            var ID :string = "";
+            if(this.url.charAt(2) === '/'){i = 3}
+            if(this.url.charAt(3) === '/'){i = 4}
+            for(i; i<this.url.length;i++){
+                ID += this.url.charAt(i);
+            }
+            var plantComponent = PlantComponent.getInstance();
+            plantComponent.searchedFlower(ID);
+
+        }
     }
 }

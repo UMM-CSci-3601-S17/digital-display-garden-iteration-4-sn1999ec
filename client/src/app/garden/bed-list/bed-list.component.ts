@@ -58,8 +58,22 @@ export class BedListComponent implements OnInit {
             }
         );
 
+        /**
+         * Checks the current url and chose a bed according to it.
+         */
         if (this.url.length > 1) {
-            this.onSelectBed(new Bed(this.url.substr(1)));
+            var counter : number  = 0 ;
+            var result : string = "";
+            for(var i : number = 0; i < this.url.length; i++){
+                if(counter != 2) {
+                    if (this.url.charAt(i) === '/') {
+                        counter++
+                    } else if (this.url.charAt(i) !== '/') {
+                        result += this.url.charAt(i);
+                    }
+                }
+            }
+            this.onSelectBed(new Bed(result));
         }
     }
 }
