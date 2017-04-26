@@ -63,6 +63,7 @@ public class Admin {
 
 
         this.passwordIsCorrect = checkAgainst.equals(hashedPasswordString);
+        System.out.println(this.passwordIsCorrect+ "password is correct");
 
         return this.passwordIsCorrect;
     }
