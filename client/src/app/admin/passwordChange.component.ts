@@ -36,7 +36,6 @@ export class PasswordChangeComponent implements OnInit {
             if(passOld != "" && passOld != null){
                 this.adminService.authenticate(passOld).subscribe(bool => this.correctPass = bool);
                 if(pass1 === pass2 && this.correctPass) {
-                    console.log(this.adminService.authenticate(passOld));
                     this.changedPass = true;
                     this.adminService.changePassword(pass1)
                         .subscribe(result => {
