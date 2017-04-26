@@ -143,7 +143,7 @@ public class Server {
         get("api/getBedData/:location", (req, res) -> {
             res.type("application/json");
             String location = req.params("location");
-            return graphController.getDataForOneBed(plantController.getLiveUploadId(), location);
+            return graphController.getDataForOneBed(location);
         });
 
         //Get feedback counts for a plant
