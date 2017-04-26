@@ -6,12 +6,10 @@ export class PlantFeedback{
     commentCount:number;
      likeCount:number;
      dislikeCount:number;
-    refreshfeedback: string;
 
     constructor(){
         this.commentCount = 0;
         this.likeCount = 0;
         this.dislikeCount = 0;
-        this.refreshfeedback = "";
     }
 }
