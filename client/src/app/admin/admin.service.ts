@@ -31,4 +31,7 @@ export class AdminService {
     getInfoForOneBed(bed: string): Observable<any[][]> {
         return this.http.request(API_URL + "getBedData/" + bed).map(res => res.json());
     }
+    authorized() : Observable<boolean> {
+        return this.http.get(API_URL + "check-authorization").map(res => res.json().authorized);
+    }
 }
