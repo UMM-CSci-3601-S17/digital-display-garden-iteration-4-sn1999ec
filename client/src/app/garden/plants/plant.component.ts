@@ -14,6 +14,7 @@ export class PlantComponent {
     public currentPlant : Plant;
     public static plantComponent: PlantComponent;
     public commented: Boolean = false;
+
     plantFeedback: PlantFeedback = new PlantFeedback();
 
 

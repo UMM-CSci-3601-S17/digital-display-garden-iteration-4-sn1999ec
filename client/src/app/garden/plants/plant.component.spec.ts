@@ -122,4 +122,8 @@ describe("Plant component", () => {
         expect(plantComponent.commented).toBe(true);
         expect(plantComponent.plantFeedback.commentCount).toBe(1)
     });
+
+    it("Test: Refresh Feedback", () => {
+       expect(plantComponent.plantFeedback.plantrefresh).toBe("")
+    });
 });
