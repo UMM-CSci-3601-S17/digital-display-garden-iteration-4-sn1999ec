@@ -58,8 +58,7 @@ public class PlantController {
         try
         {
             FindIterable<Document> findIterable = configCollection.find(exists("liveUploadId"));
-            Iterator<Document> iterator = findIterable.iterator();
-            Document doc = iterator.next();
+            Document doc = findIterable.first();
 
             return doc.getString("liveUploadId");
         }
@@ -133,8 +132,8 @@ public class PlantController {
             Iterator<Document> iterator = jsonPlant.iterator();
 
             if (iterator.hasNext()) {
-                incrementMetadata(plantID, "pageViews");
-                addVisit(plantID);
+                incrementMetadata(plantID, uploadID, "pageViews");
+                addVisit(plantID, uploadID);
                 returnVal = iterator.next().toJson();
             } else {
                 returnVal = "null";
@@ -450,19 +449,22 @@ public class PlantController {
      * @return true if a plant was found
      * @throws com.mongodb.MongoCommandException when the id is valid and the field is empty
      */
-    public boolean incrementMetadata(String plantID, String field) {
+    public boolean incrementMetadata(String plantID, String liveUploadId,String field) {
 
         Document searchDocument = new Document();
         searchDocument.append("id", plantID);
+        searchDocument.append("uploadId", liveUploadId);
+
 
         Bson updateDocument = inc("metadata." + field, 1);
 
         return null != plantCollection.findOneAndUpdate(searchDocument, updateDocument);
     }
-    public boolean addVisit(String plantID) {
+    public boolean addVisit(String plantID, String liveUploadId) {
 
         Document filterDoc = new Document();
         filterDoc.append("id", plantID);
+        filterDoc.append("uploadId", liveUploadId);
 
         Document visit = new Document();
         visit.append("visit", new ObjectId());

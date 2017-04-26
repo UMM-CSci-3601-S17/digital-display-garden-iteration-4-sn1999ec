@@ -315,12 +315,11 @@ public class Server {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw e;
                 }
             } else {
                 return null;
             }
-
+        return null;
         });
 //        get("api/bed/*")
 

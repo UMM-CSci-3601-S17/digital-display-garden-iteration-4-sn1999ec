@@ -40,13 +40,13 @@ public class GraphController {
         Document filterDoc = new Document();
         filterDoc.append("uploadId", uploadId);
 
-        FindIterable matchingPlants = plantCollection.find(filterDoc);
+        FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
 
-        Iterator iterator = matchingPlants.iterator();
+        Iterator<Document> iterator = matchingPlants.iterator();
         graphInfoCollection.drop();
 
         while (iterator.hasNext()) {
-            Document result = (Document) iterator.next();
+            Document result = iterator.next();
             int total = 0;
             int likes = 0;
             int dislikes = 0;
