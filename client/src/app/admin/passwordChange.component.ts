@@ -29,8 +29,8 @@ export class PasswordChangeComponent implements OnInit {
             }, err => console.log(err));
     }
 
-    changePassword(pass1: string, pass2: string): void {
-        if(pass1 === pass2) {
+    changePassword(pass1: string, pass2: string, passOld: string): void {
+        if(pass1 === pass2 && this.adminService.authenticate(passOld)) {
             this.changedPass = true;
             this.adminService.changePassword(pass1)
                 .subscribe(result => {
