@@ -244,6 +244,7 @@ public class Server {
         // Posting a comment
         post("api/plants/leaveComment", (req, res) -> {
             res.type("application/json");
+            System.out.println("Got to api endpoint");
             return plantController.storePlantComment(req.body(), plantController.getLiveUploadId());
         });
 

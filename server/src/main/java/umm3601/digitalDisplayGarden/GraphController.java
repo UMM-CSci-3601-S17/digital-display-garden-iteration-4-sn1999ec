@@ -52,7 +52,8 @@ public class GraphController {
             int dislikes = 0;
             Document out = new Document();
 
-            String name = (String) result.get("cultivar");
+            String cultivar = (String) result.get("cultivar");
+            String commonName = result.getString("commonName");
             List<Document> ratings = (List<Document>) ((Document) result.get("metadata")).get("ratings");
             int view = (int) ((Document) result.get("metadata")).get("pageViews");
             String id = (String) result.get("id");
@@ -66,7 +67,8 @@ public class GraphController {
                 }
             }
 
-            out.append("cultivar", name);
+            out.append("cultivar", cultivar);
+            out.append("commonName", commonName);
             out.append("rating", total);
             out.append("pageViews", view);
             out.append("likes", likes);

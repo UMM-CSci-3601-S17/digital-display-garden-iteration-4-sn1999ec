@@ -67,7 +67,7 @@ export class PlantComponent {
     public comment(comment: string): void {
         if(!this.commented){
             if(comment != null && comment != "") {
-                this.plantService.commentPlant(this.plant["_id"]["$oid"], comment)
+                this.plantService.commentPlant(this.plant["_id"]["$oid"], comment, this.plant.commonName, this.plant.cultivar)
                     .subscribe(succeeded => {
                         this.commented = succeeded;
                         this.refreshFeedback();
