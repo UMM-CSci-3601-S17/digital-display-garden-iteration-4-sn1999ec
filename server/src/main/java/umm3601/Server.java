@@ -277,9 +277,18 @@ public class Server {
 
         });
 
+        //change password
+        post("api/newPass", (req, res) -> {
+            if (admin.checkCookie(req.cookie("authentication"))) {
+                return admin.changePassword(req.body());
+            }else{
+                return false;
+            }
+        });
+
         //check the cookie
         get("api/checkCookie", (req, res) -> {
-            System.out.println("I got here 1");
+            res.type("application/json");
             return admin.checkCookie(req.cookie("authentication"));
         });
 
