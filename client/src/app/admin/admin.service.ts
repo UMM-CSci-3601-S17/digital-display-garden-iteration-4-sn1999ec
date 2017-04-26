@@ -38,4 +38,8 @@ export class AdminService {
     checkHasCookie(): Observable<boolean> {
         return this.http.request(this.url + "checkCookie", {withCredentials: true}).map(res => res.json());
     }
+
+    deleteCookie(): Observable<boolean> {
+        return this.http.request(this.url + "deleteCookie", {withCredentials: true}).map(res => res.json());
+    }
 }

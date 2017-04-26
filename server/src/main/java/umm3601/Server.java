@@ -94,6 +94,11 @@ public class Server {
             return admin.checkPassword(req.body());
         });
 
+        get("api/deleteCookie", (req, res) -> {
+            res.type("application/json");
+            return admin.deleteCookie(req.cookie("authentication"));
+        });
+
         // List plants
         get("api/plants", (req, res) -> {
             res.type("application/json");

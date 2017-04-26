@@ -146,4 +146,16 @@ public class Admin {
             return false;
         }
     }
+
+    public boolean deleteCookie(String bigInt) {
+        if (bigInt == null) {
+            return false;
+        }
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase(databaseName);
+        MongoCollection cookies = db.getCollection("cookies");
+        Document filter = new Document("number", bigInt);
+        cookies.findOneAndDelete(filter);
+        return true;
+    }
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AdminService } from './admin.service';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -11,7 +12,7 @@ export class ImportComponent implements OnInit {
 
     private hasCookie: boolean;
 
-    constructor(private adminService: AdminService){
+    constructor(private adminService: AdminService, private router: Router) {
 
     }
 
@@ -23,7 +24,7 @@ export class ImportComponent implements OnInit {
     updateFile: string;
     updateAttempted
 
-    handleUpload(){
+    handleUpload() {
         this.fu.upload().subscribe(
             response => {
                 this.filename = response.json();
@@ -32,11 +33,10 @@ export class ImportComponent implements OnInit {
             err => {
                 this.uploadAttempted = true;
             }
-
         );
     }
 
-    handleUpdate(){
+    handleUpdate() {
         this.fubar.update().subscribe(
             response => {
                 this.updateFile = response.json();
@@ -45,12 +45,16 @@ export class ImportComponent implements OnInit {
             err => {
                 this.updateAttempted = true;
             }
-
         );
     }
 
     ngOnInit(): void {
         this.adminService.checkHasCookie()
-            .subscribe(result => this.hasCookie = result, err => console.log(err));
+            .subscribe(result => {
+                this.hasCookie = result;
+                if (this.hasCookie == false) {
+                    this.router.navigateByUrl("/admin")
+                }
+            }, err => console.log(err));
     }
 }
