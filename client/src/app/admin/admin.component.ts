@@ -12,8 +12,13 @@ export class AdminComponent implements OnInit {
     url : String = API_URL;
     private post : string;
     private hasCookie: boolean;
+    private static adminComponent: AdminComponent;
     constructor(private adminService: AdminService) {
+        AdminComponent.adminComponent = this;
+    }
 
+    public static getInstance() {
+        return AdminComponent.adminComponent;
     }
 
     ngOnInit(): void {
