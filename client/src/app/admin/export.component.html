@@ -9,7 +9,7 @@
 </style>
 
 <navbar-component></navbar-component>
-
+<div *ngIf="hasCookie">
 <h2>Export Feedback</h2>
 
 <ul class="list-group">
@@ -39,3 +39,8 @@
 </ul>
 
 <button  [routerLink]="['/admin']" class="btn btn-primary btn-lg" style="float: right">Back to Admin Page</button>
+
+</div>
+<div *ngIf="!hasCookie">
+    <login-component></login-component>
+</div>

@@ -7,7 +7,7 @@
         box-sizing: border-box;
     }
 </style>
-
+<div *ngIf="hasCookie">
 <h3>
     Beds:
     <select id="locationDropdown"  (change)="updateGraph(bed)" [(ngModel)]=bed>
@@ -20,6 +20,11 @@
 <button [routerLink]="['/admin']" class="btn btn-primary btn-lg" style="float: right">Back to Admin Page</button>
 
 <google-chart id="barChart" [data]="Bar_ChartData"></google-chart>
+</div>
+
+<div *ngIf="!hasCookie">
+    <login-component></login-component>
+</div>
 
 
 

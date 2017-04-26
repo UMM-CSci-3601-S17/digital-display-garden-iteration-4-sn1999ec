@@ -13,6 +13,7 @@ export class GraphComponent {
     public bed: string;
     private uploadIds: string[];
     public locations: Plant[];
+    private hasCookie: boolean;
 
     constructor(private adminService: AdminService) {
     }
@@ -24,6 +25,8 @@ export class GraphComponent {
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getGraphData()
             .subscribe(result => this.Bar_ChartData.dataTable = result, err => console.log(err));
+        this.adminService.checkHasCookie()
+            .subscribe(result => this.hasCookie = result, err => console.log(err));
         this.adminService.getGardenLocations()
             .subscribe(result => {
                     this.locations = result;

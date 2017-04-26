@@ -9,8 +9,10 @@
 </style>
 
 <navbar-component></navbar-component>
-
+<div *ngIf="hasCookie">
 <h2>Administrator Tasks</h2><hr>
+    <button type="button" (click)="deleteCookie()">Get out</button>
+    <button [routerLink]="['/admin/newPass']" class="btn">Change Password</button><br><br>
 
 
 <button type="button" class="btn btn-primary btn-lg" [routerLink]="['/admin/importData']">
@@ -38,3 +40,7 @@
     <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
     View Charts
 </button>
+</div>
+<div *ngIf="!hasCookie">
+<login-component></login-component>
+</div>

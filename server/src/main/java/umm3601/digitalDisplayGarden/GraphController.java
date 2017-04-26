@@ -5,6 +5,7 @@ import com.mongodb.MongoClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.mongodb.client.*;
+import com.mongodb.util.JSON;
 import org.bson.Document;
 import java.util.Iterator;
 import java.io.IOException;
@@ -14,10 +15,8 @@ public class GraphController {
 
     MongoClient mongoClient = new MongoClient(); // Defaults!
     private final MongoCollection<Document> plantCollection;
-    private final MongoCollection<Document> commentCollection;
-    private final MongoCollection<Document> configCollection;
-    String dbName;
     private final MongoCollection<Document> graphInfoCollection;
+    String dbName;
 
     public GraphController(String databaseName) throws IOException {
         // Set up our server address
@@ -31,8 +30,6 @@ public class GraphController {
         MongoDatabase db = mongoClient.getDatabase(databaseName);
 
         plantCollection = db.getCollection("plants");
-        commentCollection = db.getCollection("comments");
-        configCollection = db.getCollection("config");
         graphInfoCollection = db.getCollection("graphData");
         dbName = databaseName;
 
@@ -128,10 +125,14 @@ public class GraphController {
         return makeJSON(dataTable);
     }
 
-    public String getDataForOneBed(String uploadid, String gardenLocation){
-        FindIterable<Document> matchingInfo = graphInfoCollection.find(new Document("gardenLocation", gardenLocation));
+    public String getDataForOneBed(String gardenLocation){
+        Document filter = new Document();
+        filter.append("gardenLocation", gardenLocation);
+        FindIterable<Document> matchingInfo = graphInfoCollection.find(filter);
+        System.out.println(JSON.serialize(matchingInfo));
         Iterator iterator = matchingInfo.iterator();
         ArrayList<Document> info = new ArrayList<>();
+        System.out.println("does it have next? " + iterator.hasNext());
 
         while(iterator.hasNext()){
             Document current = (Document) iterator.next();

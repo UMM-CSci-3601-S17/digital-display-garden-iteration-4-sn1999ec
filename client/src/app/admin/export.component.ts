@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from './admin.service';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -15,8 +16,9 @@ export class ExportComponent implements OnInit {
 
     private uploadIds: string[];
     private liveUploadId: string;
+    private hasCookie: boolean;
 
-    constructor(private adminService: AdminService) {
+    constructor(private adminService: AdminService, private router: Router) {
 
     }
 
@@ -25,5 +27,13 @@ export class ExportComponent implements OnInit {
             .subscribe(result => this.uploadIds = result, err => console.log(err));
         this.adminService.getLiveUploadId()
             .subscribe(result => this.liveUploadId = result, err => console.log(err));
+        this.adminService.checkHasCookie()
+            .subscribe(result => {
+                this.hasCookie = result;
+                if (this.hasCookie == false) {
+                    this.router.navigateByUrl("/admin")
+                }
+            }, err => console.log(err));
     }
+
 }

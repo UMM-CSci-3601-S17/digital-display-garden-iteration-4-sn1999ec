@@ -16,6 +16,7 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {RouterModule} from "@angular/router";
 import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
 import {SearchComponent} from "./app/search/search.component";
+import {LoginComponent} from "./app/admin/login.component"
 
 import { GardenComponent} from "./app/garden/garden-component"
 import { PlantListComponent } from './app/garden/plant-list/plant-list.component';
@@ -26,6 +27,7 @@ import { PlantService} from "./app/garden/plants/plant.service";
 import {SearchService} from "./app/search/search.service";
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import {GraphComponent} from "./app/admin/google-charts.component";
+import {PasswordChangeComponent} from "./app/admin/passwordChange.component";
 
 
 
@@ -58,7 +60,9 @@ import {GraphComponent} from "./app/admin/google-charts.component";
         PlantComponent,
         SheetUpdateComponent,
         SearchComponent,
-        GraphComponent
+        GraphComponent,
+        LoginComponent,
+        PasswordChangeComponent
     ],
     providers: [ AdminService, BedListService, PlantService, SearchService ],
     bootstrap: [ AppComponent ]
