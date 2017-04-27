@@ -58,8 +58,7 @@ public class PlantController {
         try
         {
             FindIterable<Document> findIterable = configCollection.find(exists("liveUploadId"));
-            Iterator<Document> iterator = findIterable.iterator();
-            Document doc = iterator.next();
+            Document doc = findIterable.first();
 
             return doc.getString("liveUploadId");
         }
@@ -133,8 +132,8 @@ public class PlantController {
             Iterator<Document> iterator = jsonPlant.iterator();
 
             if (iterator.hasNext()) {
-                incrementMetadata(plantID, "pageViews");
-                addVisit(plantID);
+                incrementMetadata(plantID, uploadID, "pageViews");
+                addVisit(plantID, uploadID);
                 returnVal = iterator.next().toJson();
             } else {
                 returnVal = "null";
@@ -258,7 +257,11 @@ public class PlantController {
                 Iterator<Document> iterator = jsonPlant.iterator();
 
                 if(iterator.hasNext()){
-                    toInsert.put("commentOnPlant", iterator.next().getString("id"));
+                    Document currentPlant = iterator.next();
+
+                    toInsert.put("commentOnPlant", currentPlant.getString("id"));
+                    toInsert.put("commonName", currentPlant.getString("commonName"));
+                    toInsert.put("cultivar", currentPlant.getString("cultivar"));
                 } else {
                     return false;
                 }
@@ -298,12 +301,12 @@ public class PlantController {
                    ));
            Iterator iterator = iter.iterator();
 
-           CommentWriter commentWriter = new CommentWriter(outputStream);
+           CommentWriter commentWriter = new CommentWriter(outputStream, true);
 
            while (iterator.hasNext()) {
                Document comment = (Document) iterator.next();
-               commentWriter.writeComment(comment.getString("commentOnPlant"),
-                       comment.getString("comment"),
+               commentWriter.writeComment(comment.getString("commentOnPlant"), comment.getString("commonName"),
+                       comment.getString("cultivar"), comment.getString("comment"),
                        ((ObjectId) comment.get("_id")).getDate());
            }
            commentWriter.complete();
@@ -317,24 +320,18 @@ public class PlantController {
                 ));
 
         Iterator iterator = plants.iterator();
-        CommentWriter commentWriter = new CommentWriter(outputStream);
+        CommentWriter commentWriter = new CommentWriter(outputStream, false);
 
         while(iterator.hasNext()){
             Document current = (Document) iterator.next();
 
             String likes = current.get("likes").toString();
-            System.out.println("I am here @ likes");
             String dislikes = current.get("dislikes").toString();
-            System.out.println("I am here @ dislikes");
             String pageViews = current.get("pageViews").toString();
-            System.out.println("I am here @ pageviews");
             String toWrite = "likes: " + likes + " dislikes: " + dislikes + " page views: " + pageViews;
 
-            System.out.println(toWrite);
-            commentWriter.writeComment(current.getString("id"),
-                    toWrite,
-                    ((ObjectId) current.get("_id")).getDate());
-            System.out.println("I am here @ the end");
+            commentWriter.writeFeedback(current.getString("id"), current.getString("commonName"),
+                    current.getString("cultivar"), likes, dislikes, pageViews);
         }
         commentWriter.complete();
     }
@@ -450,19 +447,22 @@ public class PlantController {
      * @return true if a plant was found
      * @throws com.mongodb.MongoCommandException when the id is valid and the field is empty
      */
-    public boolean incrementMetadata(String plantID, String field) {
+    public boolean incrementMetadata(String plantID, String liveUploadId,String field) {
 
         Document searchDocument = new Document();
         searchDocument.append("id", plantID);
+        searchDocument.append("uploadId", liveUploadId);
+
 
         Bson updateDocument = inc("metadata." + field, 1);
 
         return null != plantCollection.findOneAndUpdate(searchDocument, updateDocument);
     }
-    public boolean addVisit(String plantID) {
+    public boolean addVisit(String plantID, String liveUploadId) {
 
         Document filterDoc = new Document();
         filterDoc.append("id", plantID);
+        filterDoc.append("uploadId", liveUploadId);
 
         Document visit = new Document();
         visit.append("visit", new ObjectId());

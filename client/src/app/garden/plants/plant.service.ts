@@ -44,10 +44,12 @@ export class PlantService {
      * @param comment
      * @returns {Observable<R>}
      */
-    commentPlant(id: string, comment: string): Observable<Boolean> {
+    commentPlant(id: string, comment: string, commonName: string, cultivar: string): Observable<Boolean> {
         let returnObject = {
             plantId: id,
-            comment: comment
+            comment: comment,
+            commonName: commonName,
+            cultivar: cultivar
         };
         return this.http.post(this.plantUrl + "/" + "leaveComment", JSON.stringify(returnObject)).map(res => res.json());
     }

@@ -15,21 +15,51 @@ public class CommentWriter {
     XSSFSheet sheet;
     int rowCount;
 
-    public CommentWriter(OutputStream outputStream) throws IOException{
+    public CommentWriter(OutputStream outputStream, boolean comments) throws IOException{
         this.outputStream = outputStream;
 
         this.workbook = new XSSFWorkbook();
-        this.sheet = workbook.createSheet("Comments");
 
-        Row row = sheet.createRow(0);
-        Cell cell = row.createCell(0);
-        cell.setCellValue("#");
+        if (comments) {
+            this.sheet = workbook.createSheet("Comments");
 
-        cell = row.createCell(1);
-        cell.setCellValue("comment");
+            Row row = sheet.createRow(0);
+            Cell cell = row.createCell(0);
+            cell.setCellValue("#");
 
-        cell = row.createCell(2);
-        cell.setCellValue("timestamp");
+            cell = row.createCell(1);
+            cell.setCellValue("Common Name");
+
+            cell = row.createCell(2);
+            cell.setCellValue("Cultivar");
+
+            cell = row.createCell(3);
+            cell.setCellValue("comment");
+
+            cell = row.createCell(4);
+            cell.setCellValue("timestamp");
+        } else {
+            this.sheet = workbook.createSheet("Feedback");
+
+            Row row = sheet.createRow(0);
+            Cell cell = row.createCell(0);
+            cell.setCellValue("#");
+
+            cell = row.createCell(1);
+            cell.setCellValue("commonName");
+
+            cell = row.createCell(2);
+            cell.setCellValue("cultivar");
+
+            cell = row.createCell(3);
+            cell.setCellValue("likes");
+
+            cell = row.createCell(4);
+            cell.setCellValue("dislikes");
+
+            cell = row.createCell(5);
+            cell.setCellValue("pageviews");
+        }
 
         rowCount = 1;
     }
@@ -40,19 +70,47 @@ public class CommentWriter {
      * @param comment: comment left by visitor
      * @param timestamp: time the user left the comment
      */
-    public void writeComment(String id, String comment, Date timestamp){
+    public void writeComment(String id, String commonName, String cultivar, String comment, Date timestamp){
         Row row = sheet.createRow(rowCount);
 
         Cell cell = row.createCell(0);
         cell.setCellValue(id);
 
         cell = row.createCell(1);
-        cell.setCellValue(comment);
+        cell.setCellValue(commonName);
 
         cell = row.createCell(2);
+        cell.setCellValue(cultivar);
+
+        cell = row.createCell(3);
+        cell.setCellValue(comment);
+
+        cell = row.createCell(4);
         cell.setCellValue(timestamp.toString());
 
         rowCount++;
+    }
+
+    public void writeFeedback(String id, String commonName, String cultivar, String likes, String dislikes, String views){
+        Row row = sheet.createRow(rowCount++);
+
+        Cell cell = row.createCell(0);
+        cell.setCellValue(id);
+
+        cell = row.createCell(1);
+        cell.setCellValue(commonName);
+
+        cell = row.createCell(2);
+        cell.setCellValue(cultivar);
+
+        cell = row.createCell(3);
+        cell.setCellValue(likes);
+
+        cell = row.createCell(4);
+        cell.setCellValue(dislikes);
+
+        cell = row.createCell(5);
+        cell.setCellValue(views);
     }
 
     /**

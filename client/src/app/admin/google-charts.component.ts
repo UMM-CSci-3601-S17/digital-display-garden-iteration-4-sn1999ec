@@ -9,7 +9,7 @@ import {Plant} from "../garden/plants/plant";
 
 // Component class
 export class GraphComponent {
-
+    private post: string;
     public bed: string;
     private uploadIds: string[];
     public locations: Plant[];
@@ -20,6 +20,8 @@ export class GraphComponent {
 
 
     ngOnInit(): void {
+        this.adminService.postGraphData()
+            .subscribe(result => this.post = result, err => console.log(err));
         this.Bar_ChartData = Object.create(this.Bar_ChartData);
         this.adminService.getUploadIds()
             .subscribe(result => this.uploadIds = result, err => console.log(err));
