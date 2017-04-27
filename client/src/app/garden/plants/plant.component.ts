@@ -1,12 +1,9 @@
-/**
- * Created by saliy002 on 4/9/17.
- */
-
 import {Component} from "@angular/core";
 import {Plant} from "./plant";
 import {PlantService} from "./plant.service";
 import {Params, ActivatedRoute} from "@angular/router";
 import {PlantFeedback} from "./plant.feedback";
+import {PlantListComponent} from "../plant-list/plant-list.component";
 
 @Component({
     selector: 'plant-component',
@@ -42,6 +39,23 @@ export class PlantComponent {
         return PlantComponent.plantComponent;
     }
 
+    searchedFlower(id : string){
+        this.rating = null;
+        this.commented = false;
+        var plantListComponent: PlantListComponent = PlantListComponent.getInstance();
+        this.plantService.getFlowerById(id).subscribe(
+            plant => {
+                this.plant = plant;
+                plantListComponent.plantSelect = true;
+                plantListComponent.currentPlant = plant;
+                this.getFeedBack(this.plant.id);
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+
     /**
      * Once a user selects a flower the Plant.component will be populated.
      * @param currentFlower
@@ -70,8 +84,8 @@ export class PlantComponent {
      */
     public comment(comment: string): void {
         if(!this.commented){
-            if(comment != null) {
-                this.plantService.commentPlant(this.plant["_id"]["$oid"], comment)
+            if(comment != null && comment != "") {
+                this.plantService.commentPlant(this.plant["_id"]["$oid"], comment, this.plant.commonName, this.plant.cultivar)
                     .subscribe(succeeded => {
                         this.commented = succeeded;
                         this.refreshFeedback();

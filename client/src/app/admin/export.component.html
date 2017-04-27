@@ -1,5 +1,15 @@
-<navbar-component></navbar-component>
+<style>
+    .btn {
+        background: gold;
+        color: maroon;
+        font-weight: bold;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+</style>
 
+<navbar-component></navbar-component>
+<div *ngIf="hasCookie">
 <h2>Export Feedback</h2>
 
 <ul class="list-group">
@@ -16,10 +26,21 @@
         <div class="col-sm-4">
             <a [attr.href]="this.url + uploadId">
                 <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                Download feedback for this data set
+                Download comments for this data set
+            </a><br>
+
+            <a [attr.href]="this.exportFeedbackUrl + uploadId">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                Download likes, dislikes, and page views for this data set
             </a>
+
         </div>
     </li>
 </ul>
 
 <button  [routerLink]="['/admin']" class="btn btn-primary btn-lg" style="float: right">Back to Admin Page</button>
+
+</div>
+<div *ngIf="!hasCookie">
+    <login-component></login-component>
+</div>

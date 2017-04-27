@@ -19,7 +19,7 @@ export class BedListService {
      * @returns {Observable<Bed[]>}
      */
     getBedNames(): Observable<Bed[]> {
-        return this.http.request(this.bedUrl).map(res => res.json());
+        return this.http.get(this.bedUrl).map(res => res.json());
     }
 
     /**
@@ -28,7 +28,7 @@ export class BedListService {
      * @returns {Observable<Plant[]>}
      */
     getFlowerNames(garden: any): Observable<Plant[]> {
-        return this.http.request(this.plantUrl + "?gardenLocation=" + garden._id).map(res => res.json());
+        return this.http.get(this.plantUrl + "?gardenLocation=" + garden._id).map(res => res.json());
     }
 
 }

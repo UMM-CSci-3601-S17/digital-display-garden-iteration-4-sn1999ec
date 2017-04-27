@@ -16,6 +16,7 @@ import {FileUploadComponent} from "./app/admin/file-upload.component";
 import {RouterModule} from "@angular/router";
 import {SheetUpdateComponent} from "./app/admin/sheet-update.component";
 import {SearchComponent} from "./app/search/search.component";
+import {LoginComponent} from "./app/admin/login.component"
 
 import { GardenComponent} from "./app/garden/garden-component"
 import { PlantListComponent } from './app/garden/plant-list/plant-list.component';
@@ -24,6 +25,10 @@ import { BedListComponent } from './app/garden/bed-list/bed-list.component';
 import { BedListService} from "./app/garden/bed-list/bed-list.service";
 import { PlantService} from "./app/garden/plants/plant.service";
 import {SearchService} from "./app/search/search.service";
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {GraphComponent} from "./app/admin/google-charts.component";
+import {PasswordChangeComponent} from "./app/admin/passwordChange.component";
+
 
 
 
@@ -39,7 +44,8 @@ import {SearchService} from "./app/search/search.service";
         FormsModule,
         PipeModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        Ng2GoogleChartsModule
     ],
     declarations: [
         AppComponent,
@@ -54,6 +60,9 @@ import {SearchService} from "./app/search/search.service";
         PlantComponent,
         SheetUpdateComponent,
         SearchComponent,
+        GraphComponent,
+        LoginComponent,
+        PasswordChangeComponent
     ],
     providers: [ AdminService, BedListService, PlantService, SearchService ],
     bootstrap: [ AppComponent ]

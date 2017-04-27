@@ -34,6 +34,7 @@ public class PlantController {
     private final MongoCollection<Document> plantCollection;
     private final MongoCollection<Document> commentCollection;
     private final MongoCollection<Document> configCollection;
+    private final MongoCollection<Document> graphInfoCollection;
 
     public PlantController(String databaseName) throws IOException {
         // Set up our server address
@@ -50,14 +51,14 @@ public class PlantController {
         plantCollection = db.getCollection("plants");
         commentCollection = db.getCollection("comments");
         configCollection = db.getCollection("config");
+        graphInfoCollection = db.getCollection("graphData");
     }
 
     public String getLiveUploadId() {
         try
         {
             FindIterable<Document> findIterable = configCollection.find(exists("liveUploadId"));
-            Iterator<Document> iterator = findIterable.iterator();
-            Document doc = iterator.next();
+            Document doc = findIterable.first();
 
             return doc.getString("liveUploadId");
         }
@@ -86,8 +87,12 @@ public class PlantController {
         }
 
         FindIterable<Document> matchingPlants = plantCollection.find(filterDoc);
-
-        return JSON.serialize(matchingPlants);
+        List<Document> sortedPlants = new ArrayList<Document>();
+        for (Document doc : matchingPlants) {
+            sortedPlants.add(doc);
+        }
+        sortedPlants.sort(new PlantComparator());
+        return JSON.serialize(sortedPlants);
     }
 
     /**
@@ -127,8 +132,8 @@ public class PlantController {
             Iterator<Document> iterator = jsonPlant.iterator();
 
             if (iterator.hasNext()) {
-                incrementMetadata(plantID, "pageViews");
-                addVisit(plantID);
+                incrementMetadata(plantID, uploadID, "pageViews");
+                addVisit(plantID, uploadID);
                 returnVal = iterator.next().toJson();
             } else {
                 returnVal = "null";
@@ -199,7 +204,14 @@ public class PlantController {
                         Aggregates.group("$gardenLocation"),
                         Aggregates.sort(Sorts.ascending("_id"))
                 ));
-        return JSON.serialize(documents);
+
+        List<Document> listDoc = new ArrayList<Document>();
+        for (Document doc : documents) {
+            listDoc.add(doc);
+        }
+        listDoc.sort(new BedComparator());
+
+        return JSON.serialize(listDoc);
     }
 
     public String[] getGardenLocations(String uploadID){
@@ -245,7 +257,11 @@ public class PlantController {
                 Iterator<Document> iterator = jsonPlant.iterator();
 
                 if(iterator.hasNext()){
-                    toInsert.put("commentOnPlant", iterator.next().getString("id"));
+                    Document currentPlant = iterator.next();
+
+                    toInsert.put("commentOnPlant", currentPlant.getString("id"));
+                    toInsert.put("commonName", currentPlant.getString("commonName"));
+                    toInsert.put("cultivar", currentPlant.getString("cultivar"));
                 } else {
                     return false;
                 }
@@ -285,15 +301,39 @@ public class PlantController {
                    ));
            Iterator iterator = iter.iterator();
 
-           CommentWriter commentWriter = new CommentWriter(outputStream);
+           CommentWriter commentWriter = new CommentWriter(outputStream, true);
 
            while (iterator.hasNext()) {
                Document comment = (Document) iterator.next();
-               commentWriter.writeComment(comment.getString("commentOnPlant"),
-                       comment.getString("comment"),
+               commentWriter.writeComment(comment.getString("commentOnPlant"), comment.getString("commonName"),
+                       comment.getString("cultivar"), comment.getString("comment"),
                        ((ObjectId) comment.get("_id")).getDate());
            }
            commentWriter.complete();
+    }
+
+    public void writeFeedback(OutputStream outputStream, String uploadId) throws IOException{
+        FindIterable plants = graphInfoCollection.find(
+                and(
+                        exists("id"),
+                        eq("uploadId", uploadId)
+                ));
+
+        Iterator iterator = plants.iterator();
+        CommentWriter commentWriter = new CommentWriter(outputStream, false);
+
+        while(iterator.hasNext()){
+            Document current = (Document) iterator.next();
+
+            String likes = current.get("likes").toString();
+            String dislikes = current.get("dislikes").toString();
+            String pageViews = current.get("pageViews").toString();
+            String toWrite = "likes: " + likes + " dislikes: " + dislikes + " page views: " + pageViews;
+
+            commentWriter.writeFeedback(current.getString("id"), current.getString("commonName"),
+                    current.getString("cultivar"), likes, dislikes, pageViews);
+        }
+        commentWriter.complete();
     }
 
     /**
@@ -407,24 +447,91 @@ public class PlantController {
      * @return true if a plant was found
      * @throws com.mongodb.MongoCommandException when the id is valid and the field is empty
      */
-    public boolean incrementMetadata(String plantID, String field) {
+    public boolean incrementMetadata(String plantID, String liveUploadId,String field) {
 
         Document searchDocument = new Document();
         searchDocument.append("id", plantID);
+        searchDocument.append("uploadId", liveUploadId);
+
 
         Bson updateDocument = inc("metadata." + field, 1);
 
         return null != plantCollection.findOneAndUpdate(searchDocument, updateDocument);
     }
-    public boolean addVisit(String plantID) {
+    public boolean addVisit(String plantID, String liveUploadId) {
 
         Document filterDoc = new Document();
         filterDoc.append("id", plantID);
+        filterDoc.append("uploadId", liveUploadId);
 
         Document visit = new Document();
         visit.append("visit", new ObjectId());
 
         return null != plantCollection.findOneAndUpdate(filterDoc, push("metadata.visits", visit));
+    }
+
+    public Integer numericPrefix(String bed) {
+        if (bed.charAt(0) > '9' || bed.charAt(0) < '0'){
+            return null;
+        }
+
+        int n = 0;
+        for (int i = 0; i < bed.length(); i++) {
+            char character = bed.charAt(i);
+            if (character <= '9' && character >= '0') {
+                n *= 10;
+                n += (character - '0');
+            } else {
+                break;
+            }
+        }
+
+        return n;
+    }
+
+
+    class BedComparator implements Comparator<Document> {
+
+        @Override
+        public int compare(Document bedDoc1, Document bedDoc2) {
+            String bed1 = bedDoc1.getString("_id");
+            String bed2 = bedDoc2.getString("_id");
+            Integer bed1Num = numericPrefix(bed1);
+            Integer bed2Num = numericPrefix(bed2);
+            if (bed1Num == null || bed2Num == null || bed1Num == bed2Num) {
+                return bed1.compareTo(bed2);
+            } else {
+                return numericPrefix(bed1) - numericPrefix(bed2);
+            }
+        }
+
+    }
+
+    class PlantComparator implements Comparator<Document> {
+
+        @Override
+        public int compare(Document plantDoc1, Document plantDoc2) {
+            String bed1 = plantDoc1.getString("gardenLocation");
+            String bed2 = plantDoc2.getString("gardenLocation");
+            String name1 = plantDoc1.getString("commonName");
+            String name2 = plantDoc2.getString("commonName");
+            String cultivar1 = plantDoc1.getString("cultivar");
+            String cultivar2 = plantDoc2.getString("cultivar");
+            Integer bed1Num = numericPrefix(bed1);
+            Integer bed2Num = numericPrefix(bed2);
+
+            if (!bed1.equals(bed2)) {
+                if (bed1Num == null || bed2Num == null || bed1Num == bed2Num) {
+                    return bed1.compareTo(bed2);
+                } else {
+                    return numericPrefix(bed1) - numericPrefix(bed2);
+                }
+            } else if (!name1.equals(name2)) {
+                return name1.compareTo(name2);
+            } else {
+                return cultivar1.compareTo(cultivar2);
+            }
+        }
     }
 
 }
