@@ -115,7 +115,6 @@ public class Server {
         get("api/plants/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
-            System.out.println("ID = " + id);
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
         });
 
@@ -315,12 +314,11 @@ public class Server {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw e;
                 }
             } else {
                 return null;
             }
-
+        return null;
         });
 //        get("api/bed/*")
 
