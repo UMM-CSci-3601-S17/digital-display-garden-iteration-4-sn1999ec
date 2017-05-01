@@ -45,10 +45,10 @@ public class Admin {
 
 
     public boolean checkPassword(String password) throws NoSuchAlgorithmException{
+        System.out.println(password);
         FindIterable<Document> adminIterable;
         String checkAgainst = null;
         String hashedPasswordString = hashThing(password);
-
         try {
             adminIterable = adminCollection.find();
 
@@ -64,6 +64,7 @@ public class Admin {
 
         this.passwordIsCorrect = checkAgainst.equals(hashedPasswordString);
 
+        System.out.println(passwordIsCorrect);
         return this.passwordIsCorrect;
     }
 
