@@ -245,8 +245,8 @@ public class Admin {
         int month = Integer.parseInt(expires.substring(5, 7));
         int day = Integer.parseInt(expires.substring(8, 10));
         int hour = Integer.parseInt(expires.substring(11, 13));
-        int minute = 60 * (hour + 1) * Integer.parseInt(expires.substring(14, 16));
-        int second = 60 * (minute + 1) * Integer.parseInt(expires.substring(17));
+        int minute = 60 * (hour) + Integer.parseInt(expires.substring(14, 16));
+        int second = 60 * (minute) + Integer.parseInt(expires.substring(17));
 
         int actualYear = dt.getYear();
         int actualMonth = dt.getMonthOfYear();
