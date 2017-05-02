@@ -25,11 +25,8 @@ import javax.servlet.http.Part;
 public class Server {
 
     public static final String API_URL = "https://104.131.5.156:2538";
-
     public static String databaseName = "test";
-
     private static String excelTempDir = "/tmp/digital-display-garden";
-
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
