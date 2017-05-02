@@ -19,12 +19,14 @@ export class ImportComponent implements OnInit {
     @ViewChild('fu') fu;
     @ViewChild('fubar') fubar;
 
+
+    authorized: boolean;
     filename: string;
     uploadAttempted: boolean = false;
     updateFile: string;
     updateAttempted
 
-    handleUpload() {
+    handleUpload(){
         this.fu.upload().subscribe(
             response => {
                 this.filename = response.json();
@@ -33,10 +35,12 @@ export class ImportComponent implements OnInit {
             err => {
                 this.uploadAttempted = true;
             }
+
         );
     }
 
-    handleUpdate() {
+    handleUpdate(){
+        this.uploadAttempted = true;
         this.fubar.update().subscribe(
             response => {
                 this.updateFile = response.json();
@@ -45,10 +49,12 @@ export class ImportComponent implements OnInit {
             err => {
                 this.updateAttempted = true;
             }
+
         );
     }
 
     ngOnInit(): void {
+        this.adminService.authorized().subscribe(authorized => this.authorized = authorized);
         this.adminService.checkHasCookie()
             .subscribe(result => {
                 this.hasCookie = result;

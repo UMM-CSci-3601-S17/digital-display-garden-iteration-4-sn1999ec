@@ -17,6 +17,7 @@ import static spark.Spark.*;
 
 import umm3601.digitalDisplayGarden.ExcelParser;
 import umm3601.digitalDisplayGarden.QRCodes;
+import umm3601.digitalDisplayGarden.Admin;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
@@ -29,7 +30,6 @@ public class Server {
     public static String databaseName = "test";
 
     private static String excelTempDir = "/tmp/digital-display-garden";
-
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
@@ -115,6 +115,7 @@ public class Server {
         get("api/plants/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
+            System.out.println("ID = " + id);
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
         });
 
