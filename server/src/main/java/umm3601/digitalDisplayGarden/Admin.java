@@ -224,7 +224,7 @@ public class Admin {
 
     }
 
-    private boolean validTimeStamp(String bigInt, FindIterable<Document> allCookies, MongoCollection cookieCollection) {
+    public boolean validTimeStamp(String bigInt, FindIterable<Document> allCookies, MongoCollection cookieCollection) {
         boolean authenticated = false;
 
         for(Document cookie : allCookies){

@@ -1,7 +1,12 @@
 package umm3601.admin;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.junit.Before;
 import org.junit.Test;
+import org.bson.Document;
 import umm3601.digitalDisplayGarden.PlantController;
 import umm3601.admin.*;
 import umm3601.digitalDisplayGarden.Admin;
@@ -19,6 +24,7 @@ public class AdminTest {
 
     private final static String databaseName = "data-for-testing-only";
     private Admin admin;
+    private MongoClient mongoClient;
 
     @Before
     public void makeDB() throws IOException, NoSuchAlgorithmException {
@@ -44,12 +50,19 @@ public class AdminTest {
         assertTrue(test instanceof BigInteger);
     }
 
-    @Test
-    public void testCheckCookie() throws Exception {
-        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
-        assertTrue(admin.checkCookie(test.getValue()));
-    }
-
+//    @Test
+//    public void testCheckCookie() throws Exception {
+//        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
+//        assertTrue(admin.checkCookie(test.getValue()));
+//    }
+//
+//    @Test
+//    public void testValidTimestamp() throws Exception {
+//        MongoDatabase db = mongoClient.getDatabase(databaseName);
+//        MongoCollection cookies = db.getCollection("cookies");
+//        BigInteger test = admin.getBigInt();
+//        assertTrue(admin.validTimeStamp(test.toString(), cookies.find(), cookies));
+//    }
 //    @Test
 //    public void testDeleteCookie() throws Exception {
 //        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
