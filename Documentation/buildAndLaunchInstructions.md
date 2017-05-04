@@ -1,6 +1,7 @@
 #How to build and launch this project on a server
 
 ##Step 1: Configuring the server
+
 1: Open a terminal as root on the server
 
 2: `wget https://gist.githubusercontent.com/joethe/c3062afd3e58fe21c5fabdb36ae883bb/raw/633a49154861ab678f2173662a5caf5e8881f145/3601-setup.sh`
@@ -10,14 +11,17 @@
 4: `./3601-setup.sh`
 
 ##Step 2: Get an SSL certificate
+
 Using [Let's Encrypt](https://letsencrypt.org/) and [certbot](https://certbot.eff.org/)is recommended if there isn't 
 already a protocol for this. You need the certificate in .jks format, a guide on how to do that can be found [here](https://community.thingworx.com/thread/39949)
 
 ##Step 3: Get a Google Charts API key
+
 Go [here](https://developers.google.com/maps/documentation/javascript/get-api-key), click 'GET A KEY', and follow all
 directions there. Write down this key somewhere.
 
 ##Step 4: Cloning and configuring the code base:
+
 1: `git clone https://github.com/UMM-CSci-3601-S17/digital-display-garden-iteration-4-sn1999ec.git`
 
 2: `cd digital-display-garden-iteration-4-sn1999ec`
