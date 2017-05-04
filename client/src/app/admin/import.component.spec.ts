@@ -8,6 +8,7 @@ import {ImportComponent} from "./import.component";
 import {FileUploadComponent} from "./file-upload.component";
 import { Http } from '@angular/http';
 import {SheetUpdateComponent} from "./sheet-update.component";
+import {LoginComponent} from "./login.component";
 
 describe("Import Component", () => {
 
@@ -16,6 +17,7 @@ describe("Import Component", () => {
     let mockHttp: {post: (string, any) => Observable<any>};
     let adminServiceStub: {
         authorized: () => Observable<boolean>
+        checkHasCookie: () => Observable<boolean>
     };
 
     beforeEach(() => {
@@ -27,14 +29,19 @@ describe("Import Component", () => {
         adminServiceStub = {
             authorized: () => {
                 return Observable.of(true);
+            },
+
+            checkHasCookie: () => {
+                return Observable.of(true)
             }
         }
 
+
         TestBed.configureTestingModule({
-            imports: [FormsModule, RouterTestingModule],
-            declarations: [ImportComponent, NavbarComponent, FileUploadComponent, SheetUpdateComponent],
+            imports: [FormsModule, RouterTestingModule.withRoutes([])],
+            declarations: [ImportComponent, NavbarComponent, FileUploadComponent, SheetUpdateComponent, LoginComponent],
             providers: [{provide: Http, useValue: mockHttp}, {provide: AdminService, useValue: adminServiceStub}]
-        });
+        }).compileComponents();
 
     });
 

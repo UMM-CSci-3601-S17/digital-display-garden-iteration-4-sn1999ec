@@ -5,13 +5,21 @@ import {FormsModule} from "@angular/forms";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NavbarComponent} from "../navbar/navbar.component";
 import {AdminService} from "./admin.service";
+import {Router} from "@angular/router";
+import {LoginComponent} from "./login.component";
 describe("Directive: Export", () => {
     let exportComponent: ExportComponent;
     let fixture: ComponentFixture<ExportComponent>;
+    let hasCookie: boolean = true;
+    let sss: string  = "/admin";
+    let TRUEE : Promise<boolean>;
+    let promise: Promise<boolean> = new Promise((resolve, reject) => resolve(true));
+
 
     let adminServiceStub: {
         getUploadIds: () => Observable<string[]>
         getLiveUploadId: () => Observable<string>
+        checkHasCookie: () => Observable<boolean>
     };
 
     beforeEach(() => {
@@ -27,14 +35,19 @@ describe("Directive: Export", () => {
                 return Observable.of(
                     "this is a live upload id"
                 )
+            },
+
+            checkHasCookie: () => {
+                return Observable.of(true)
             }
         };
 
+
         TestBed.configureTestingModule({
-            imports: [FormsModule, RouterTestingModule],
-            declarations: [ExportComponent, NavbarComponent],
+            imports: [FormsModule, RouterTestingModule.withRoutes([])],
+            declarations: [ExportComponent, NavbarComponent, LoginComponent],
             providers: [{provide: AdminService, useValue: adminServiceStub}]
-        });
+        }).compileComponents();
     });
 
     beforeEach(
@@ -54,5 +67,4 @@ describe("Directive: Export", () => {
     it ("There are uploadIds", () => {
         expect(exportComponent.uploadIds[0]).toEqual("this is an uploadId");
     });
-
 });

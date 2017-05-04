@@ -33,7 +33,6 @@ export class ExportComponent implements OnInit {
             .subscribe(result => {
                 this.liveUploadId = result;
             }, err => console.log(err));
-            .subscribe(result => this.liveUploadId = result, err => console.log(err));
         this.adminService.checkHasCookie()
             .subscribe(result => {
                 this.hasCookie = result;
