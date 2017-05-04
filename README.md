@@ -56,7 +56,7 @@ When you load the project on a new machine, tell Gradle to Refresh linked Gradle
 ## Documentation
 * [Excel File Requirements](Documentation/ExcelFileRequirements.md)  
 * [Excel Parser Documentation](Documentation/ExcelParser.md) 
-* [DigitalOcean droplet](Documentation/thing.md)
+* [Build Instructions](Documentation/buildAndLaunchInstructions.md)
 
 
 ## Resources
