@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 
 export class LoginComponent {
 
+    private passwordCorrect: string = "";
     constructor(private adminService: AdminService) {
 
     }
@@ -20,10 +21,13 @@ export class LoginComponent {
         this.adminService.authenticate(pw).subscribe(
             result => {response = result;
                 adminComponent.ngOnInit();
-                console.log(response);},
+                console.log(response);
+                if(!response){
+                    this.passwordCorrect = "Incorrect password"
+                }},
             err => console.log(err));
 
 
-        // this.adminComp.ngOnInit();
+
     }
 }
