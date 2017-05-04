@@ -1,10 +1,11 @@
 package umm3601.plant;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import umm3601.digitalDisplayGarden.PlantController;
 
 import java.io.IOException;
+
+import static junit.framework.TestCase.assertTrue;
 
 public class TestListUploadIds {
 
@@ -20,6 +21,6 @@ public class TestListUploadIds {
 
     @Test
     public void listingOfUploadIds() throws IOException {
-
+        assertTrue(plantController.listUploadIds() instanceof String);
     }
 }

@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import umm3601.digitalDisplayGarden.GraphController;
-import umm3601.digitalDisplayGarden.PlantController;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -21,7 +20,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class GraphControllerTests {
     private final static String databaseName = "data-for-testing-only";
-    private  MongoCollection<Document> graphInfoCollection;
+    private MongoCollection<Document> graphInfoCollection;
     private GraphController graphController;
 
     @Before
@@ -35,7 +34,7 @@ public class GraphControllerTests {
     }
 
     @Test
-    public void successPostData() throws IOException {
+    public void postDataTest() throws IOException {
         String posted = graphController.postData("first uploadId");
         assertEquals(posted, "posted");
 
@@ -45,7 +44,7 @@ public class GraphControllerTests {
         String[] cultivars = new String[2];
         int counter = 0;
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Document current = (Document) iterator.next();
 
             cultivars[counter] = current.getString("cultivar");
@@ -60,6 +59,19 @@ public class GraphControllerTests {
     }
 
     @Test
+    public void getDataForAllPlantsTest() {
+        graphInfoCollection.drop();
+        graphController.postData("second uploadId");
+
+        String json = graphController.getDataForAllBeds();
+        String expected = "[[\"Bed\",\"Likes\",\"Dislikes\",\"Visits\"],[\"7.0\",0,0,0],[\"12\",0,0,0]]";
+
+        assertEquals(json, expected);
+
+        graphController.postData("second uploadId");
+    }
+
+    @Test
     public void getDataForOneBedTest() {
         graphInfoCollection.drop();
         graphController.postData("second uploadId");
@@ -67,13 +79,13 @@ public class GraphControllerTests {
         String notExpected = "[[\"Cultivar\",\"Rating\",\"Visits\"],[\"Jolt™ Pink F1\",0,1]]";
         String expected = "[[\"Cultivar\",\"Likes\",\"Dislikes\",\"Views\"],[\"Jolt™ Pink F1\",0,0,0]]";
 
-        Assert.assertNotEquals(json,notExpected);
-        assertEquals(json,expected);
+        Assert.assertNotEquals(json, notExpected);
+        assertEquals(json, expected);
 
     }
 
     @Test
-    public void makeJSONTest(){
+    public void makeJSONTest() {
         Object[][] toInsert = new Object[2][2];
 
         toInsert[0][0] = "wassup";
@@ -83,7 +95,7 @@ public class GraphControllerTests {
 
         String expected = "[[\"wassup\",\"not much\"],[\"Shut the hell up\",2]]";
 
-        assertEquals(expected,graphController.makeJSON(toInsert));
+        assertEquals(expected, graphController.makeJSON(toInsert));
 
     }
 

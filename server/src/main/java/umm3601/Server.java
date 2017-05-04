@@ -1,6 +1,5 @@
 package umm3601;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import spark.Route;
 import spark.utils.IOUtils;
 import com.mongodb.util.JSON;
@@ -17,6 +16,7 @@ import static spark.Spark.*;
 
 import umm3601.digitalDisplayGarden.ExcelParser;
 import umm3601.digitalDisplayGarden.QRCodes;
+import umm3601.digitalDisplayGarden.Admin;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
@@ -25,11 +25,8 @@ import javax.servlet.http.Part;
 public class Server {
 
     public static final String API_URL = "https://104.131.5.156:2538";
-
     public static String databaseName = "test";
-
     private static String excelTempDir = "/tmp/digital-display-garden";
-
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
@@ -115,6 +112,7 @@ public class Server {
         get("api/plants/:plantID", (req, res) -> {
             res.type("application/json");
             String id = req.params("plantID");
+            System.out.println("ID = " + id);
             return plantController.getPlantByPlantID(id, plantController.getLiveUploadId());
         });
 
@@ -138,7 +136,7 @@ public class Server {
         get("api/getData", (req, res) -> {
             res.type("application/json");
             if (admin.checkCookie(req.cookie("authentication"))) {
-                return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+                return graphController.getDataForAllBeds();
             } else {
                 return null;
             }
