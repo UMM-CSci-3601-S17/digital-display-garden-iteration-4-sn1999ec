@@ -47,11 +47,13 @@ When you load the project on a new machine, tell Gradle to Refresh linked Gradle
 * HTTPS
 * Graphs
 * Sorting Plants on Search Page
+
 ## Finished by Manassas
 * Update Database with new spreadsheet
 * Search garden by Cultivar or Common Name
 * Show comment count
 * Rating and Commenting
+
 
 ## Documentation
 * [Excel File Requirements](Documentation/ExcelFileRequirements.md)  
