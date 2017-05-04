@@ -139,7 +139,7 @@ public class Server {
         get("api/getData", (req, res) -> {
             res.type("application/json");
             if (admin.checkCookie(req.cookie("authentication"))) {
-                return graphController.getLikeDataForAllPlants(plantController.getLiveUploadId());
+                return graphController.getDataForAllBeds();
             } else {
                 return null;
             }
