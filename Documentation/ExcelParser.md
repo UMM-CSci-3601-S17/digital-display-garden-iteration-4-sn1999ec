@@ -39,7 +39,7 @@ In the example `xlsx` file below, there are three rows that are grayed out. We d
 ### Collapsing the array: `trimArrayHorizontally()`  
 This method starts where `collapseHorizontally()` leaves off. Because there is no built in method to trim arrays, let alone 2D arrays, we built one!  It simply makes a new 2D array of a size specified by `collapseHorizontally()`, copies the old array into the new one and returns it.   
 
-[HorizontalCollapse](Documentation/Graphics/HorizontalCorrected.png)  
+[HorizontalCollapse](Graphics/HorizontalCorrected.png)  
 
 
 ## Step 3: Vertically Collapse the Array  
@@ -50,14 +50,14 @@ Our assumption for finding the vertical collapse point is that `column 0` is con
 Once we know our collapse point we use `trimArrayVertically()` in a similar fashion to `trimArrayHorizontally()`. 
 We make a new 2D array as tall as `collapseVertically()` specifies and copy the old elements into it. 
 
-[VerticalCollapse](Documentation/Graphics/VerticalCorrected.png)  
+[VerticalCollapse](Graphics/VerticalCorrected.png)  
 
 
 ## Step 4: Replace Nulls with Empty Strings: `replaceNulls()`  
 The method simply iterates through our 2D array and replaces all nulls with empty strings.
 This prevents any null pointer exceptions in the future. 
 
-[ReplaceNulls](Documentation/Graphics/ReplaceNulls.png)
+[ReplaceNulls](Graphics/ReplaceNulls.png)
 
 ## Step 5: Using *Key Rows* to generate Keys for Mongo Collections  
 To do this, we use the `getKeys()` method. This method accomplishes two things:  
