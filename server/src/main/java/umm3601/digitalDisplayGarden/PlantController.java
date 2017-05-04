@@ -420,11 +420,11 @@ public class PlantController {
                         Aggregates.group("$uploadId"),
                         Aggregates.sort(Sorts.ascending("_id"))
                 ));
-        List<String> lst = new LinkedList<>();
+        List<String> list = new LinkedList<>();
         for(Document d: documents) {
-            lst.add(d.getString("_id"));
+            list.add(d.getString("_id"));
         }
-        return JSON.serialize(lst);
+        return JSON.serialize(list);
 //        return JSON.serialize(plantCollection.distinct("uploadId","".getClass()));
     }
 
