@@ -1,5 +1,5 @@
 <div>
-    <input (input)="password = $event.target.value" type="password" name="password">
+    <input (input)="password = $event.target.value" type="password" name="password" (keyup.enter)="checkPassword(password)">
     <button (click)='checkPassword(password)' class="btn">Login</button><br>
     {{passwordCorrect}}
 </div>
