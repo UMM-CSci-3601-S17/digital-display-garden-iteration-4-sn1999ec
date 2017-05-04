@@ -22,13 +22,14 @@ When you load the project on a new machine, tell Gradle to Refresh linked Gradle
 
 
 ## Stories To Complete
-- [ ] Click Plant from Search Page
-- [ ] Password Protection
-- [ ] HTTPS
-- [ ] Graphs
-- [ ] Sorting Plants on Search Page
+
 
 ## Finished By SN1999ec
+- [x] Click Plant from Search Page
+- [x] Password Protection
+- [x] HTTPS
+- [x] Graphs
+- [x] Sorting Plants on Search Page
 
 ## Finished by Manassas
 * Update Database with new spreadsheet

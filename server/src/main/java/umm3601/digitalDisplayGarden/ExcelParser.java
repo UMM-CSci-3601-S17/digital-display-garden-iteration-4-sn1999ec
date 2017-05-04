@@ -1,7 +1,6 @@
 package umm3601.digitalDisplayGarden;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.poi.ss.usermodel.*;
@@ -14,15 +13,11 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.mongodb.client.model.Filters.exists;
-import static com.mongodb.client.model.Updates.set;
 import static java.lang.Math.max;
 
-import org.bson.BSON;
 import org.bson.BsonArray;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.joda.time.DateTime;
-//import sun.text.normalizer.UTF16;
 
 public class ExcelParser {
 

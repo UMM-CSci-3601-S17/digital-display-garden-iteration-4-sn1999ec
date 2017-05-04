@@ -1,19 +1,13 @@
 package umm3601.plant;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.*;
 import org.bson.types.ObjectId;
-import org.junit.Before;
 import umm3601.digitalDisplayGarden.PlantController;
 
-import javax.print.Doc;
 import java.io.IOException;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
 
 public class PopulateMockDatabase {
 

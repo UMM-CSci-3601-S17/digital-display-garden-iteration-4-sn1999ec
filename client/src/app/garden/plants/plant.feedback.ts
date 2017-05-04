@@ -7,7 +7,6 @@ export class PlantFeedback{
      likeCount:number;
      dislikeCount:number;
 
-
     constructor(){
         this.commentCount = 0;
         this.likeCount = 0;

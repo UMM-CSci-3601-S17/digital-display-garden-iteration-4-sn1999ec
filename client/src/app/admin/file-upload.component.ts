@@ -10,6 +10,7 @@ import { Http } from '@angular/http';
 export class FileUploadComponent {
     @Input() multiple: boolean = false;
     @ViewChild('fileInput') inputEl: ElementRef;
+    uploaded: boolean = false;
 
     constructor(private http: Http) {}
 
@@ -21,6 +22,7 @@ export class FileUploadComponent {
             for (let i = 0; i < fileCount; i++) {
                 formData.append('file[]', inputEl.files.item(i));
             }
+            this.uploaded = true;
             return this.http.post(API_URL + "import", formData, {withCredentials: true});
         }
     }

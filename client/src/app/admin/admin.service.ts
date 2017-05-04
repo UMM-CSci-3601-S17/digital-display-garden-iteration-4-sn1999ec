@@ -45,4 +45,7 @@ export class AdminService {
     changePassword(newPassword: String): Observable<boolean> {
         return this.http.post(this.url + "newPass", newPassword, {withCredentials: true}).map(res => res.json());
     }
+    authorized() : Observable<boolean> {
+        return this.http.get(API_URL + "check-authorization").map(res => res.json().authorized);
+    }
 }
