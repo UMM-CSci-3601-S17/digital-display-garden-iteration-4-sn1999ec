@@ -1,14 +1,7 @@
 package umm3601.admin;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import org.junit.Before;
 import org.junit.Test;
-import org.bson.Document;
-import umm3601.digitalDisplayGarden.PlantController;
-import umm3601.admin.*;
 import umm3601.digitalDisplayGarden.Admin;
 
 import javax.servlet.http.Cookie;
@@ -16,15 +9,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class AdminTest {
 
-    private final static String databaseName = "test";
     private Admin admin;
-    private MongoClient mongoClient;
 
     @Before
     public void makeDB() throws IOException, NoSuchAlgorithmException {

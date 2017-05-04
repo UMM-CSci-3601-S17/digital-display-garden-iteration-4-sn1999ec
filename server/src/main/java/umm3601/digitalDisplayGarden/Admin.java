@@ -13,14 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.Iterator;
 import java.util.Random;
-
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.fields;
-import static com.mongodb.client.model.Projections.include;
-
 
 
 public class Admin {
@@ -132,7 +125,6 @@ public class Admin {
         Document doc = new Document();
         doc.append("salt", salt);
         doc.append("hashCode", hashedPasswordString);
-        FindIterable<Document> findIter = adminCollection.find();
         adminCollection.drop();
         adminCollection.insertOne(doc);
 
@@ -217,8 +209,6 @@ public class Admin {
 
         MongoDatabase db = mongoClient.getDatabase(databaseName);
         MongoCollection cookies = db.getCollection("cookies");
-
-        Document filter = new Document("number", bigInt);
 
         return validTimeStamp(bigInt, cookies.find(), cookies);
 
