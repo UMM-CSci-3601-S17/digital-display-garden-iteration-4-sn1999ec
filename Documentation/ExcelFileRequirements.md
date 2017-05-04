@@ -21,4 +21,4 @@ One of few assumptions we make about the format of the spreadsheet is that the f
 ### Text Styling 
 The tools we are using to read in the Excel file do not give our code information about text styling. For this reason, we can not change how our system parses based on text styling. 
 
-**Beyond that, the spreedsheet is yours!!!** 
+**Beyond that, the spreadsheet is yours!!!** 
