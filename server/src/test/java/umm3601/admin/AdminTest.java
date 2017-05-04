@@ -22,7 +22,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class AdminTest {
 
-    private final static String databaseName = "data-for-testing-only";
+    private final static String databaseName = "test";
     private Admin admin;
     private MongoClient mongoClient;
 
@@ -50,24 +50,16 @@ public class AdminTest {
         assertTrue(test instanceof BigInteger);
     }
 
-//    @Test
-//    public void testCheckCookie() throws Exception {
-//        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
-//        assertTrue(admin.checkCookie(test.getValue()));
-//    }
-//
-//    @Test
-//    public void testValidTimestamp() throws Exception {
-//        MongoDatabase db = mongoClient.getDatabase(databaseName);
-//        MongoCollection cookies = db.getCollection("cookies");
-//        BigInteger test = admin.getBigInt();
-//        assertTrue(admin.validTimeStamp(test.toString(), cookies.find(), cookies));
-//    }
-//    @Test
-//    public void testDeleteCookie() throws Exception {
-//        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
-//        Cookie toFail = new Cookie("hello", "lemme fail");
-//        assertTrue(admin.deleteCookie(test.getValue()));
-//        assertFalse(admin.deleteCookie(toFail.getValue()));
-//    }
+    @Test
+    public void testCheckCookie() throws Exception {
+        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
+        assertTrue(admin.checkCookie(test.getValue()));
+    }
+
+    @Test
+    public void testDeleteCookie() throws Exception {
+        Cookie test = new Cookie("authentication", admin.getBigInt().toString());
+        assertTrue(admin.deleteCookie(test.getValue()));
+        assertFalse(admin.deleteCookie(null));
+    }
 }
